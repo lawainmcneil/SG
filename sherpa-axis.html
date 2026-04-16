@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHERPA Axis | Portfolio Analyzer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            summit: "#17201F",
+            pine: "#1F5F4A",
+            glacier: "#D9EEF2",
+            snow: "#F7F8F4",
+            trail: "#C99A2E",
+            rock: "#6B7280",
+            signal: "#B42318"
+          },
+          fontFamily: {
+            sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"]
+          },
+          boxShadow: {
+            lift: "0 20px 50px rgba(23, 32, 31, 0.14)"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: #f7f8f4; color: #17201f; }
+    .ridge {
+      background:
+        linear-gradient(135deg, rgba(31, 95, 74, 0.94), rgba(23, 32, 31, 0.96)),
+        url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=80");
+      background-position: center;
+      background-size: cover;
+    }
+    .field { border: 1px solid rgba(23, 32, 31, 0.16); border-radius: 8px; background: white; padding: 0.65rem 0.75rem; width: 100%; }
+    .label { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0; color: #4b5563; }
+    .panel { border: 1px solid rgba(23, 32, 31, 0.1); border-radius: 8px; background: rgba(255, 255, 255, 0.92); box-shadow: 0 20px 50px rgba(23, 32, 31, 0.08); }
+    canvas { max-height: 340px; }
+    @media print {
+      .no-print { display: none !important; }
+      section { break-inside: avoid; }
+      body { background: white; }
+      .panel { box-shadow: none; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <header class="no-print sticky top-0 z-50 border-b border-white/10 bg-summit/95 text-white backdrop-blur">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <a href="#top" class="font-black uppercase tracking-wide">SHERPA Axis</a>
+      <div class="hidden items-center gap-5 text-sm font-semibold text-glacier md:flex">
+        <a href="#base">Base Camp</a>
+        <a href="#risa">RISA Compass</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#buckets">Buckets</a>
+        <a href="#backtest">Backtest</a>
+        <a href="#actions">Actions</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="ridge relative overflow-hidden text-white">
+      <div class="mx-auto grid min-h-[88vh] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+        <div>
+          <p class="mb-4 inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-black uppercase text-glacier">Portfolio guidance for the retirement climb</p>
+          <h1 class="max-w-4xl text-4xl font-black leading-tight sm:text-6xl">A clear route from portfolio risk to retirement income confidence.</h1>
+          <p class="mt-5 max-w-2xl text-lg leading-8 text-glacier">Analyze a household, map its retirement income style, build a three-bucket route, and review backtested DFA model returns in one advisor-ready workspace.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a class="rounded-lg bg-trail px-5 py-3 text-sm font-black text-summit" href="#base">Start Analysis</a>
+            <button class="rounded-lg border border-white/30 px-5 py-3 text-sm font-black text-white" type="button" onclick="window.print()">Print Summary</button>
+          </div>
+        </div>
+        <div class="panel bg-white/95 p-5 text-summit">
+          <p class="label">Summit Dashboard</p>
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <div class="rounded-lg bg-snow p-4">
+              <p class="text-xs font-bold text-rock">Plan Status</p>
+              <p id="statusLabel" class="mt-2 text-2xl font-black text-pine">On Watch</p>
+            </div>
+            <div class="rounded-lg bg-snow p-4">
+              <p class="text-xs font-bold text-rock">Success Estimate</p>
+              <p id="successRate" class="mt-2 text-2xl font-black text-pine">--</p>
+            </div>
+            <div class="rounded-lg bg-snow p-4">
+              <p class="text-xs font-bold text-rock">Income Gap</p>
+              <p id="incomeGap" class="mt-2 text-2xl font-black text-summit">--</p>
+            </div>
+            <div class="rounded-lg bg-snow p-4">
+              <p class="text-xs font-bold text-rock">RISA Style</p>
+              <p id="risaStyle" class="mt-2 text-2xl font-black text-summit">--</p>
+            </div>
+          </div>
+          <div class="mt-5">
+            <canvas id="projectionChart" aria-label="Portfolio projection chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="base" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mb-6">
+        <p class="label">Client Base Camp</p>
+        <h2 class="mt-2 text-3xl font-black">Household and cash flow</h2>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-3">
+        <div class="panel p-5">
+          <h3 class="font-black">Profile</h3>
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            <label><span class="label">Client</span><input id="clientName" class="field" value="Sample Household" /></label>
+            <label><span class="label">Current Age</span><input id="age" class="field" type="number" value="62" /></label>
+            <label><span class="label">Retirement Age</span><input id="retirementAge" class="field" type="number" value="67" /></label>
+            <label><span class="label">Planning Years</span><input id="horizon" class="field" type="number" value="30" /></label>
+          </div>
+        </div>
+        <div class="panel p-5">
+          <h3 class="font-black">Income and Spending</h3>
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            <label><span class="label">Annual Spending</span><input id="spending" class="field money" value="96,000" /></label>
+            <label><span class="label">Guaranteed Income</span><input id="income" class="field money" value="50,000" /></label>
+            <label><span class="label">Inflation %</span><input id="inflation" class="field" type="number" step="0.1" value="3" /></label>
+            <label><span class="label">Tax Rate %</span><input id="taxRate" class="field" type="number" step="1" value="18" /></label>
+          </div>
+        </div>
+        <div class="panel p-5">
+          <h3 class="font-black">Tax Buckets</h3>
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            <label><span class="label">Cash</span><input id="cash" class="field money" value="75,000" /></label>
+            <label><span class="label">Taxable</span><input id="taxable" class="field money" value="350,000" /></label>
+            <label><span class="label">Traditional</span><input id="traditional" class="field money" value="900,000" /></label>
+            <label><span class="label">Roth</span><input id="roth" class="field money" value="150,000" /></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="risa" class="bg-white/70 py-12">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-6">
+          <p class="label">RISA Compass</p>
+          <h2 class="mt-2 text-3xl font-black">Retirement income style</h2>
+        </div>
+        <div class="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+          <div class="panel p-5">
+            <div class="grid gap-4">
+              <label><span class="label">Market comfort</span><select id="marketComfort" class="field"><option value="-2">Needs guarantees</option><option value="-1">Prefers stability</option><option value="1" selected>Can use markets</option><option value="2">Wants growth engine</option></select></label>
+              <label><span class="label">Income preference</span><select id="incomePreference" class="field"><option value="-2">Contractual income</option><option value="-1">Mostly predictable</option><option value="1" selected>Flexible withdrawals</option><option value="2">Maximum optionality</option></select></label>
+              <label><span class="label">Downturn behavior</span><select id="downturnBehavior" class="field"><option value="-2">Likely to abandon risk</option><option value="-1">Needs coaching</option><option value="1" selected>Can stay invested</option><option value="2">Rebalances into weakness</option></select></label>
+            </div>
+          </div>
+          <div class="panel p-5">
+            <p class="label">Compass Readout</p>
+            <h3 id="risaHeadline" class="mt-2 text-3xl font-black text-pine">--</h3>
+            <p id="risaCopy" class="mt-3 leading-7 text-rock">--</p>
+            <div class="mt-5 grid gap-3 sm:grid-cols-3">
+              <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Suggested Model</p><p id="suggestedModel" class="mt-1 font-black">--</p></div>
+              <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Cash Reserve</p><p id="cashYears" class="mt-1 font-black">--</p></div>
+              <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Middle Bucket</p><p id="middleYears" class="mt-1 font-black">--</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <p class="label">Portfolio Pack Check</p>
+          <h2 class="mt-2 text-3xl font-black">Model return analysis</h2>
+        </div>
+        <label class="md:w-80"><span class="label">Planning Model</span><select id="portfolioSelect" class="field"></select></label>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <div class="panel p-5">
+          <p id="portfolioDescription" class="leading-7 text-rock"></p>
+          <div class="mt-5 grid grid-cols-2 gap-3">
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Annualized Return</p><p id="annReturn" class="mt-1 text-2xl font-black"></p></div>
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Std. Deviation</p><p id="annRisk" class="mt-1 text-2xl font-black"></p></div>
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Best 1-Year</p><p id="bestYear" class="mt-1 text-2xl font-black text-pine"></p></div>
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Worst 1-Year</p><p id="worstYear" class="mt-1 text-2xl font-black text-signal"></p></div>
+          </div>
+        </div>
+        <div class="panel p-5">
+          <canvas id="allocationChart" aria-label="Portfolio allocation chart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section id="buckets" class="bg-white/70 py-12">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-6">
+          <p class="label">Bucket Route Builder</p>
+          <h2 class="mt-2 text-3xl font-black">Income stability route</h2>
+        </div>
+        <div class="grid gap-5 lg:grid-cols-3">
+          <div class="panel p-5"><p class="label">Bucket 1</p><h3 class="mt-2 text-2xl font-black">Short-Term Reserve</h3><p id="bucketOne" class="mt-3 text-rock"></p></div>
+          <div class="panel p-5"><p class="label">Bucket 2</p><h3 class="mt-2 text-2xl font-black">Stability Refill</h3><p id="bucketTwo" class="mt-3 text-rock"></p></div>
+          <div class="panel p-5"><p class="label">Bucket 3</p><h3 class="mt-2 text-2xl font-black">Growth Engine</h3><p id="bucketThree" class="mt-3 text-rock"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="backtest" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mb-6">
+        <p class="label">Backtested Returns Review</p>
+        <h2 class="mt-2 text-3xl font-black">Growth of wealth and rolling risk</h2>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+        <div class="panel p-5">
+          <canvas id="backtestChart" aria-label="Backtested growth of wealth chart"></canvas>
+        </div>
+        <div class="panel p-5">
+          <h3 class="font-black">Historical context</h3>
+          <p id="backtestNarrative" class="mt-3 leading-7 text-rock"></p>
+          <div class="mt-5 overflow-hidden rounded-lg border border-summit/10">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-summit text-white"><tr><th class="p-3">Model</th><th class="p-3">Return</th><th class="p-3">Risk</th></tr></thead>
+              <tbody id="modelTable" class="divide-y divide-summit/10 bg-white"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="actions" class="bg-summit py-12 text-white">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <p class="label text-glacier">Advisor Action Plan</p>
+        <h2 class="mt-2 text-3xl font-black">Next best planning moves</h2>
+        <div id="actionsList" class="mt-6 grid gap-4 md:grid-cols-3"></div>
+        <p class="mt-8 max-w-5xl text-sm leading-6 text-glacier">For educational and planning discussion purposes only. Not investment, tax, legal, or insurance advice. Model portfolio returns are hypothetical/backtested or index-based where applicable, are shown for illustrative purposes, and past performance is no guarantee of future results. Tax estimates require qualified tax professional review. RISA-style preference mapping is not an official RISA assessment unless separately validated or licensed.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="./sherpa-data.js"></script>
+  <script src="./sherpa-app.js"></script>
+</body>
+</html>

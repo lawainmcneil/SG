@@ -12,4 +12,6 @@ Open `efs-carecapital-shield.html` in a browser for the Enhanced Funding Solutio
 
 Open `efs-intake-form.html` in a browser for the Enhanced Funding Solutions intake form.
 
+Open `sherpa-axis.html` in a browser for the SHERPA Axis portfolio analyzer and retirement income planning prototype.
+
 Both tool versions use Tailwind CSS and Chart.js from CDNs, with state cost data embedded in `data.js`. The intake forms use Tailwind CSS from the CDN and are print-friendly standalone pages.
