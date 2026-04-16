@@ -46,6 +46,11 @@
       min-height: 34px;
     }
 
+    @page {
+      margin: 0.45in;
+      size: letter;
+    }
+
     @media print {
       .no-print {
         display: none !important;
@@ -55,8 +60,29 @@
         background: white;
       }
 
-      section {
+      main {
+        max-width: none !important;
+        padding: 0 !important;
+      }
+
+      main > section {
+        border: 0 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+      }
+
+      main > section > div > section {
         break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .print-break-before {
+        break-before: page;
+        page-break-before: always;
+      }
+
+      .print-compact {
+        padding-top: 0.5rem !important;
       }
     }
   </style>
@@ -148,7 +174,7 @@
           </div>
         </section>
 
-        <section>
+        <section class="print-break-before">
           <h2 class="border-l-4 border-brass pl-4 text-2xl font-black">5. Health Pre-Screen</h2>
           <p class="mt-2 text-sm font-semibold text-charcoal/70">This is not an application. It helps determine whether a deeper planning conversation is appropriate.</p>
           <div class="mt-5 overflow-x-auto">
@@ -196,7 +222,7 @@
           </div>
         </section>
 
-        <section>
+        <section class="print-break-before print-compact">
           <h2 class="border-l-4 border-brass pl-4 text-2xl font-black">7. Medications</h2>
           <div class="mt-5 overflow-x-auto">
             <table class="w-full min-w-[760px] border-collapse text-left text-sm">
