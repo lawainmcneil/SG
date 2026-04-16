@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LTC Strategy Engine | Financial Fire Drill</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            charcoal: "#18191b",
+            ember: "#c1121f",
+            brass: "#b88919",
+            paper: "#f8f4ea",
+            smoke: "#e7e0d2"
+          },
+          fontFamily: {
+            sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"]
+          },
+          boxShadow: {
+            hard: "0 18px 40px rgba(24, 25, 27, 0.16)"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #f8f4ea;
+      color: #18191b;
+    }
+
+    .turnout-stripe {
+      background: repeating-linear-gradient(135deg, rgba(184, 137, 25, 0.26) 0 8px, transparent 8px 20px);
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+
+      section {
+        break-inside: avoid;
+      }
+
+      body {
+        background: #ffffff;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <header class="no-print sticky top-0 z-50 border-b border-white/10 bg-charcoal/95 text-white backdrop-blur">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <a href="#top" class="flex items-center gap-3" aria-label="Financial Fire Drill home">
+        <span class="grid h-10 w-10 place-items-center rounded border-2 border-brass bg-ember text-sm font-black">FFD</span>
+        <span>
+          <span class="block text-sm font-black uppercase tracking-wide">Financial Fire Drill</span>
+          <span class="block text-xs text-smoke">Peace of mind through preparedness</span>
+        </span>
+      </a>
+      <div class="hidden items-center gap-5 text-sm font-semibold text-smoke md:flex">
+        <a class="hover:text-white" href="#walkthrough">Walk Through</a>
+        <a class="hover:text-white" href="#risk">Risk Readout</a>
+        <a class="hover:text-white" href="#impact">Asset Impact</a>
+        <a class="hover:text-white" href="#action">Action Plan</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="relative min-h-[88vh] overflow-hidden bg-charcoal text-white">
+      <img
+        class="absolute inset-0 h-full w-full object-cover opacity-25"
+        src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=80"
+        alt="Professional advisory meeting room"
+      />
+      <div class="absolute inset-0 bg-charcoal/82"></div>
+      <div class="turnout-stripe absolute bottom-0 left-0 right-0 h-4"></div>
+      <div class="relative mx-auto grid min-h-[88vh] max-w-7xl content-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+        <div>
+          <div class="mb-7 inline-flex items-center gap-3 rounded border border-brass/70 bg-black/20 px-4 py-2 text-xs font-black uppercase tracking-wide text-brass">
+            <span class="h-2 w-2 bg-ember"></span>
+            Attorney Presentation Prototype
+          </div>
+          <h1 class="max-w-4xl text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
+            Run the Long Term Care Financial Fire Drill
+          </h1>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-smoke">
+            See how care costs can affect assets, estate plans, and family outcomes before a crisis forces decisions.
+          </p>
+          <p class="mt-4 max-w-2xl text-base leading-7 text-white/78">
+            Planning before a crisis creates options. This drill turns state-level care costs into a clear conversation about liquidity, legacy, family pressure, and legal preparedness.
+          </p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <button id="startDrill" class="rounded bg-ember px-6 py-4 text-sm font-black uppercase tracking-wide text-white shadow-hard transition hover:bg-red-800">
+              Start the Walk Through
+            </button>
+            <a href="#risk" class="rounded border border-brass px-6 py-4 text-center text-sm font-black uppercase tracking-wide text-brass transition hover:bg-brass hover:text-charcoal">
+              Run the Drill
+            </a>
+          </div>
+        </div>
+        <aside class="self-center rounded border border-brass/60 bg-white p-6 text-charcoal shadow-hard">
+          <div class="mb-5 flex items-center justify-between gap-5">
+            <div>
+              <p class="text-xs font-black uppercase tracking-wide text-ember">Preparedness Readout</p>
+              <h2 class="mt-2 text-2xl font-black">The goal is not panic. The goal is preparedness.</h2>
+            </div>
+            <div class="grid h-20 w-20 shrink-0 place-items-center rounded border-4 border-charcoal bg-ember text-lg font-black text-white">LTC</div>
+          </div>
+          <div class="grid gap-3 text-sm leading-6">
+            <p><strong>1.</strong> Crisis without preparation creates chaos.</p>
+            <p><strong>2.</strong> Care costs can erode wealth and disrupt estate plans.</p>
+            <p><strong>3.</strong> Attorneys and advisors can help families protect options.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="walkthrough" class="bg-paper py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-9 border-l-4 border-brass pl-5">
+          <p class="text-sm font-black uppercase tracking-wide text-ember">Walk Through</p>
+          <h2 class="mt-2 text-3xl font-black text-charcoal sm:text-4xl">Enter the scenario</h2>
+          <p class="mt-3 max-w-3xl text-base leading-7 text-charcoal/75">Use a client-ready example or adjust the fields live during an attorney meeting.</p>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <form class="rounded border border-charcoal/10 bg-white p-5 shadow-hard">
+            <div class="grid gap-4 sm:grid-cols-2">
+              <label class="block">
+                <span class="text-sm font-bold">State</span>
+                <select id="state" class="mt-2 w-full rounded border border-charcoal/20 bg-white px-3 py-3"></select>
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Care type</span>
+                <select id="careType" class="mt-2 w-full rounded border border-charcoal/20 bg-white px-3 py-3">
+                  <option value="inHome">In-home care</option>
+                  <option value="assistedLiving">Assisted living care</option>
+                  <option value="nursingHome">Nursing home care</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Age</span>
+                <input id="age" type="number" value="68" min="40" max="100" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Marital status</span>
+                <select id="maritalStatus" class="mt-2 w-full rounded border border-charcoal/20 bg-white px-3 py-3">
+                  <option>Married</option>
+                  <option>Single</option>
+                  <option>Widowed</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Total investable assets</span>
+                <input id="totalAssets" type="number" value="1250000" step="25000" min="0" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Liquid assets</span>
+                <input id="liquidAssets" type="number" value="450000" step="25000" min="1" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Annual household income</span>
+                <input id="income" type="number" value="160000" step="5000" min="0" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Planning horizon</span>
+                <select id="horizon" class="mt-2 w-full rounded border border-charcoal/20 bg-white px-3 py-3">
+                  <option value="3">3 years</option>
+                  <option value="5" selected>5 years</option>
+                  <option value="7">7 years</option>
+                  <option value="10">10 years</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Legacy goal amount</span>
+                <input id="legacyGoal" type="number" value="850000" step="25000" min="0" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
+              </label>
+              <label class="block">
+                <span class="text-sm font-bold">Home value</span>
+                <input id="homeValue" type="number" value="525000" step="25000" min="0" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
+              </label>
+            </div>
+            <div class="mt-6 grid gap-5 border-t border-charcoal/10 pt-5">
+              <label class="flex items-center gap-3 text-sm font-bold">
+                <input id="inflationEnabled" type="checkbox" class="h-5 w-5 accent-ember" checked />
+                Include care-cost inflation
+              </label>
+              <label class="block">
+                <span class="flex justify-between text-sm font-bold">Inflation assumption <span id="inflationLabel">3.0%</span></span>
+                <input id="inflationRate" type="range" min="0" max="7" step="0.5" value="3" class="mt-2 w-full accent-ember" />
+              </label>
+              <label class="block">
+                <span class="flex justify-between text-sm font-bold">Planning strategy offset <span id="offsetLabel">60%</span></span>
+                <input id="strategyOffset" type="range" min="20" max="80" step="5" value="60" class="mt-2 w-full accent-brass" />
+              </label>
+            </div>
+          </form>
+
+          <aside class="grid gap-4">
+            <div class="rounded border border-charcoal/10 bg-charcoal p-6 text-white shadow-hard">
+              <p class="text-sm font-black uppercase tracking-wide text-brass">Advisor Framing</p>
+              <h3 class="mt-2 text-2xl font-black">This is not only a care issue. It is an estate execution issue.</h3>
+              <p class="mt-4 leading-7 text-smoke">Long term care can put liquidity strain on a family at exactly the wrong time. The conversation belongs alongside documents, beneficiary goals, trust funding, and family administration.</p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="rounded border border-charcoal/10 bg-white p-5 shadow-hard">
+                <p class="text-sm font-black uppercase tracking-wide text-ember">Reposition</p>
+                <p class="mt-2 leading-6 text-charcoal/75">Identify assets that may be exposed to care costs before the family is under pressure.</p>
+              </div>
+              <div class="rounded border border-charcoal/10 bg-white p-5 shadow-hard">
+                <p class="text-sm font-black uppercase tracking-wide text-ember">Protect</p>
+                <p class="mt-2 leading-6 text-charcoal/75">Coordinate advisor strategy with legal planning so care funding supports the estate plan.</p>
+              </div>
+              <div class="rounded border border-charcoal/10 bg-white p-5 shadow-hard sm:col-span-2">
+                <p class="text-sm font-black uppercase tracking-wide text-ember">Prepare</p>
+                <p class="mt-2 leading-6 text-charcoal/75">Create a family roadmap before decisions must be made during a health event.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="risk" class="bg-white py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-9 border-l-4 border-ember pl-5">
+          <p class="text-sm font-black uppercase tracking-wide text-ember">Risk Readout</p>
+          <h2 class="mt-2 text-3xl font-black sm:text-4xl">Convert care costs into planning pressure</h2>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <article class="rounded border border-charcoal/10 bg-paper p-5 shadow-hard">
+            <p class="text-sm font-black uppercase tracking-wide text-charcoal/60">Annual state cost</p>
+            <p id="annualCost" class="mt-3 text-4xl font-black text-ember">$0</p>
+            <p id="monthlyCost" class="mt-2 text-sm font-bold text-charcoal/70">$0 per month</p>
+          </article>
+          <article class="rounded border border-charcoal/10 bg-paper p-5 shadow-hard">
+            <p class="text-sm font-black uppercase tracking-wide text-charcoal/60">Projected care event</p>
+            <p id="projectedCost" class="mt-3 text-4xl font-black text-charcoal">$0</p>
+            <p class="mt-2 text-sm font-bold text-charcoal/70">Includes selected horizon and visible assumptions.</p>
+          </article>
+          <article class="rounded border border-charcoal/10 bg-paper p-5 shadow-hard">
+            <p class="text-sm font-black uppercase tracking-wide text-charcoal/60">Liquid assets consumed</p>
+            <p id="liquidExposure" class="mt-3 text-4xl font-black text-ember">0%</p>
+            <p id="depletionTimeline" class="mt-2 text-sm font-bold text-charcoal/70">0 years.</p>
+          </article>
+          <article class="rounded border border-charcoal/10 bg-paper p-5 shadow-hard">
+            <p class="text-sm font-black uppercase tracking-wide text-charcoal/60">Total assets at risk</p>
+            <p id="totalExposure" class="mt-3 text-4xl font-black text-charcoal">0%</p>
+            <p id="stateCompare" class="mt-2 text-sm font-bold text-charcoal/70">State comparison.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact" class="bg-charcoal py-16 text-white">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-9 border-l-4 border-brass pl-5">
+          <p class="text-sm font-black uppercase tracking-wide text-brass">Asset Impact</p>
+          <h2 class="mt-2 text-3xl font-black sm:text-4xl">The visual moment in the meeting</h2>
+          <p class="mt-3 max-w-3xl leading-7 text-smoke">The red path pays directly from the portfolio. The brass path models a dedicated planning approach that offsets a portion of the care event.</p>
+        </div>
+        <div class="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
+          <div class="h-[420px] rounded border border-white/10 bg-black/20 p-4 shadow-hard">
+            <canvas id="impactChart" aria-label="Asset depletion comparison chart" role="img"></canvas>
+          </div>
+          <div class="grid gap-4">
+            <article class="rounded border border-white/10 bg-white p-5 text-charcoal shadow-hard">
+              <p class="text-sm font-black uppercase tracking-wide text-ember">Remaining assets after care</p>
+              <p id="remainingAssets" class="mt-3 text-4xl font-black">$0</p>
+            </article>
+            <article class="rounded border border-white/10 bg-white p-5 text-charcoal shadow-hard">
+              <p class="text-sm font-black uppercase tracking-wide text-ember">Modeled assets preserved</p>
+              <p id="preservedAssets" class="mt-3 text-4xl font-black text-brass">$0</p>
+            </article>
+            <article class="rounded border border-brass/50 bg-black/20 p-5">
+              <p class="text-sm font-black uppercase tracking-wide text-brass">Legacy pressure</p>
+              <p id="legacyImpact" class="mt-3 leading-7 text-smoke">Legacy readout.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-paper py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-6 lg:grid-cols-2">
+          <article class="rounded border border-ember/30 bg-white p-6 shadow-hard">
+            <p class="text-sm font-black uppercase tracking-wide text-ember">Without a strategy</p>
+            <h3 class="mt-2 text-2xl font-black">Portfolio becomes the default funding source</h3>
+            <ul class="mt-5 space-y-3 text-charcoal/78">
+              <li>Pay from portfolio and liquid reserves</li>
+              <li>Forced liquidation risk during market stress</li>
+              <li>Pressure on spouse, heirs, and informal caregivers</li>
+              <li>Disruption of estate plan and beneficiary goals</li>
+              <li>Possible Medicaid dependence after assets are strained</li>
+            </ul>
+          </article>
+          <article class="rounded border border-brass/40 bg-white p-6 shadow-hard">
+            <p class="text-sm font-black uppercase tracking-wide text-brass">With a strategy</p>
+            <h3 class="mt-2 text-2xl font-black">Dedicated planning preserves options</h3>
+            <ul class="mt-5 space-y-3 text-charcoal/78">
+              <li>Dedicated care funding approach</li>
+              <li>Stronger asset preservation for spouse and heirs</li>
+              <li>Reduced pressure on adult children</li>
+              <li>Improved legal and financial coordination</li>
+              <li>Greater legacy confidence before a crisis starts</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="action" class="bg-white py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="rounded border border-charcoal/10 bg-paper p-6 shadow-hard">
+          <div class="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p class="text-sm font-black uppercase tracking-wide text-ember">Action Plan Summary</p>
+              <h2 class="mt-2 text-3xl font-black">Continue the planning conversation</h2>
+              <p id="summaryScenario" class="mt-3 text-sm font-black uppercase tracking-wide text-charcoal/60">Scenario</p>
+            </div>
+            <button id="printSummary" class="no-print rounded bg-charcoal px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-ember">
+              Print Summary
+            </button>
+          </div>
+          <div class="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+            <p id="summarySentence" class="rounded border border-charcoal/10 bg-white p-5 text-lg font-bold leading-8 text-charcoal shadow-hard">Summary sentence.</p>
+            <div class="rounded border border-charcoal/10 bg-charcoal p-5 text-white shadow-hard">
+              <p class="text-sm font-black uppercase tracking-wide text-brass">Why attorneys should care</p>
+              <p id="attorneyLens" class="mt-3 leading-7 text-smoke">Attorney lens.</p>
+              <p class="mt-4 leading-7 text-smoke">The next step is a coordinated review of liquidity, care funding, legal documents, beneficiary goals, and the family communication plan.</p>
+            </div>
+          </div>
+          <p class="mt-5 text-sm leading-6 text-charcoal/65">
+            Demo assumptions: state cost data is embedded for prototype modeling, inflation is optional, and the planning strategy offset is an educational preservation assumption rather than a policy illustration.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

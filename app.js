@@ -1,0 +1,262 @@
+const currency = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0
+});
+
+const percent = new Intl.NumberFormat("en-US", {
+  style: "percent",
+  maximumFractionDigits: 0
+});
+
+const elements = {
+  state: document.querySelector("#state"),
+  age: document.querySelector("#age"),
+  maritalStatus: document.querySelector("#maritalStatus"),
+  totalAssets: document.querySelector("#totalAssets"),
+  liquidAssets: document.querySelector("#liquidAssets"),
+  income: document.querySelector("#income"),
+  careType: document.querySelector("#careType"),
+  horizon: document.querySelector("#horizon"),
+  legacyGoal: document.querySelector("#legacyGoal"),
+  homeValue: document.querySelector("#homeValue"),
+  inflationEnabled: document.querySelector("#inflationEnabled"),
+  inflationRate: document.querySelector("#inflationRate"),
+  strategyOffset: document.querySelector("#strategyOffset")
+};
+
+const output = {
+  annualCost: document.querySelector("#annualCost"),
+  monthlyCost: document.querySelector("#monthlyCost"),
+  projectedCost: document.querySelector("#projectedCost"),
+  stateCompare: document.querySelector("#stateCompare"),
+  liquidExposure: document.querySelector("#liquidExposure"),
+  totalExposure: document.querySelector("#totalExposure"),
+  remainingAssets: document.querySelector("#remainingAssets"),
+  depletionTimeline: document.querySelector("#depletionTimeline"),
+  legacyImpact: document.querySelector("#legacyImpact"),
+  preservedAssets: document.querySelector("#preservedAssets"),
+  summaryScenario: document.querySelector("#summaryScenario"),
+  summarySentence: document.querySelector("#summarySentence"),
+  attorneyLens: document.querySelector("#attorneyLens"),
+  inflationLabel: document.querySelector("#inflationLabel"),
+  offsetLabel: document.querySelector("#offsetLabel")
+};
+
+let impactChart;
+
+const numericValue = (input, fallback = 0) => {
+  const value = Number(input.value);
+  return Number.isFinite(value) ? value : fallback;
+};
+
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+const populateStates = () => {
+  Object.entries(LTC_COSTS)
+    .sort((a, b) => a[1].name.localeCompare(b[1].name))
+    .forEach(([abbr, state]) => {
+      const option = document.createElement("option");
+      option.value = abbr;
+      option.textContent = state.name;
+      elements.state.appendChild(option);
+    });
+  elements.state.value = "GA";
+};
+
+const projectedCareCost = (annualCost, years, inflationRate) => {
+  let total = 0;
+  for (let year = 0; year < years; year += 1) {
+    total += annualCost * Math.pow(1 + inflationRate, year);
+  }
+  return total;
+};
+
+const getScenario = () => {
+  const careType = elements.careType.value;
+  const selectedState = LTC_COSTS[elements.state.value];
+  const annualCost = selectedState[careType];
+  const horizon = numericValue(elements.horizon, 5);
+  const inflationRate = elements.inflationEnabled.checked ? numericValue(elements.inflationRate, 0) / 100 : 0;
+  const totalAssets = Math.max(0, numericValue(elements.totalAssets, 0));
+  const liquidAssets = Math.max(1, numericValue(elements.liquidAssets, 1));
+  const offset = numericValue(elements.strategyOffset, 60) / 100;
+  const grossCost = projectedCareCost(annualCost, horizon, inflationRate);
+  const strategyCost = grossCost * (1 - offset);
+  const legacyGoal = Math.max(0, numericValue(elements.legacyGoal, 0));
+
+  return {
+    selectedState,
+    stateAbbr: elements.state.value,
+    careType,
+    careLabel: CARE_LABELS[careType],
+    annualCost,
+    horizon,
+    inflationRate,
+    totalAssets,
+    liquidAssets,
+    income: numericValue(elements.income, 0),
+    age: numericValue(elements.age, 68),
+    maritalStatus: elements.maritalStatus.value,
+    homeValue: numericValue(elements.homeValue, 0),
+    offset,
+    grossCost,
+    strategyCost,
+    legacyGoal,
+    remainingWithoutPlan: Math.max(0, totalAssets - grossCost),
+    remainingWithPlan: Math.max(0, totalAssets - strategyCost)
+  };
+};
+
+const buildChartData = (scenario) => {
+  const labels = [];
+  const noPlanning = [];
+  const planning = [];
+  let noPlanningAssets = scenario.totalAssets;
+  let planningAssets = scenario.totalAssets;
+
+  for (let year = 0; year <= scenario.horizon; year += 1) {
+    labels.push(`Year ${year}`);
+    noPlanning.push(Math.max(0, Math.round(noPlanningAssets)));
+    planning.push(Math.max(0, Math.round(planningAssets)));
+
+    const annualDraw = scenario.annualCost * Math.pow(1 + scenario.inflationRate, year);
+    noPlanningAssets -= annualDraw;
+    planningAssets -= annualDraw * (1 - scenario.offset);
+  }
+
+  return { labels, noPlanning, planning };
+};
+
+const updateChart = (scenario) => {
+  const chartData = buildChartData(scenario);
+
+  impactChart.data.labels = chartData.labels;
+  impactChart.data.datasets[0].data = chartData.noPlanning;
+  impactChart.data.datasets[1].data = chartData.planning;
+  impactChart.update();
+};
+
+const riskLevel = (totalExposure) => {
+  if (totalExposure >= 0.5) return "critical";
+  if (totalExposure >= 0.25) return "material";
+  return "manageable";
+};
+
+const updateOutputs = () => {
+  const scenario = getScenario();
+  const nationalAverage = NATIONAL_AVERAGES[scenario.careType];
+  const compareRatio = (scenario.annualCost - nationalAverage) / nationalAverage;
+  const liquidExposure = scenario.grossCost / scenario.liquidAssets;
+  const totalExposure = scenario.totalAssets > 0 ? scenario.grossCost / scenario.totalAssets : 0;
+  const depletionYears = scenario.annualCost > 0 ? scenario.liquidAssets / scenario.annualCost : 0;
+  const legacyGap = Math.max(0, scenario.legacyGoal - scenario.remainingWithoutPlan);
+  const preserved = scenario.remainingWithPlan - scenario.remainingWithoutPlan;
+  const level = riskLevel(totalExposure);
+
+  output.annualCost.textContent = currency.format(scenario.annualCost);
+  output.monthlyCost.textContent = `${currency.format(scenario.annualCost / 12)} per month`;
+  output.projectedCost.textContent = currency.format(scenario.grossCost);
+  output.stateCompare.textContent = `${scenario.selectedState.name} is ${Math.abs(compareRatio * 100).toFixed(0)}% ${compareRatio >= 0 ? "above" : "below"} the current demo national average for ${scenario.careLabel.toLowerCase()}.`;
+  output.liquidExposure.textContent = percent.format(clamp(liquidExposure, 0, 9.99));
+  output.totalExposure.textContent = percent.format(clamp(totalExposure, 0, 9.99));
+  output.remainingAssets.textContent = currency.format(scenario.remainingWithoutPlan);
+  output.depletionTimeline.textContent = `${depletionYears.toFixed(1)} years of care could absorb the listed liquid assets before other resources are considered.`;
+  output.legacyImpact.textContent = legacyGap > 0
+    ? `${currency.format(legacyGap)} of the stated legacy goal would need another source of protection.`
+    : "The stated legacy goal remains mathematically intact in this scenario, before taxes, markets, and legal costs.";
+  output.preservedAssets.textContent = currency.format(preserved);
+  output.summaryScenario.textContent = `${scenario.selectedState.name} / ${scenario.careLabel} / ${scenario.horizon}-year horizon`;
+  output.summarySentence.textContent = `Based on this scenario, a ${scenario.horizon}-year care event could consume ${percent.format(clamp(totalExposure, 0, 9.99))} of total assets and ${percent.format(clamp(liquidExposure, 0, 9.99))} of liquid assets. A planning strategy modeled at a ${percent.format(scenario.offset)} offset may preserve approximately ${currency.format(preserved)} for spouse, heirs, liquidity, or legal objectives.`;
+  output.attorneyLens.textContent = level === "critical"
+    ? "This exposure could materially change estate execution, beneficiary expectations, and family administration duties."
+    : level === "material"
+      ? "This exposure deserves coordination before documents are tested by a real care event."
+      : "The numbers are not panic points. They are planning inputs that help preserve options.";
+  output.inflationLabel.textContent = `${numericValue(elements.inflationRate, 0).toFixed(1)}%`;
+  output.offsetLabel.textContent = `${numericValue(elements.strategyOffset, 60)}%`;
+
+  updateChart(scenario);
+};
+
+const initChart = () => {
+  const context = document.querySelector("#impactChart");
+  impactChart = new Chart(context, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "No Planning",
+          data: [],
+          borderColor: "#c1121f",
+          backgroundColor: "rgba(193, 18, 31, 0.12)",
+          fill: true,
+          tension: 0.28,
+          pointRadius: 4
+        },
+        {
+          label: "Planning Strategy",
+          data: [],
+          borderColor: "#b88919",
+          backgroundColor: "rgba(184, 137, 25, 0.12)",
+          fill: true,
+          tension: 0.28,
+          pointRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: "#f8f4ea",
+            font: { size: 13, weight: "600" }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: (context) => `${context.dataset.label}: ${currency.format(context.parsed.y)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: "rgba(255,255,255,0.08)" },
+          ticks: { color: "#f8f4ea" }
+        },
+        y: {
+          grid: { color: "rgba(255,255,255,0.08)" },
+          ticks: {
+            color: "#f8f4ea",
+            callback: (value) => currency.format(value)
+          }
+        }
+      }
+    }
+  });
+};
+
+const wireEvents = () => {
+  Object.values(elements).forEach((element) => {
+    element.addEventListener("input", updateOutputs);
+    element.addEventListener("change", updateOutputs);
+  });
+
+  document.querySelector("#startDrill").addEventListener("click", () => {
+    document.querySelector("#walkthrough").scrollIntoView({ behavior: "smooth" });
+  });
+
+  document.querySelector("#printSummary").addEventListener("click", () => window.print());
+};
+
+populateStates();
+initChart();
+wireEvents();
+updateOutputs();
