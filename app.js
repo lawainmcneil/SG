@@ -9,6 +9,12 @@ const percent = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0
 });
 
+const wholeNumber = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0
+});
+
+const moneyInputKeys = ["totalAssets", "liquidAssets", "income", "legacyGoal", "homeValue"];
+
 const elements = {
   state: document.querySelector("#state"),
   age: document.querySelector("#age"),
@@ -46,11 +52,16 @@ const output = {
 let impactChart;
 
 const numericValue = (input, fallback = 0) => {
-  const value = Number(input.value);
+  const value = Number(String(input.value).replace(/,/g, ""));
   return Number.isFinite(value) ? value : fallback;
 };
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+const formatMoneyInput = (input) => {
+  const value = numericValue(input, 0);
+  input.value = value > 0 ? wholeNumber.format(value) : "";
+};
 
 const populateStates = () => {
   Object.entries(LTC_COSTS)
@@ -249,6 +260,13 @@ const wireEvents = () => {
     element.addEventListener("change", updateOutputs);
   });
 
+  moneyInputKeys.forEach((key) => {
+    elements[key].addEventListener("blur", () => {
+      formatMoneyInput(elements[key]);
+      updateOutputs();
+    });
+  });
+
   document.querySelector("#startDrill").addEventListener("click", () => {
     document.querySelector("#walkthrough").scrollIntoView({ behavior: "smooth" });
   });
@@ -259,4 +277,5 @@ const wireEvents = () => {
 populateStates();
 initChart();
 wireEvents();
+moneyInputKeys.forEach((key) => formatMoneyInput(elements[key]));
 updateOutputs();
