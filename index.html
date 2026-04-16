@@ -14,6 +14,7 @@
       --forest: #194c3a;
       --leaf: #2f7a57;
       --gold: #c79a2b;
+      --alarm: #c1121f;
       --coral: #d45a3f;
       --paper: #f7f8f4;
       --mist: #e8efe8;
@@ -374,6 +375,40 @@
       width: 100%;
       aspect-ratio: 4 / 5;
       object-fit: cover;
+    }
+
+    .promise__visual {
+      position: relative;
+      min-height: 100%;
+    }
+
+    .promise__visual .promise__image {
+      height: 100%;
+      min-height: 560px;
+    }
+
+    .fire-drill-section .eyebrow {
+      color: var(--alarm);
+    }
+
+    .fire-drill-section .promise-item {
+      border-left-color: var(--alarm);
+    }
+
+    .fire-drill-section .promise-item h3 {
+      color: var(--alarm);
+    }
+
+    .fire-drill-badge {
+      position: absolute;
+      right: 22px;
+      bottom: 22px;
+      width: min(300px, calc(100% - 44px));
+      border: 1px solid rgba(23, 32, 27, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 18px;
+      box-shadow: 0 18px 42px rgba(23, 32, 27, 0.22);
     }
 
     .promise__content {
@@ -749,6 +784,10 @@
         grid-template-columns: 1fr;
       }
 
+      .promise__visual .promise__image {
+        min-height: 430px;
+      }
+
       .services {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -904,14 +943,19 @@
       </div>
     </section>
 
-    <section id="fire-drill" class="section">
+    <section id="fire-drill" class="section fire-drill-section">
       <div class="section__inner">
         <div class="promise">
-          <img
-            class="promise__image"
-            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"
-            alt="Fire station at sunrise"
-          />
+          <div class="promise__visual">
+            <img
+              class="promise__image"
+              src="https://upload.wikimedia.org/wikipedia/commons/b/bf/US_30_eb_at_Mt._Ararat%2C_Allegheny_Mountains%2C_PA%2C_Aug._2024.jpg"
+              alt="Allegheny Mountains near Mount Ararat in Pennsylvania"
+            />
+            <div class="fire-drill-badge" aria-label="Financial Fire Drill logo">
+              <img src="./assets/ffd-course-logo.png" alt="Financial Fire Drill" />
+            </div>
+          </div>
           <div class="promise__content">
             <div>
               <div class="eyebrow">The Financial Fire Drill</div>
