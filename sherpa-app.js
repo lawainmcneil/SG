@@ -58,6 +58,8 @@ const output = {
   annRisk: document.querySelector("#annRisk"),
   bestYear: document.querySelector("#bestYear"),
   worstYear: document.querySelector("#worstYear"),
+  rangeSpread: document.querySelector("#rangeSpread"),
+  rangeBar: document.querySelector("#rangeBar"),
   bucketOne: document.querySelector("#bucketOne"),
   bucketTwo: document.querySelector("#bucketTwo"),
   bucketThree: document.querySelector("#bucketThree"),
@@ -489,6 +491,8 @@ const update = () => {
   output.annRisk.textContent = pct.format(plan.portfolio.standardDeviation);
   output.bestYear.textContent = `${pct.format(plan.portfolio.highOneYear)} from ${plan.portfolio.highOneYearStart}`;
   output.worstYear.textContent = `${pct.format(plan.portfolio.lowOneYear)} from ${plan.portfolio.lowOneYearStart}`;
+  output.rangeSpread.textContent = `${pct.format(plan.portfolio.lowOneYear)} to ${pct.format(plan.portfolio.highOneYear)}`;
+  output.rangeBar.style.width = `${clamp((plan.portfolio.highOneYear - plan.portfolio.lowOneYear) * 100, 24, 100)}%`;
   output.periodReturnGrid.innerHTML = [
     ["1-Year", plan.portfolio.oneYear],
     ["3-Year", plan.portfolio.threeYear],
