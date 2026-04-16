@@ -12,10 +12,23 @@ const modelColors = {
 
 const fields = {
   clientName: document.querySelector("#clientName"),
+  spouseName: document.querySelector("#spouseName"),
+  clientEmail: document.querySelector("#clientEmail"),
+  clientState: document.querySelector("#clientState"),
   age: document.querySelector("#age"),
   retirementAge: document.querySelector("#retirementAge"),
   horizon: document.querySelector("#horizon"),
+  legacyGoal: document.querySelector("#legacyGoal"),
+  monthlyLifestyle: document.querySelector("#monthlyLifestyle"),
+  healthcareAnnual: document.querySelector("#healthcareAnnual"),
+  debtAnnual: document.querySelector("#debtAnnual"),
+  givingAnnual: document.querySelector("#givingAnnual"),
+  oneTimeGoals: document.querySelector("#oneTimeGoals"),
   spending: document.querySelector("#spending"),
+  socialSecurity: document.querySelector("#socialSecurity"),
+  pensionIncome: document.querySelector("#pensionIncome"),
+  annuityIncome: document.querySelector("#annuityIncome"),
+  otherIncome: document.querySelector("#otherIncome"),
   income: document.querySelector("#income"),
   inflation: document.querySelector("#inflation"),
   taxRate: document.querySelector("#taxRate"),
@@ -49,7 +62,11 @@ const output = {
   bucketThree: document.querySelector("#bucketThree"),
   backtestNarrative: document.querySelector("#backtestNarrative"),
   modelTable: document.querySelector("#modelTable"),
-  actionsList: document.querySelector("#actionsList")
+  actionsList: document.querySelector("#actionsList"),
+  spendingBuild: document.querySelector("#spendingBuild"),
+  incomeBuild: document.querySelector("#incomeBuild"),
+  assetBuild: document.querySelector("#assetBuild"),
+  intakeSummary: document.querySelector("#intakeSummary")
 };
 
 let projectionChart;
@@ -57,6 +74,7 @@ let allocationChart;
 let backtestChart;
 
 const numberValue = (input, fallback = 0) => {
+  if (!input) return fallback;
   const value = Number(String(input.value).replace(/,/g, ""));
   return Number.isFinite(value) ? value : fallback;
 };
@@ -64,6 +82,33 @@ const numberValue = (input, fallback = 0) => {
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 const portfolioByName = (name) => SHERPA_DFA_DATA.portfolios.find((portfolio) => portfolio.name === name || portfolio.shortName === name);
+
+const setMoneyField = (input, value) => {
+  if (!input) return;
+  input.value = value ? whole.format(Math.round(value)) : "0";
+};
+
+const getIntakeTotals = () => {
+  const horizon = clamp(numberValue(fields.horizon, 30), 1, 60);
+  const annualSpending =
+    numberValue(fields.monthlyLifestyle) * 12 +
+    numberValue(fields.healthcareAnnual) +
+    numberValue(fields.debtAnnual) +
+    numberValue(fields.givingAnnual) +
+    numberValue(fields.oneTimeGoals) / horizon;
+  const guaranteedIncome =
+    numberValue(fields.socialSecurity) +
+    numberValue(fields.pensionIncome) +
+    numberValue(fields.annuityIncome) +
+    numberValue(fields.otherIncome);
+
+  return {
+    horizon,
+    annualSpending,
+    guaranteedIncome,
+    legacyGoal: numberValue(fields.legacyGoal)
+  };
+};
 
 const getRisaStyle = () => {
   const growthScore = Number(fields.marketComfort.value) + Number(fields.downturnBehavior.value);
@@ -80,6 +125,7 @@ const getPlan = () => {
   const risaStyle = getRisaStyle();
   const risa = SHERPA_DFA_DATA.risaMap[risaStyle];
   const selectedPortfolio = portfolioByName(fields.portfolioSelect.value) || portfolioByName(risa.portfolio);
+  const intake = getIntakeTotals();
   const assets = {
     cash: Math.max(0, numberValue(fields.cash)),
     taxable: Math.max(0, numberValue(fields.taxable)),
@@ -87,8 +133,8 @@ const getPlan = () => {
     roth: Math.max(0, numberValue(fields.roth))
   };
   const totalAssets = assets.cash + assets.taxable + assets.traditional + assets.roth;
-  const annualSpending = Math.max(0, numberValue(fields.spending));
-  const guaranteedIncome = Math.max(0, numberValue(fields.income));
+  const annualSpending = Math.max(0, intake.annualSpending || numberValue(fields.spending));
+  const guaranteedIncome = Math.max(0, intake.guaranteedIncome || numberValue(fields.income));
   const taxRate = Math.max(0, numberValue(fields.taxRate)) / 100;
   const grossGap = Math.max(0, annualSpending - guaranteedIncome);
   const taxDrag = grossGap * taxRate;
@@ -97,7 +143,7 @@ const getPlan = () => {
   return {
     age: numberValue(fields.age, 62),
     retirementAge: numberValue(fields.retirementAge, 67),
-    horizon: clamp(numberValue(fields.horizon, 30), 1, 60),
+    horizon: intake.horizon,
     inflation: Math.max(0, numberValue(fields.inflation, 3)) / 100,
     annualSpending,
     guaranteedIncome,
@@ -106,6 +152,7 @@ const getPlan = () => {
     annualGap,
     assets,
     totalAssets,
+    legacyGoal: intake.legacyGoal,
     risaStyle,
     risa,
     portfolio: selectedPortfolio
@@ -158,6 +205,7 @@ const getActions = (plan, projection, success) => {
   if (firstRmd > plan.annualGap * 0.5) actions.push(["Plan for RMD pressure", `Estimated first RMD is ${money.format(firstRmd)}, which may change later-year tax exposure.`]);
   if (plan.risaStyle === "Income Protector") actions.push(["Discuss durable income", "Consider whether a guaranteed-income sleeve improves confidence and behavior in downturns."]);
   if (plan.portfolio.lowOneYear < -0.18) actions.push(["Pre-wire downturn behavior", `This model's worst rolling 1-year period in the export was ${pct.format(plan.portfolio.lowOneYear)}. Agree on refill and rebalancing rules now.`]);
+  if (plan.legacyGoal > 0 && projection.endingBalance < plan.legacyGoal) actions.push(["Protect legacy target", `Projected ending assets are below the desired ${money.format(plan.legacyGoal)} legacy goal. Review spending, allocation, gifting, and insurance assumptions.`]);
   actions.push(["Coordinate tax and estate", "Confirm beneficiary designations, estate documents, withdrawal order, and CPA review before implementation."]);
   return actions.slice(0, 6);
 };
@@ -235,6 +283,12 @@ const update = () => {
   const requiredCash = plan.annualGap * plan.risa.bucketOneYears;
   const requiredMiddle = plan.annualGap * plan.risa.bucketTwoYears;
   const longTermAssets = Math.max(0, plan.totalAssets - requiredCash - requiredMiddle);
+  const requiredFields = [fields.clientName, fields.age, fields.retirementAge, fields.monthlyLifestyle, fields.socialSecurity, fields.cash, fields.taxable, fields.traditional, fields.roth];
+  const completedFields = requiredFields.filter((field) => field && String(field.value).trim() !== "" && numberValue(field, 1) !== 0).length;
+  const intakeProgress = completedFields / requiredFields.length;
+
+  setMoneyField(fields.spending, plan.annualSpending);
+  setMoneyField(fields.income, plan.guaranteedIncome);
 
   output.statusLabel.textContent = success >= 0.85 ? "On Route" : success >= 0.72 ? "On Watch" : "Needs Work";
   output.successRate.textContent = pct.format(success);
@@ -255,6 +309,11 @@ const update = () => {
   output.bucketOne.textContent = `${money.format(requiredCash)} target reserve. Current cash is ${money.format(plan.assets.cash)}, covering ${plan.annualGap > 0 ? (plan.assets.cash / plan.annualGap).toFixed(1) : "many"} years of the estimated gap.`;
   output.bucketTwo.textContent = `${money.format(requiredMiddle)} target stability sleeve to refill Bucket 1 during normal markets.`;
   output.bucketThree.textContent = `${money.format(longTermAssets)} growth engine after target reserves, aligned to the ${plan.portfolio.shortName} model.`;
+
+  output.spendingBuild.textContent = money.format(plan.annualSpending);
+  output.incomeBuild.textContent = money.format(plan.guaranteedIncome);
+  output.assetBuild.textContent = money.format(plan.totalAssets);
+  output.intakeSummary.textContent = intakeProgress >= 0.9 ? "Ready" : intakeProgress >= 0.65 ? "Review" : "Needs Info";
 
   output.backtestNarrative.textContent = `A $1 backtested growth-of-wealth path ended at $${plan.portfolio.growthOfWealth.toFixed(2)} for ${plan.portfolio.shortName}. The range between best and worst rolling 1-year results is the behavior test for this route.`;
 
