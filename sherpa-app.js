@@ -66,7 +66,8 @@ const output = {
   spendingBuild: document.querySelector("#spendingBuild"),
   incomeBuild: document.querySelector("#incomeBuild"),
   assetBuild: document.querySelector("#assetBuild"),
-  intakeSummary: document.querySelector("#intakeSummary")
+  intakeSummary: document.querySelector("#intakeSummary"),
+  loadedClient: document.querySelector("#loadedClient")
 };
 
 let projectionChart;
@@ -86,6 +87,49 @@ const portfolioByName = (name) => SHERPA_DFA_DATA.portfolios.find((portfolio) =>
 const setMoneyField = (input, value) => {
   if (!input) return;
   input.value = value ? whole.format(Math.round(value)) : "0";
+};
+
+const setFieldValue = (field, value) => {
+  if (!field || value === null || value === undefined || value === "") return;
+  field.value = value;
+};
+
+const applyIntakeFromUrl = () => {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.size) return false;
+
+  const passthroughFields = [
+    "clientName",
+    "spouseName",
+    "clientEmail",
+    "clientState",
+    "age",
+    "retirementAge",
+    "horizon",
+    "legacyGoal",
+    "monthlyLifestyle",
+    "healthcareAnnual",
+    "debtAnnual",
+    "givingAnnual",
+    "oneTimeGoals",
+    "socialSecurity",
+    "pensionIncome",
+    "annuityIncome",
+    "otherIncome",
+    "inflation",
+    "taxRate",
+    "cash",
+    "taxable",
+    "traditional",
+    "roth",
+    "marketComfort",
+    "incomePreference",
+    "downturnBehavior",
+    "portfolioSelect"
+  ];
+
+  passthroughFields.forEach((key) => setFieldValue(fields[key], params.get(key)));
+  return true;
 };
 
 const getIntakeTotals = () => {
@@ -313,7 +357,8 @@ const update = () => {
   output.spendingBuild.textContent = money.format(plan.annualSpending);
   output.incomeBuild.textContent = money.format(plan.guaranteedIncome);
   output.assetBuild.textContent = money.format(plan.totalAssets);
-  output.intakeSummary.textContent = intakeProgress >= 0.9 ? "Ready" : intakeProgress >= 0.65 ? "Review" : "Needs Info";
+  output.loadedClient.textContent = fields.clientName.value || "Sample Household";
+  output.intakeSummary.textContent = intakeProgress >= 0.9 ? "Client intake loaded. Review the route before presenting recommendations." : "Using the default sample household until a completed client intake is submitted.";
 
   output.backtestNarrative.textContent = `A $1 backtested growth-of-wealth path ended at $${plan.portfolio.growthOfWealth.toFixed(2)} for ${plan.portfolio.shortName}. The range between best and worst rolling 1-year results is the behavior test for this route.`;
 
@@ -336,6 +381,7 @@ const init = () => {
     fields.portfolioSelect.appendChild(option);
   });
   fields.portfolioSelect.value = "Growth";
+  applyIntakeFromUrl();
 
   document.querySelectorAll("input, select").forEach((input) => input.addEventListener("input", update));
   document.querySelectorAll(".money").forEach((input) => {

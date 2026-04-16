@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHERPA Axis Intake</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            summit: "#17201F",
+            pine: "#1F5F4A",
+            glacier: "#D9EEF2",
+            snow: "#F7F8F4",
+            trail: "#C99A2E",
+            rock: "#6B7280"
+          },
+          fontFamily: {
+            sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { background: #f7f8f4; color: #17201f; }
+    .field { border: 1px solid rgba(23, 32, 31, 0.16); border-radius: 8px; background: white; padding: 0.7rem 0.8rem; width: 100%; }
+    .label { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0; color: #4b5563; }
+    .panel { border: 1px solid rgba(23, 32, 31, 0.1); border-radius: 8px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 20px 50px rgba(23, 32, 31, 0.08); }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <header class="bg-summit text-white">
+    <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <a class="font-black uppercase tracking-wide" href="./sherpa-axis.html">SHERPA Axis</a>
+      <a class="text-sm font-bold text-glacier" href="./sherpa-axis.html">Advisor Workspace</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <p class="label">Client Intake</p>
+      <h1 class="mt-2 text-4xl font-black">Build your retirement income snapshot.</h1>
+      <p class="mt-3 max-w-3xl leading-7 text-rock">Complete the fields below, then open SHERPA Axis with your information loaded for advisor review.</p>
+    </div>
+
+    <form id="intakeForm" class="grid gap-6">
+      <section class="panel p-5">
+        <h2 class="text-2xl font-black">Household</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          <label><span class="label">Client</span><input name="clientName" class="field" value="Sample Household" /></label>
+          <label><span class="label">Spouse/Partner</span><input name="spouseName" class="field" placeholder="Optional" /></label>
+          <label><span class="label">Email</span><input name="clientEmail" class="field" type="email" placeholder="client@example.com" /></label>
+          <label><span class="label">State</span><input name="clientState" class="field" value="GA" maxlength="2" /></label>
+          <label><span class="label">Current Age</span><input name="age" class="field" type="number" value="62" /></label>
+          <label><span class="label">Retirement Age</span><input name="retirementAge" class="field" type="number" value="67" /></label>
+          <label><span class="label">Planning Years</span><input name="horizon" class="field" type="number" value="30" /></label>
+          <label><span class="label">Desired Legacy</span><input name="legacyGoal" class="field money" value="250,000" /></label>
+        </div>
+      </section>
+
+      <section class="panel p-5">
+        <h2 class="text-2xl font-black">Spending and Income</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <label><span class="label">Monthly Lifestyle</span><input name="monthlyLifestyle" class="field money" value="7,000" /></label>
+          <label><span class="label">Healthcare Annual</span><input name="healthcareAnnual" class="field money" value="7,200" /></label>
+          <label><span class="label">Debt Annual</span><input name="debtAnnual" class="field money" value="0" /></label>
+          <label><span class="label">Giving Annual</span><input name="givingAnnual" class="field money" value="4,800" /></label>
+          <label><span class="label">One-Time Goals</span><input name="oneTimeGoals" class="field money" value="0" /></label>
+          <label><span class="label">Social Security</span><input name="socialSecurity" class="field money" value="38,000" /></label>
+          <label><span class="label">Pension</span><input name="pensionIncome" class="field money" value="12,000" /></label>
+          <label><span class="label">Annuity Income</span><input name="annuityIncome" class="field money" value="0" /></label>
+          <label><span class="label">Other Income</span><input name="otherIncome" class="field money" value="0" /></label>
+          <label><span class="label">Inflation %</span><input name="inflation" class="field" type="number" step="0.1" value="3" /></label>
+          <label><span class="label">Tax Rate %</span><input name="taxRate" class="field" type="number" step="1" value="18" /></label>
+        </div>
+      </section>
+
+      <section class="panel p-5">
+        <h2 class="text-2xl font-black">Assets</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <label><span class="label">Cash</span><input name="cash" class="field money" value="75,000" /></label>
+          <label><span class="label">Taxable</span><input name="taxable" class="field money" value="350,000" /></label>
+          <label><span class="label">Traditional</span><input name="traditional" class="field money" value="900,000" /></label>
+          <label><span class="label">Roth</span><input name="roth" class="field money" value="150,000" /></label>
+        </div>
+      </section>
+
+      <section class="panel p-5">
+        <h2 class="text-2xl font-black">Retirement Income Preferences</h2>
+        <div class="mt-4 grid gap-4 lg:grid-cols-3">
+          <label><span class="label">Market Comfort</span><select name="marketComfort" class="field"><option value="-2">Needs guarantees</option><option value="-1">Prefers stability</option><option value="1" selected>Can use markets</option><option value="2">Wants growth engine</option></select></label>
+          <label><span class="label">Income Preference</span><select name="incomePreference" class="field"><option value="-2">Contractual income</option><option value="-1">Mostly predictable</option><option value="1" selected>Flexible withdrawals</option><option value="2">Maximum optionality</option></select></label>
+          <label><span class="label">Downturn Behavior</span><select name="downturnBehavior" class="field"><option value="-2">Likely to abandon risk</option><option value="-1">Needs coaching</option><option value="1" selected>Can stay invested</option><option value="2">Rebalances into weakness</option></select></label>
+        </div>
+      </section>
+
+      <div class="flex flex-wrap gap-3">
+        <button class="rounded-lg bg-pine px-5 py-3 text-sm font-black text-white" type="submit">Open SHERPA Axis</button>
+        <button class="rounded-lg border border-summit/20 px-5 py-3 text-sm font-black text-summit" type="button" id="copyLink">Copy Intake Link</button>
+      </div>
+      <p id="copyStatus" class="text-sm font-bold text-rock"></p>
+    </form>
+  </main>
+
+  <script>
+    const form = document.querySelector("#intakeForm");
+    const copyStatus = document.querySelector("#copyStatus");
+    const clean = (value) => String(value || "").replace(/,/g, "").trim();
+
+    const buildAxisUrl = () => {
+      const params = new URLSearchParams();
+      new FormData(form).forEach((value, key) => {
+        params.set(key, clean(value));
+      });
+      return `./sherpa-axis.html?${params.toString()}#top`;
+    };
+
+    document.querySelectorAll(".money").forEach((input) => {
+      input.addEventListener("blur", () => {
+        const value = Number(clean(input.value));
+        input.value = Number.isFinite(value) ? new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value) : "";
+      });
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      window.location.href = buildAxisUrl();
+    });
+
+    document.querySelector("#copyLink").addEventListener("click", async () => {
+      const url = new URL(buildAxisUrl(), window.location.href).href;
+      await navigator.clipboard.writeText(url);
+      copyStatus.textContent = "Intake-to-Axis link copied.";
+    });
+  </script>
+</body>
+</html>

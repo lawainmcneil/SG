@@ -56,7 +56,7 @@
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
       <a href="#top" class="font-black uppercase tracking-wide">SHERPA Axis</a>
       <div class="hidden items-center gap-5 text-sm font-semibold text-glacier md:flex">
-        <a href="#base">Intake</a>
+        <a href="#base">Client Link</a>
         <a href="#risa">RISA Compass</a>
         <a href="#portfolio">Portfolio</a>
         <a href="#buckets">Buckets</a>
@@ -74,7 +74,7 @@
           <h1 class="max-w-4xl text-4xl font-black leading-tight sm:text-6xl">A clear route from portfolio risk to retirement income confidence.</h1>
           <p class="mt-5 max-w-2xl text-lg leading-8 text-glacier">Analyze a household, map its retirement income style, build a three-bucket route, and review backtested DFA model returns in one advisor-ready workspace.</p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <a class="rounded-lg bg-trail px-5 py-3 text-sm font-black text-summit" href="#base">Start Intake</a>
+            <a class="rounded-lg bg-trail px-5 py-3 text-sm font-black text-summit" href="#base">Client Intake Link</a>
             <button class="rounded-lg border border-white/30 px-5 py-3 text-sm font-black text-white" type="button" onclick="window.print()">Print Summary</button>
           </div>
         </div>
@@ -107,69 +107,60 @@
 
     <section id="base" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div class="mb-6">
-        <p class="label">Client Intake</p>
-        <h2 class="mt-2 text-3xl font-black">Client details that feed the plan</h2>
-        <p class="mt-3 max-w-3xl leading-7 text-rock">As the client fills this out, SHERPA Axis recalculates the dashboard, portfolio route, bucket targets, tax pressure, and action plan.</p>
+        <p class="label">Client Intake Link</p>
+        <h2 class="mt-2 text-3xl font-black">Keep intake outside the advisor workspace</h2>
+        <p class="mt-3 max-w-3xl leading-7 text-rock">Send clients to the standalone intake page. When they submit, SHERPA Axis opens with their information already loaded into the analysis.</p>
       </div>
-      <div class="grid gap-5 lg:grid-cols-3">
+      <div class="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
         <div class="panel p-5">
-          <h3 class="font-black">Household</h3>
-          <div class="mt-4 grid gap-4 sm:grid-cols-2">
-            <label><span class="label">Client</span><input id="clientName" class="field" value="Sample Household" /></label>
-            <label><span class="label">Spouse/Partner</span><input id="spouseName" class="field" value="" placeholder="Optional" /></label>
-            <label><span class="label">Email</span><input id="clientEmail" class="field" type="email" placeholder="client@example.com" /></label>
-            <label><span class="label">State</span><input id="clientState" class="field" value="GA" maxlength="2" /></label>
-            <label><span class="label">Current Age</span><input id="age" class="field" type="number" value="62" /></label>
-            <label><span class="label">Retirement Age</span><input id="retirementAge" class="field" type="number" value="67" /></label>
-            <label><span class="label">Planning Years</span><input id="horizon" class="field" type="number" value="30" /></label>
-            <label><span class="label">Desired Legacy</span><input id="legacyGoal" class="field money" value="250,000" /></label>
+          <p class="label">Client Page</p>
+          <h3 class="mt-2 text-2xl font-black">SHERPA Axis Intake</h3>
+          <p class="mt-3 leading-7 text-rock">Use this standalone page for client data gathering. It passes the household, income, spending, asset, and preference details into Axis.</p>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <a class="rounded-lg bg-pine px-5 py-3 text-sm font-black text-white" href="./sherpa-intake.html">Open Intake</a>
+            <a class="rounded-lg border border-summit/20 px-5 py-3 text-sm font-black text-summit" href="./sherpa-intake.html" target="_blank" rel="noreferrer">Shareable Page</a>
           </div>
         </div>
         <div class="panel p-5">
-          <h3 class="font-black">Spending Need</h3>
-          <div class="mt-4 grid gap-4 sm:grid-cols-2">
-            <label><span class="label">Monthly Lifestyle</span><input id="monthlyLifestyle" class="field money" value="7,000" /></label>
-            <label><span class="label">Healthcare Annual</span><input id="healthcareAnnual" class="field money" value="7,200" /></label>
-            <label><span class="label">Debt Payments Annual</span><input id="debtAnnual" class="field money" value="0" /></label>
-            <label><span class="label">Giving Annual</span><input id="givingAnnual" class="field money" value="4,800" /></label>
-            <label><span class="label">One-Time Goals</span><input id="oneTimeGoals" class="field money" value="0" /></label>
-            <label><span class="label">Total Annual Need</span><input id="spending" class="field money" value="96,000" readonly /></label>
-            <label><span class="label">Inflation %</span><input id="inflation" class="field" type="number" step="0.1" value="3" /></label>
-            <label><span class="label">Tax Rate %</span><input id="taxRate" class="field" type="number" step="1" value="18" /></label>
-          </div>
-        </div>
-        <div class="panel p-5">
-          <h3 class="font-black">Income Sources</h3>
-          <div class="mt-4 grid gap-4 sm:grid-cols-2">
-            <label><span class="label">Social Security</span><input id="socialSecurity" class="field money" value="38,000" /></label>
-            <label><span class="label">Pension</span><input id="pensionIncome" class="field money" value="12,000" /></label>
-            <label><span class="label">Annuity Income</span><input id="annuityIncome" class="field money" value="0" /></label>
-            <label><span class="label">Other Income</span><input id="otherIncome" class="field money" value="0" /></label>
-            <label class="sm:col-span-2"><span class="label">Guaranteed Income Total</span><input id="income" class="field money" value="50,000" readonly /></label>
-          </div>
-        </div>
-      </div>
-      <div class="mt-5 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
-        <div class="panel p-5">
-          <h3 class="font-black">Assets by Tax Bucket</h3>
-          <div class="mt-4 grid gap-4 sm:grid-cols-4">
-            <label><span class="label">Cash</span><input id="cash" class="field money" value="75,000" /></label>
-            <label><span class="label">Taxable</span><input id="taxable" class="field money" value="350,000" /></label>
-            <label><span class="label">Traditional</span><input id="traditional" class="field money" value="900,000" /></label>
-            <label><span class="label">Roth</span><input id="roth" class="field money" value="150,000" /></label>
-          </div>
-        </div>
-        <div class="panel p-5">
-          <p class="label">Live Intake Summary</p>
-          <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          <p class="label">Loaded Intake Summary</p>
+          <div class="mt-4 grid gap-3 sm:grid-cols-4">
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Client</p><p id="loadedClient" class="mt-1 text-xl font-black">Sample Household</p></div>
             <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Spending Need</p><p id="spendingBuild" class="mt-1 text-xl font-black">--</p></div>
             <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Income Floor</p><p id="incomeBuild" class="mt-1 text-xl font-black">--</p></div>
             <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Investable Assets</p><p id="assetBuild" class="mt-1 text-xl font-black">--</p></div>
-            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Intake Status</p><p id="intakeSummary" class="mt-1 text-xl font-black text-pine">Live</p></div>
           </div>
+          <p id="intakeSummary" class="mt-4 text-sm font-bold text-rock">Using the default sample household until a client intake link is submitted.</p>
         </div>
       </div>
     </section>
+
+    <div class="hidden" aria-hidden="true">
+      <input id="clientName" value="Sample Household" />
+      <input id="spouseName" value="" />
+      <input id="clientEmail" value="" />
+      <input id="clientState" value="GA" />
+      <input id="age" value="62" />
+      <input id="retirementAge" value="67" />
+      <input id="horizon" value="30" />
+      <input id="legacyGoal" value="250,000" />
+      <input id="monthlyLifestyle" value="7,000" />
+      <input id="healthcareAnnual" value="7,200" />
+      <input id="debtAnnual" value="0" />
+      <input id="givingAnnual" value="4,800" />
+      <input id="oneTimeGoals" value="0" />
+      <input id="spending" value="96,000" />
+      <input id="socialSecurity" value="38,000" />
+      <input id="pensionIncome" value="12,000" />
+      <input id="annuityIncome" value="0" />
+      <input id="otherIncome" value="0" />
+      <input id="income" value="50,000" />
+      <input id="inflation" value="3" />
+      <input id="taxRate" value="18" />
+      <input id="cash" value="75,000" />
+      <input id="taxable" value="350,000" />
+      <input id="traditional" value="900,000" />
+      <input id="roth" value="150,000" />
+    </div>
 
     <section id="risa" class="bg-white/70 py-12">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
