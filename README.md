@@ -1,10 +1,10 @@
-# LTC Strategy Engine
+# Stahlnecker Website Prototype
 
-A single-page Financial Fire Drill prototype for presenting long term care planning scenarios to attorneys and clients.
+A static Stahlnecker Group homepage prototype inspired by the editorial structure, service presentation, and conversion flow of Carson Wealth.
 
 ## Run
 
-Open `index.html` in a browser for the Financial Fire Drill version.
+Open `index.html` in a browser for the rebuilt Stahlnecker Group website.
 
 Open `ffd-intake-form.html` in a browser for the Financial Fire Drill intake form.
 
@@ -16,4 +16,4 @@ Open `sherpa-axis.html` in a browser for the SHERPA Axis portfolio analyzer and 
 
 Open `sherpa-intake.html` in a browser for the standalone SHERPA Axis client intake form.
 
-Both tool versions use Tailwind CSS and Chart.js from CDNs, with state cost data embedded in `data.js`. The intake forms use Tailwind CSS from the CDN and are print-friendly standalone pages.
+The standalone tool pages use Tailwind CSS and Chart.js from CDNs, with state cost data embedded in `data.js`. The intake forms use Tailwind CSS from the CDN and are print-friendly standalone pages.

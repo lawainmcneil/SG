@@ -3,452 +3,1218 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LTC Strategy Engine | Financial Fire Drill</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            charcoal: "#18191b",
-            ember: "#c1121f",
-            brass: "#b88919",
-            paper: "#f8f4ea",
-            smoke: "#e7e0d2"
-          },
-          fontFamily: {
-            sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"]
-          },
-          boxShadow: {
-            hard: "0 18px 40px rgba(24, 25, 27, 0.16)"
-          }
-        }
-      }
-    };
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Stahlnecker Group | Financial Readiness, Smart Investing, Confident Future</title>
+  <meta
+    name="description"
+    content="Stahlnecker Wealth Management Group helps families build financial readiness through disciplined planning, smart investing, protection strategies, and the Financial Fire Drill."
+  />
   <style>
+    :root {
+      --ink: #17201b;
+      --forest: #194c3a;
+      --leaf: #2f7a57;
+      --gold: #c79a2b;
+      --coral: #d45a3f;
+      --paper: #f7f8f4;
+      --mist: #e8efe8;
+      --line: rgba(23, 32, 27, 0.13);
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     html {
       scroll-behavior: smooth;
     }
 
     body {
-      background: #f8f4ea;
-      color: #18191b;
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
     }
 
-    .turnout-stripe {
-      background: repeating-linear-gradient(135deg, rgba(184, 137, 25, 0.26) 0 8px, transparent 8px 20px);
+    img {
+      display: block;
+      max-width: 100%;
     }
 
-    @media print {
-      .no-print {
-        display: none !important;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .topbar {
+      background: var(--ink);
+      color: var(--white);
+      font-size: 0.85rem;
+    }
+
+    .topbar__inner,
+    .nav__inner,
+    .section__inner,
+    .footer__inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 10px 0;
+    }
+
+    .topbar__links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(247, 248, 244, 0.94);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 82px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 230px;
+    }
+
+    .brand__mark {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border: 2px solid var(--forest);
+      border-radius: 8px;
+      color: var(--forest);
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .brand__name {
+      display: block;
+      color: var(--ink);
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1.1;
+    }
+
+    .brand__sub {
+      display: block;
+      margin-top: 3px;
+      color: rgba(23, 32, 27, 0.66);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: rgba(23, 32, 27, 0.78);
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    .nav__links a {
+      padding: 29px 0;
+    }
+
+    .nav__links a:hover {
+      color: var(--forest);
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 900;
+      padding: 10px 13px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0.01em;
+      padding: 12px 18px;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn--primary {
+      background: var(--forest);
+      color: var(--white);
+    }
+
+    .btn--primary:hover {
+      background: var(--leaf);
+    }
+
+    .btn--light {
+      background: var(--white);
+      color: var(--forest);
+    }
+
+    .btn--outline {
+      border-color: rgba(255, 255, 255, 0.62);
+      color: var(--white);
+    }
+
+    .btn--outline-dark {
+      border-color: var(--forest);
+      color: var(--forest);
+    }
+
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 122px);
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .hero__image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.48;
+    }
+
+    .hero::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background:
+        linear-gradient(90deg, rgba(23, 32, 27, 0.91) 0%, rgba(23, 32, 27, 0.74) 45%, rgba(23, 32, 27, 0.18) 100%),
+        linear-gradient(0deg, rgba(25, 76, 58, 0.45), transparent 42%);
+    }
+
+    .hero__inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      align-content: center;
+      width: min(1180px, calc(100% - 32px));
+      min-height: calc(100vh - 122px);
+      margin: 0 auto;
+      padding: 72px 0 96px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 780px;
+      margin: 16px 0 0;
+      font-size: 4.7rem;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 24px 0 0;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 1.18rem;
+      line-height: 1.75;
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .hero__metrics {
+      position: absolute;
+      right: 0;
+      bottom: 24px;
+      left: 0;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--ink);
+    }
+
+    .metric {
+      min-height: 112px;
+      padding: 22px;
+    }
+
+    .metric + .metric {
+      border-left: 1px solid var(--line);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--forest);
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 10px;
+      color: rgba(23, 32, 27, 0.72);
+      font-size: 0.93rem;
+      font-weight: 750;
+    }
+
+    section {
+      scroll-margin-top: 88px;
+    }
+
+    .section {
+      padding: 88px 0;
+    }
+
+    .section--white {
+      background: var(--white);
+    }
+
+    .section--forest {
+      background: var(--forest);
+      color: var(--white);
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(260px, 0.7fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 42px;
+    }
+
+    .section-heading h2 {
+      margin: 10px 0 0;
+      font-size: 3rem;
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: rgba(23, 32, 27, 0.7);
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+
+    .section--forest .section-heading p {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .promise {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .promise__image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+    }
+
+    .promise__content {
+      display: grid;
+      gap: 20px;
+    }
+
+    .promise-item {
+      border-left: 5px solid var(--gold);
+      background: var(--white);
+      padding: 23px 26px;
+    }
+
+    .promise-item h3 {
+      margin: 0;
+      color: var(--forest);
+      font-size: 1.35rem;
+    }
+
+    .promise-item p {
+      margin: 9px 0 0;
+      color: rgba(23, 32, 27, 0.72);
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .service {
+      display: grid;
+      min-height: 330px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .service img {
+      width: 100%;
+      height: 145px;
+      object-fit: cover;
+    }
+
+    .service__body {
+      display: flex;
+      flex-direction: column;
+      padding: 22px;
+    }
+
+    .service__body h3 {
+      margin: 0;
+      color: var(--forest);
+      font-size: 1.2rem;
+    }
+
+    .service__body p {
+      margin: 12px 0 0;
+      color: rgba(23, 32, 27, 0.7);
+    }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .process-step {
+      min-height: 270px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+    }
+
+    .process-step span {
+      display: inline-grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 8px;
+      color: var(--gold);
+      font-weight: 950;
+    }
+
+    .process-step h3 {
+      margin: 28px 0 0;
+      font-size: 1.45rem;
+    }
+
+    .process-step p {
+      margin: 12px 0 0;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .advisor {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 46px;
+      align-items: center;
+    }
+
+    .advisor img {
+      width: 100%;
+      aspect-ratio: 5 / 6;
+      object-fit: cover;
+    }
+
+    .advisor h2 {
+      margin: 10px 0 0;
+      font-size: 3rem;
+      line-height: 1.07;
+    }
+
+    .advisor p {
+      color: rgba(23, 32, 27, 0.72);
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+
+    .quote {
+      margin-top: 24px;
+      border-left: 5px solid var(--coral);
+      padding-left: 22px;
+      color: var(--ink);
+      font-size: 1.45rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .readiness {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .readiness__intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 420px;
+      background:
+        linear-gradient(rgba(23, 32, 27, 0.72), rgba(23, 32, 27, 0.72)),
+        url("https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80") center/cover;
+      color: var(--white);
+      padding: 34px;
+    }
+
+    .readiness__intro h2 {
+      margin: 12px 0 0;
+      font-size: 2.55rem;
+      line-height: 1.07;
+    }
+
+    .readiness__intro p {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+    }
+
+    .quiz {
+      border: 1px solid var(--line);
+      background: var(--white);
+      padding: 30px;
+    }
+
+    .quiz__progress {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--mist);
+    }
+
+    .quiz__bar {
+      width: 33.333%;
+      height: 100%;
+      background: var(--coral);
+      transition: width 180ms ease;
+    }
+
+    .quiz h3 {
+      margin: 24px 0 0;
+      font-size: 1.7rem;
+    }
+
+    .quiz p {
+      color: rgba(23, 32, 27, 0.68);
+    }
+
+    .quiz__options {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .quiz__option {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 850;
+      padding: 16px;
+      text-align: left;
+    }
+
+    .quiz__option:hover,
+    .quiz__option.is-selected {
+      border-color: var(--forest);
+      background: var(--mist);
+    }
+
+    .quiz__result {
+      margin-top: 24px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+
+    .quiz__result strong {
+      display: block;
+      color: var(--forest);
+      font-size: 1.4rem;
+    }
+
+    .cta {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.24);
+      padding-top: 34px;
+    }
+
+    .cta h2 {
+      margin: 0;
+      font-size: 2.7rem;
+      line-height: 1.05;
+    }
+
+    .cta p {
+      max-width: 640px;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 38px;
+    }
+
+    .contact-item {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 22px;
+    }
+
+    .contact-item span {
+      display: block;
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 950;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .contact-item strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 1.04rem;
+    }
+
+    .site-footer {
+      background: var(--ink);
+      color: var(--white);
+      padding: 46px 0;
+    }
+
+    .footer__inner {
+      display: grid;
+      grid-template-columns: minmax(230px, 0.7fr) minmax(0, 1fr);
+      gap: 36px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: flex-end;
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: 800;
+    }
+
+    .disclosure {
+      grid-column: 1 / -1;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 0.78rem;
+      line-height: 1.65;
+      padding-top: 24px;
+    }
+
+    @media (max-width: 960px) {
+      .topbar__inner {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
-      section {
-        break-inside: avoid;
+      .nav__inner {
+        min-height: 72px;
       }
 
-      body {
-        background: #ffffff;
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .nav__links {
+        position: absolute;
+        top: 72px;
+        right: 16px;
+        left: 16px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 8px;
+      }
+
+      .nav__links.is-open {
+        display: flex;
+      }
+
+      .nav__links a {
+        padding: 14px 12px;
+      }
+
+      .nav__cta {
+        display: none;
+      }
+
+      .hero,
+      .hero__inner {
+        min-height: 760px;
+      }
+
+      .hero h1 {
+        font-size: 3.4rem;
+      }
+
+      .hero__metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .metric {
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .metric + .metric {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+
+      .section-heading,
+      .promise,
+      .advisor,
+      .readiness,
+      .cta,
+      .footer__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .services {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .process {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-links {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        display: none;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .brand__mark {
+        width: 40px;
+        height: 40px;
+      }
+
+      .brand__name {
+        font-size: 0.9rem;
+      }
+
+      .brand__sub {
+        display: none;
+      }
+
+      .hero,
+      .hero__inner {
+        min-height: 790px;
+      }
+
+      .hero__inner {
+        padding-top: 56px;
+      }
+
+      .hero h1 {
+        font-size: 2.45rem;
+        line-height: 1.04;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .hero__metrics {
+        bottom: 12px;
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+
+      .section-heading h2,
+      .advisor h2 {
+        font-size: 2.15rem;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .readiness__intro,
+      .quiz {
+        padding: 24px;
+      }
+
+      .readiness__intro h2,
+      .cta h2 {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
-<body class="font-sans antialiased">
-  <header class="no-print sticky top-0 z-50 border-b border-white/10 bg-charcoal/95 text-white backdrop-blur">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-      <a href="#top" class="flex items-center gap-3" aria-label="Financial Fire Drill home">
-        <img class="h-12 w-16 object-contain" src="./assets/ffd-logo.png?v=20260416-2" alt="Financial Fire Drill logo" />
+<body>
+  <div class="topbar">
+    <div class="topbar__inner">
+      <span>Milton, Pennsylvania financial planning with a readiness-first mindset.</span>
+      <div class="topbar__links">
+        <a href="tel:15702796099">(570) 279-6099</a>
+        <a href="mailto:brooks@stahlneckergroup.com">brooks@stahlneckergroup.com</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <nav class="nav__inner" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Stahlnecker Group home">
+        <span class="brand__mark">SG</span>
         <span>
-          <span class="block text-sm font-black uppercase tracking-wide">Financial Fire Drill</span>
-          <span class="block text-xs text-smoke">Peace of mind through preparedness</span>
+          <span class="brand__name">Stahlnecker Group</span>
+          <span class="brand__sub">Financial readiness, built before the storm.</span>
         </span>
       </a>
-      <div class="hidden items-center gap-5 text-sm font-semibold text-smoke md:flex">
-        <a class="hover:text-white" href="#walkthrough">Walk Through</a>
-        <a class="hover:text-white" href="#risk">Risk Readout</a>
-        <a class="hover:text-white" href="#impact">Asset Impact</a>
-        <a class="hover:text-white" href="#action">Action Plan</a>
-        <a class="hover:text-white" href="./ffd-intake-form.html">Intake Form</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <div id="navLinks" class="nav__links">
+        <a href="#planning">What We Do</a>
+        <a href="#process">Our Process</a>
+        <a href="#fire-drill">Financial Fire Drill</a>
+        <a href="#about">About Brooks</a>
+        <a href="#contact">Contact</a>
       </div>
+      <a class="btn btn--primary nav__cta" href="#contact">Start a Conversation</a>
     </nav>
   </header>
 
   <main id="top">
-    <section class="relative min-h-[88vh] overflow-hidden bg-charcoal text-white">
+    <section class="hero" aria-labelledby="hero-title">
       <img
-        class="absolute inset-0 h-full w-full object-cover opacity-25"
-        src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=80"
-        alt="Professional advisory meeting room"
+        class="hero__image"
+        src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&amp;fit=crop&amp;w=1800&amp;q=80"
+        alt="Advisor meeting with a family around a planning table"
       />
-      <div class="absolute inset-0 bg-charcoal/82"></div>
-      <div class="turnout-stripe absolute bottom-0 left-0 right-0 h-4"></div>
-      <div class="relative mx-auto grid min-h-[88vh] max-w-7xl content-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+      <div class="hero__inner">
         <div>
-          <div class="mb-7 inline-flex items-center gap-3 rounded border border-brass/70 bg-black/20 px-4 py-2 text-xs font-black uppercase tracking-wide text-brass">
-            <span class="h-2 w-2 bg-ember"></span>
-            An Estate Planning Attorney & FFD Partnership
-          </div>
-          <h1 class="max-w-4xl text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
-            Run the Long Term Care Financial Fire Drill
-          </h1>
-          <p class="mt-6 max-w-2xl text-lg leading-8 text-smoke">
-            See how care costs can affect assets, estate plans, and family outcomes before a crisis forces decisions.
+          <div class="eyebrow">Financial Readiness. Smart Investing. Confident Future.</div>
+          <h1 id="hero-title">A steadier path through every financial season.</h1>
+          <p>
+            Stahlnecker Group helps families replace market noise, uncertainty, and crisis planning with a clear financial strategy built around readiness, protection, and lasting confidence.
           </p>
-          <p class="mt-4 max-w-2xl text-base leading-7 text-white/78">
-            Planning before a crisis creates options. This drill turns state-level care costs into a clear conversation about liquidity, legacy, family pressure, and legal preparedness.
-          </p>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <button id="startDrill" class="rounded bg-ember px-6 py-4 text-sm font-black uppercase tracking-wide text-white shadow-hard transition hover:bg-red-800">
-              Start the Walk Through
-            </button>
-            <a href="#risk" class="rounded border border-brass px-6 py-4 text-center text-sm font-black uppercase tracking-wide text-brass transition hover:bg-brass hover:text-charcoal">
-              Run the Drill
-            </a>
-            <a href="./ffd-intake-form.html" class="rounded border border-white/40 px-6 py-4 text-center text-sm font-black uppercase tracking-wide text-white transition hover:bg-white hover:text-charcoal">
-              Complete Intake Form
-            </a>
+          <div class="hero__actions">
+            <a class="btn btn--light" href="#fire-drill">Explore the Financial Fire Drill</a>
+            <a class="btn btn--outline" href="#planning">See How We Help</a>
           </div>
         </div>
-        <aside class="self-center rounded border border-brass/60 bg-white p-6 text-charcoal shadow-hard">
-          <div class="mb-5 flex items-center justify-between gap-5">
+      </div>
+      <div class="hero__metrics" aria-label="Planning priorities">
+        <div class="metric">
+          <strong>01</strong>
+          <span>Identify gaps before they turn into emergencies.</span>
+        </div>
+        <div class="metric">
+          <strong>02</strong>
+          <span>Align investments, tax choices, and retirement income.</span>
+        </div>
+        <div class="metric">
+          <strong>03</strong>
+          <span>Protect the people, assets, and legacy that matter most.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="fire-drill" class="section">
+      <div class="section__inner">
+        <div class="promise">
+          <img
+            class="promise__image"
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"
+            alt="Fire station at sunrise"
+          />
+          <div class="promise__content">
             <div>
-              <p class="text-xs font-black uppercase tracking-wide text-ember">Preparedness Readout</p>
-              <h2 class="mt-2 text-2xl font-black">The goal is not panic. The goal is preparedness.</h2>
+              <div class="eyebrow">The Financial Fire Drill</div>
+              <h2 style="margin: 10px 0 0; font-size: 3rem; line-height: 1.06;">Preparedness changes the outcome.</h2>
+              <p style="color: rgba(23, 32, 27, 0.72); font-size: 1.02rem; line-height: 1.75;">
+                Headlines, market swings, health events, and family transitions can pressure even thoughtful plans. The Financial Fire Drill turns those risks into practical next steps before urgency takes over.
+              </p>
             </div>
-            <img class="h-28 w-36 shrink-0 object-contain" src="./assets/ffd-logo.png?v=20260416-2" alt="Financial Fire Drill logo" />
-          </div>
-          <div class="grid gap-3 text-sm leading-6">
-            <p><strong>1.</strong> Crisis without preparation creates chaos.</p>
-            <p><strong>2.</strong> Care costs can erode wealth and disrupt estate plans.</p>
-            <p><strong>3.</strong> Attorneys and advisors can help families protect options.</p>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="walkthrough" class="bg-paper py-16">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-9 border-l-4 border-brass pl-5">
-          <p class="text-sm font-black uppercase tracking-wide text-ember">Walk Through</p>
-          <h2 class="mt-2 text-3xl font-black text-charcoal sm:text-4xl">Enter the scenario</h2>
-          <p class="mt-3 max-w-3xl text-base leading-7 text-charcoal/75">Use a client-ready example or adjust the fields live during an attorney meeting.</p>
-        </div>
-
-        <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-          <form class="rounded border border-charcoal/10 bg-white p-5 shadow-hard">
-            <div class="grid gap-4 sm:grid-cols-2">
-              <label class="block">
-                <span class="text-sm font-bold">State</span>
-                <select id="state" class="mt-2 w-full rounded border border-charcoal/20 bg-white px-3 py-3"></select>
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Care type</span>
-                <select id="careType" class="mt-2 w-full rounded border border-charcoal/20 bg-white px-3 py-3">
-                  <option value="inHome">In-home care</option>
-                  <option value="assistedLiving">Assisted living care</option>
-                  <option value="nursingHome">Nursing home care</option>
-                </select>
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Age</span>
-                <input id="age" type="number" value="68" min="40" max="100" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Marital status</span>
-                <select id="maritalStatus" class="mt-2 w-full rounded border border-charcoal/20 bg-white px-3 py-3">
-                  <option>Married</option>
-                  <option>Single</option>
-                  <option>Widowed</option>
-                </select>
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Total investable assets</span>
-                <input id="totalAssets" type="text" inputmode="numeric" value="1,250,000" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Liquid assets</span>
-                <input id="liquidAssets" type="text" inputmode="numeric" value="450,000" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Annual household income</span>
-                <input id="income" type="text" inputmode="numeric" value="160,000" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Planning horizon</span>
-                <select id="horizon" class="mt-2 w-full rounded border border-charcoal/20 bg-white px-3 py-3">
-                  <option value="3">3 years</option>
-                  <option value="5" selected>5 years</option>
-                  <option value="7">7 years</option>
-                  <option value="10">10 years</option>
-                </select>
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Legacy goal amount</span>
-                <input id="legacyGoal" type="text" inputmode="numeric" value="850,000" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
-              </label>
-              <label class="block">
-                <span class="text-sm font-bold">Home value</span>
-                <input id="homeValue" type="text" inputmode="numeric" value="525,000" class="mt-2 w-full rounded border border-charcoal/20 px-3 py-3" />
-              </label>
-            </div>
-            <div class="mt-6 grid gap-5 border-t border-charcoal/10 pt-5">
-              <label class="flex items-center gap-3 text-sm font-bold">
-                <input id="inflationEnabled" type="checkbox" class="h-5 w-5 accent-ember" checked />
-                Include care-cost inflation
-              </label>
-              <label class="block">
-                <span class="flex justify-between text-sm font-bold">Inflation assumption <span id="inflationLabel">3.0%</span></span>
-                <input id="inflationRate" type="range" min="0" max="7" step="0.5" value="3" class="mt-2 w-full accent-ember" />
-              </label>
-              <label class="block">
-                <span class="flex justify-between text-sm font-bold">Planning strategy offset <span id="offsetLabel">60%</span></span>
-                <input id="strategyOffset" type="range" min="20" max="80" step="5" value="60" class="mt-2 w-full accent-brass" />
-              </label>
-            </div>
-          </form>
-
-          <aside class="grid gap-4">
-            <div class="rounded border border-charcoal/10 bg-charcoal p-6 text-white shadow-hard">
-              <p class="text-sm font-black uppercase tracking-wide text-brass">Advisor Framing</p>
-              <h3 class="mt-2 text-2xl font-black">This is not only a care issue. It is an estate execution issue.</h3>
-              <p class="mt-4 leading-7 text-smoke">Long term care can put liquidity strain on a family at exactly the wrong time. The conversation belongs alongside documents, beneficiary goals, trust funding, and family administration.</p>
-            </div>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <div class="rounded border border-charcoal/10 bg-white p-5 shadow-hard">
-                <p class="text-sm font-black uppercase tracking-wide text-ember">Reposition</p>
-                <p class="mt-2 leading-6 text-charcoal/75">Identify assets that may be exposed to care costs before the family is under pressure.</p>
-              </div>
-              <div class="rounded border border-charcoal/10 bg-white p-5 shadow-hard">
-                <p class="text-sm font-black uppercase tracking-wide text-ember">Protect</p>
-                <p class="mt-2 leading-6 text-charcoal/75">Coordinate advisor strategy with legal planning so care funding supports the estate plan.</p>
-              </div>
-              <div class="rounded border border-charcoal/10 bg-white p-5 shadow-hard sm:col-span-2">
-                <p class="text-sm font-black uppercase tracking-wide text-ember">Prepare</p>
-                <p class="mt-2 leading-6 text-charcoal/75">Create a family roadmap before decisions must be made during a health event.</p>
-              </div>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <section id="risk" class="bg-white py-16">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-9 border-l-4 border-ember pl-5">
-          <p class="text-sm font-black uppercase tracking-wide text-ember">Risk Readout</p>
-          <h2 class="mt-2 text-3xl font-black sm:text-4xl">Convert care costs into planning pressure</h2>
-        </div>
-        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <article class="rounded border border-charcoal/10 bg-paper p-5 shadow-hard">
-            <p class="text-sm font-black uppercase tracking-wide text-charcoal/60">Annual state cost</p>
-            <p id="annualCost" class="mt-3 text-4xl font-black text-ember">$0</p>
-            <p id="monthlyCost" class="mt-2 text-sm font-bold text-charcoal/70">$0 per month</p>
-          </article>
-          <article class="rounded border border-charcoal/10 bg-paper p-5 shadow-hard">
-            <p class="text-sm font-black uppercase tracking-wide text-charcoal/60">Projected care event</p>
-            <p id="projectedCost" class="mt-3 text-4xl font-black text-charcoal">$0</p>
-            <p class="mt-2 text-sm font-bold text-charcoal/70">Includes selected horizon and visible assumptions.</p>
-          </article>
-          <article class="rounded border border-charcoal/10 bg-paper p-5 shadow-hard">
-            <p class="text-sm font-black uppercase tracking-wide text-charcoal/60">Liquid assets consumed</p>
-            <p id="liquidExposure" class="mt-3 text-4xl font-black text-ember">0%</p>
-            <p id="depletionTimeline" class="mt-2 text-sm font-bold text-charcoal/70">0 years.</p>
-          </article>
-          <article class="rounded border border-charcoal/10 bg-paper p-5 shadow-hard">
-            <p class="text-sm font-black uppercase tracking-wide text-charcoal/60">Total assets at risk</p>
-            <p id="totalExposure" class="mt-3 text-4xl font-black text-charcoal">0%</p>
-            <p id="stateCompare" class="mt-2 text-sm font-bold text-charcoal/70">State comparison.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="impact" class="bg-charcoal py-16 text-white">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-9 border-l-4 border-brass pl-5">
-          <p class="text-sm font-black uppercase tracking-wide text-brass">Asset Impact</p>
-          <h2 class="mt-2 text-3xl font-black sm:text-4xl">Portfolio Impact Over Time</h2>
-          <p class="mt-3 max-w-3xl leading-7 text-smoke">The red line shows care costs paid directly from the portfolio. The brass line models remaining assets when the selected planning strategy offset reduces the amount drawn from assets each year.</p>
-        </div>
-        <div class="grid gap-6 lg:grid-cols-[1.25fr_0.75fr]">
-          <div class="h-[420px] rounded border border-white/10 bg-black/20 p-4 shadow-hard">
-            <canvas id="impactChart" aria-label="Portfolio impact comparison chart" role="img"></canvas>
-          </div>
-          <div class="grid gap-4">
-            <article class="rounded border border-white/10 bg-white p-5 text-charcoal shadow-hard">
-              <p class="text-sm font-black uppercase tracking-wide text-ember">Remaining assets after care</p>
-              <p id="remainingAssets" class="mt-3 text-4xl font-black">$0</p>
+            <article class="promise-item">
+              <h3>Know where you stand</h3>
+              <p>Clarify your current plan, exposed gaps, and the decisions that would become hardest during a crisis.</p>
             </article>
-            <article class="rounded border border-white/10 bg-white p-5 text-charcoal shadow-hard">
-              <p class="text-sm font-black uppercase tracking-wide text-ember">Modeled assets preserved</p>
-              <p id="preservedAssets" class="mt-3 text-4xl font-black text-brass">$0</p>
+            <article class="promise-item">
+              <h3>Make the next move visible</h3>
+              <p>Build an action plan that connects your investments, insurance, estate planning, and income needs.</p>
             </article>
-            <article class="rounded border border-brass/50 bg-black/20 p-5">
-              <p class="text-sm font-black uppercase tracking-wide text-brass">Legacy pressure</p>
-              <p id="legacyImpact" class="mt-3 leading-7 text-smoke">Legacy readout.</p>
+            <article class="promise-item">
+              <h3>Move with calm confidence</h3>
+              <p>Give your family a framework for decisions that protects peace of mind as much as the portfolio.</p>
             </article>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="bg-paper py-16">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-9 border-l-4 border-brass pl-5">
-          <p class="text-sm font-black uppercase tracking-wide text-ember">Planning Comparison</p>
-          <h2 class="mt-2 text-3xl font-black text-charcoal sm:text-4xl">Two paths, very different family experiences</h2>
-          <p class="mt-3 max-w-3xl leading-7 text-charcoal/75">The numbers matter, but the real planning question is what happens around the family when care decisions arrive.</p>
-        </div>
-
-        <div class="grid gap-6 lg:grid-cols-2">
-          <article class="overflow-hidden rounded border-2 border-ember/40 bg-white shadow-hard">
-            <div class="bg-ember p-6 text-white">
-              <p class="text-sm font-black uppercase tracking-wide text-white/80">Without a strategy</p>
-              <h3 class="mt-2 text-3xl font-black">The default path</h3>
-              <p class="mt-3 leading-7 text-white/85">Care costs are handled under pressure, often by drawing from the assets the estate plan was meant to preserve.</p>
-            </div>
-            <div class="grid gap-3 p-6">
-              <div class="flex gap-4 rounded border border-ember/20 bg-red-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-ember text-sm font-black text-white">1</span>
-                <p class="font-bold text-charcoal">Portfolio and liquid reserves become the first line of defense.</p>
-              </div>
-              <div class="flex gap-4 rounded border border-ember/20 bg-red-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-ember text-sm font-black text-white">2</span>
-                <p class="font-bold text-charcoal">Forced liquidation can happen when timing is unfavorable.</p>
-              </div>
-              <div class="flex gap-4 rounded border border-ember/20 bg-red-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-ember text-sm font-black text-white">3</span>
-                <p class="font-bold text-charcoal">Spouse, heirs, and adult children absorb more coordination stress.</p>
-              </div>
-              <div class="flex gap-4 rounded border border-ember/20 bg-red-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-ember text-sm font-black text-white">4</span>
-                <p class="font-bold text-charcoal">Estate documents may be technically sound but financially strained.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="overflow-hidden rounded border-2 border-brass/60 bg-white shadow-hard">
-            <div class="bg-charcoal p-6 text-white">
-              <p class="text-sm font-black uppercase tracking-wide text-brass">With a strategy</p>
-              <h3 class="mt-2 text-3xl font-black">The prepared path</h3>
-              <p class="mt-3 leading-7 text-smoke">A dedicated plan gives the family a funding roadmap before health, legal, and financial decisions collide.</p>
-            </div>
-            <div class="grid gap-3 p-6">
-              <div class="flex gap-4 rounded border border-brass/30 bg-yellow-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-brass text-sm font-black text-white">1</span>
-                <p class="font-bold text-charcoal">Care funding is planned before the crisis begins.</p>
-              </div>
-              <div class="flex gap-4 rounded border border-brass/30 bg-yellow-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-brass text-sm font-black text-white">2</span>
-                <p class="font-bold text-charcoal">More assets can remain aligned with spouse, heir, and legacy goals.</p>
-              </div>
-              <div class="flex gap-4 rounded border border-brass/30 bg-yellow-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-brass text-sm font-black text-white">3</span>
-                <p class="font-bold text-charcoal">Adult children get clearer roles and fewer emergency decisions.</p>
-              </div>
-              <div class="flex gap-4 rounded border border-brass/30 bg-yellow-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-brass text-sm font-black text-white">4</span>
-                <p class="font-bold text-charcoal">Attorney and advisor work from the same family protection map.</p>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="action" class="bg-white py-16">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="overflow-hidden rounded border border-charcoal/10 bg-paper shadow-hard">
-          <div class="bg-charcoal p-6 text-white sm:p-8">
-            <div class="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-              <div>
-                <p class="text-sm font-black uppercase tracking-wide text-brass">Action Plan Summary</p>
-                <h2 class="mt-2 text-3xl font-black sm:text-4xl">Continue the planning conversation</h2>
-                <p id="summaryScenario" class="mt-3 inline-flex rounded border border-brass/60 px-3 py-2 text-sm font-black uppercase tracking-wide text-smoke">Scenario</p>
-              </div>
-              <button id="printSummary" class="no-print rounded bg-ember px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-red-800">
-                Print Summary
-              </button>
-              <a href="./ffd-intake-form.html" class="no-print rounded border border-brass px-5 py-3 text-center text-sm font-black uppercase tracking-wide text-brass transition hover:bg-brass hover:text-charcoal">
-                Open Intake Form
-              </a>
-            </div>
+    <section id="planning" class="section section--white">
+      <div class="section__inner">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">What We Do</div>
+            <h2>You define the future. We help design the plan.</h2>
           </div>
-
-          <div class="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.05fr_0.95fr]">
-            <div class="grid gap-4">
-              <div class="rounded border-2 border-ember/30 bg-white p-5 shadow-hard">
-                <p class="text-sm font-black uppercase tracking-wide text-ember">Client Readout</p>
-                <h3 id="summaryHeadline" class="mt-2 text-2xl font-black leading-tight text-charcoal">Care exposure creates planning pressure.</h3>
-                <div class="mt-5 grid gap-3 sm:grid-cols-3">
-                  <div class="rounded border border-ember/20 bg-red-50 p-4">
-                    <p class="text-xs font-black uppercase tracking-wide text-charcoal/55">Total assets at risk</p>
-                    <p id="summaryTotalRisk" class="mt-2 text-3xl font-black text-ember">0%</p>
-                  </div>
-                  <div class="rounded border border-ember/20 bg-red-50 p-4">
-                    <p class="text-xs font-black uppercase tracking-wide text-charcoal/55">Liquid assets consumed</p>
-                    <p id="summaryLiquidRisk" class="mt-2 text-3xl font-black text-ember">0%</p>
-                  </div>
-                  <div class="rounded border border-brass/30 bg-yellow-50 p-4">
-                    <p class="text-xs font-black uppercase tracking-wide text-charcoal/55">Modeled preservation</p>
-                    <p id="summaryPreserved" class="mt-2 text-3xl font-black text-brass">$0</p>
-                  </div>
-                </div>
-                <p id="summarySentence" class="mt-5 rounded border border-charcoal/10 bg-paper p-4 text-base font-bold leading-7 text-charcoal">Summary sentence.</p>
-              </div>
-
-              <div class="grid gap-3 sm:grid-cols-3">
-                <div class="rounded border border-charcoal/10 bg-white p-4">
-                  <p class="text-xs font-black uppercase tracking-wide text-charcoal/55">Focus</p>
-                  <p class="mt-2 text-lg font-black text-charcoal">Liquidity</p>
-                </div>
-                <div class="rounded border border-charcoal/10 bg-white p-4">
-                  <p class="text-xs font-black uppercase tracking-wide text-charcoal/55">Protect</p>
-                  <p class="mt-2 text-lg font-black text-charcoal">Family Roles</p>
-                </div>
-                <div class="rounded border border-charcoal/10 bg-white p-4">
-                  <p class="text-xs font-black uppercase tracking-wide text-charcoal/55">Preserve</p>
-                  <p class="mt-2 text-lg font-black text-charcoal">Legacy Goals</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="rounded border-2 border-brass/50 bg-charcoal p-6 text-white shadow-hard">
-              <p class="text-sm font-black uppercase tracking-wide text-brass">Attorney + Advisor Next Steps</p>
-              <p id="attorneyLens" class="mt-3 rounded border border-white/10 bg-white/5 p-4 font-bold leading-7 text-smoke">Attorney lens.</p>
-              <div class="mt-5 grid gap-3">
-                <div class="flex gap-4 rounded border border-white/10 bg-white/5 p-4">
-                  <span class="grid h-8 w-8 shrink-0 place-items-center rounded bg-brass text-sm font-black text-white">1</span>
-                  <p class="font-bold leading-6 text-smoke">Review liquidity and care funding before a health event forces timing.</p>
-                </div>
-                <div class="flex gap-4 rounded border border-white/10 bg-white/5 p-4">
-                  <span class="grid h-8 w-8 shrink-0 place-items-center rounded bg-brass text-sm font-black text-white">2</span>
-                  <p class="font-bold leading-6 text-smoke">Coordinate legal documents, beneficiary goals, and asset positioning.</p>
-                </div>
-                <div class="flex gap-4 rounded border border-white/10 bg-white/5 p-4">
-                  <span class="grid h-8 w-8 shrink-0 place-items-center rounded bg-brass text-sm font-black text-white">3</span>
-                  <p class="font-bold leading-6 text-smoke">Create a family communication plan before decisions become urgent.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p class="border-t border-charcoal/10 px-6 py-5 text-sm leading-6 text-charcoal/65 sm:px-8">
-            Demo assumptions: state cost data is embedded for prototype modeling, inflation is optional, and the planning strategy offset is an educational preservation assumption rather than a policy illustration.
+          <p>
+            Clear guidance for retirement, tax-aware investing, insurance, long-term care, estate coordination, and asset protection.
           </p>
+        </div>
+        <div class="services">
+          <article class="service">
+            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Financial planning documents on a desk" />
+            <div class="service__body">
+              <h3>Retirement Plans</h3>
+              <p>401(k), defined benefit, and TSP guidance shaped around retirement income, tax advantages, and long-term goals.</p>
+            </div>
+          </article>
+          <article class="service">
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Tax and investment paperwork with calculator" />
+            <div class="service__body">
+              <h3>Tax-Smart Investing</h3>
+              <p>Asset location, tax-aware portfolio choices, and disciplined oversight that keeps more of your return working for you.</p>
+            </div>
+          </article>
+          <article class="service">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Professional building exterior" />
+            <div class="service__body">
+              <h3>Protect & Plan</h3>
+              <p>Insurance, long-term care, estate planning coordination, and asset protection strategies for what life can throw at you.</p>
+            </div>
+          </article>
+          <article class="service">
+            <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Modern conference room prepared for a planning meeting" />
+            <div class="service__body">
+              <h3>Portfolio Monitoring</h3>
+              <p>Ongoing review and rebalancing to keep your investments connected to your goals, risk tolerance, and timeline.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="section section--forest">
+      <div class="section__inner">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Our Process</div>
+            <h2>Simple steps for complex financial decisions.</h2>
+          </div>
+          <p>
+            Until you know where you stand, you cannot confidently take the next step in financial planning or investing.
+          </p>
+        </div>
+        <div class="process">
+          <article class="process-step">
+            <span>01</span>
+            <h3>Identify the Gaps</h3>
+            <p>Review goals, current accounts, family priorities, documents, coverage, and the risks that need attention.</p>
+          </article>
+          <article class="process-step">
+            <span>02</span>
+            <h3>Assess the Risks</h3>
+            <p>Translate uncertainty into practical planning pressure: income, taxes, care costs, liquidity, legacy, and market exposure.</p>
+          </article>
+          <article class="process-step">
+            <span>03</span>
+            <h3>Create an Action Plan</h3>
+            <p>Prioritize next steps that bring investments, protection, and estate decisions into one coordinated plan.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section section--white">
+      <div class="section__inner">
+        <div class="advisor">
+          <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" alt="Financial advisor speaking with clients in a meeting" />
+          <div>
+            <div class="eyebrow">Meet Brooks Stahlnecker</div>
+            <h2>Financial strategist, firefighter, and advocate for readiness.</h2>
+            <p>
+              Brooks brings the mindset of a first responder into financial planning: anticipate risk, prepare before the alarm sounds, and help people make clear decisions under pressure.
+            </p>
+            <p>
+              As founder of Stahlnecker Group and a longtime Firefighter/EMT, he helps families simplify complex financial choices into a disciplined plan for retirement, investing, protection, and legacy.
+            </p>
+            <div class="quote">Peace of mind starts with a plan.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__inner">
+        <div class="readiness">
+          <div class="readiness__intro">
+            <div>
+              <div class="eyebrow">Readiness Check</div>
+              <h2>How prepared does your financial plan feel today?</h2>
+            </div>
+            <p>
+              A quick pulse check for the conversations that often uncover the next planning move.
+            </p>
+          </div>
+          <div class="quiz" aria-live="polite">
+            <div class="quiz__progress" aria-hidden="true"><div class="quiz__bar"></div></div>
+            <div class="eyebrow" style="margin-top: 22px;">Question <span id="questionNumber">1</span> of 3</div>
+            <h3 id="quizQuestion">If markets drop sharply, what happens next?</h3>
+            <p id="quizHint">Choose the answer that feels closest to your current plan.</p>
+            <div id="quizOptions" class="quiz__options"></div>
+            <div id="quizResult" class="quiz__result" hidden>
+              <strong id="resultTitle"></strong>
+              <p id="resultBody"></p>
+              <a class="btn btn--outline-dark" href="#contact">Talk Through the Next Step</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section--forest">
+      <div class="section__inner">
+        <div class="cta">
+          <div>
+            <div class="eyebrow">Start the Conversation</div>
+            <h2>Bring your questions. Leave with direction.</h2>
+            <p>
+              In a first conversation, Stahlnecker Group can get to know your situation, goals, and concerns, then help clarify the planning priorities that deserve attention.
+            </p>
+          </div>
+          <a class="btn btn--light" href="mailto:brooks@stahlneckergroup.com">Contact Brooks</a>
+        </div>
+        <div class="contact-grid">
+          <a class="contact-item" href="tel:15702796099">
+            <span>Phone</span>
+            <strong>(570) 279-6099</strong>
+          </a>
+          <a class="contact-item" href="mailto:brooks@stahlneckergroup.com">
+            <span>Email</span>
+            <strong>brooks@stahlneckergroup.com</strong>
+          </a>
+          <div class="contact-item">
+            <span>Office</span>
+            <strong>139 S Front Street, Milton PA 17847</strong>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-charcoal/10 bg-white px-4 py-6 text-center text-sm font-semibold text-charcoal/65">
-    &copy; 2026 Sherpa Systems, LLC.
+  <footer class="site-footer">
+    <div class="footer__inner">
+      <div>
+        <a class="brand" href="#top" aria-label="Stahlnecker Group home">
+          <span class="brand__mark" style="border-color: var(--gold); color: var(--gold);">SG</span>
+          <span>
+            <span class="brand__name" style="color: var(--white);">Stahlnecker Group</span>
+            <span class="brand__sub" style="color: rgba(255, 255, 255, 0.62);">Financial readiness, smart investing, confident future.</span>
+          </span>
+        </a>
+      </div>
+      <div class="footer-links">
+        <a href="#planning">What We Do</a>
+        <a href="#process">Our Process</a>
+        <a href="#fire-drill">Financial Fire Drill</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="https://www.linkedin.com/" rel="noreferrer">LinkedIn</a>
+      </div>
+      <div class="disclosure">
+        © 2026 Stahlnecker Wealth Management Group. Investment Advisory Services offered through Discipline Wealth Solutions, Inc, a SEC registered Investment Adviser. The Stahlnecker Group and Discipline Wealth Solutions, Inc are separate and independent entities. Stahlnecker Group and DWS.
+        Discipline Wealth Solutions, Inc. is an investment advisor registered with the Securities and Exchange Commission. See full disclosure at disciplinewealth.com/disclosure.
+      </div>
+    </div>
   </footer>
 
-  <script src="./data.js?v=20260416-2"></script>
-  <script src="./app.js?v=20260416-2"></script>
+  <script>
+    const menuButton = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelector("#navLinks");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("is-open");
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinks.addEventListener("click", (event) => {
+      if (event.target.matches("a")) {
+        navLinks.classList.remove("is-open");
+        menuButton.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    const questions = [
+      {
+        text: "If markets drop sharply, what happens next?",
+        hint: "Choose the answer that feels closest to your current plan.",
+        options: [
+          { label: "We know what we own and why.", score: 3 },
+          { label: "We would wait and hope it settles.", score: 1 },
+          { label: "We are not sure what we would do.", score: 0 }
+        ]
+      },
+      {
+        text: "If long-term care became a family issue, how ready are you?",
+        hint: "Think about insurance, liquidity, care preferences, and family roles.",
+        options: [
+          { label: "We have a written plan.", score: 3 },
+          { label: "We have talked about it, but not enough.", score: 1 },
+          { label: "We have not addressed it yet.", score: 0 }
+        ]
+      },
+      {
+        text: "How connected are your investments, taxes, and estate plan?",
+        hint: "A strong plan should make these decisions work together.",
+        options: [
+          { label: "They are coordinated and reviewed.", score: 3 },
+          { label: "Some pieces are connected.", score: 1 },
+          { label: "They feel separate.", score: 0 }
+        ]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionNumber = document.querySelector("#questionNumber");
+    const quizQuestion = document.querySelector("#quizQuestion");
+    const quizHint = document.querySelector("#quizHint");
+    const quizOptions = document.querySelector("#quizOptions");
+    const quizResult = document.querySelector("#quizResult");
+    const resultTitle = document.querySelector("#resultTitle");
+    const resultBody = document.querySelector("#resultBody");
+    const quizBar = document.querySelector(".quiz__bar");
+
+    function renderQuestion() {
+      const question = questions[currentQuestion];
+      questionNumber.textContent = currentQuestion + 1;
+      quizQuestion.textContent = question.text;
+      quizHint.textContent = question.hint;
+      quizBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+      quizOptions.innerHTML = "";
+
+      question.options.forEach((option) => {
+        const button = document.createElement("button");
+        button.className = "quiz__option";
+        button.type = "button";
+        button.textContent = option.label;
+        button.addEventListener("click", () => chooseOption(option.score));
+        quizOptions.appendChild(button);
+      });
+    }
+
+    function chooseOption(value) {
+      score += value;
+      currentQuestion += 1;
+
+      if (currentQuestion < questions.length) {
+        renderQuestion();
+        return;
+      }
+
+      quizOptions.hidden = true;
+      quizHint.hidden = true;
+      quizResult.hidden = false;
+      quizBar.style.width = "100%";
+      questionNumber.textContent = "3";
+      quizQuestion.textContent = "Your readiness pulse is ready.";
+
+      if (score >= 7) {
+        resultTitle.textContent = "Your plan has strong footing.";
+        resultBody.textContent = "The next step is ongoing coordination: review assumptions, beneficiary goals, care risks, tax exposure, and investment discipline before life changes force the issue.";
+      } else if (score >= 3) {
+        resultTitle.textContent = "You have useful pieces to connect.";
+        resultBody.textContent = "A readiness conversation can turn loose planning ideas into a clearer action plan for income, protection, taxes, and legacy decisions.";
+      } else {
+        resultTitle.textContent = "You may be carrying avoidable uncertainty.";
+        resultBody.textContent = "Start by identifying the gaps. Once the risks are visible, the right next step becomes much easier to choose.";
+      }
+    }
+
+    renderQuestion();
+  </script>
 </body>
 </html>
