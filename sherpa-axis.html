@@ -60,6 +60,7 @@
         <a href="#risa">RISA Compass</a>
         <a href="#portfolio">Portfolio</a>
         <a href="#buckets">Buckets</a>
+        <a href="#tax">Tax</a>
         <a href="#backtest">Backtest</a>
         <a href="#actions">Actions</a>
       </div>
@@ -79,7 +80,7 @@
           </div>
         </div>
         <div class="panel bg-white/95 p-5 text-summit">
-          <p class="label">Summit Dashboard</p>
+          <p class="label">SHERPA Axis Dashboard</p>
           <div class="mt-4 grid grid-cols-2 gap-3">
             <div class="rounded-lg bg-snow p-4">
               <p class="text-xs font-bold text-rock">Plan Status</p>
@@ -171,13 +172,13 @@
         <div class="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
           <div class="panel p-5">
             <div class="grid gap-4">
-              <label><span class="label">Market comfort</span><select id="marketComfort" class="field"><option value="-2">Needs guarantees</option><option value="-1">Prefers stability</option><option value="1" selected>Can use markets</option><option value="2">Wants growth engine</option></select></label>
-              <label><span class="label">Income preference</span><select id="incomePreference" class="field"><option value="-2">Contractual income</option><option value="-1">Mostly predictable</option><option value="1" selected>Flexible withdrawals</option><option value="2">Maximum optionality</option></select></label>
-              <label><span class="label">Downturn behavior</span><select id="downturnBehavior" class="field"><option value="-2">Likely to abandon risk</option><option value="-1">Needs coaching</option><option value="1" selected>Can stay invested</option><option value="2">Rebalances into weakness</option></select></label>
+              <label><span class="label">Market comfort</span><select id="marketComfort" class="field"><option value="-3">Needs guarantees</option><option value="-2">Strongly prefers stability</option><option value="-1">Slightly safety-first</option><option value="1" selected>Slightly market-based</option><option value="2">Can use markets</option><option value="3">Wants growth engine</option></select></label>
+              <label><span class="label">Income preference</span><select id="incomePreference" class="field"><option value="-3">Strong commitment</option><option value="-2">Mostly locked-in</option><option value="-1">Slight commitment</option><option value="1" selected>Slight flexibility</option><option value="2">Flexible withdrawals</option><option value="3">Maximum optionality</option></select></label>
+              <label><span class="label">Downturn behavior</span><select id="downturnBehavior" class="field"><option value="-3">Likely to abandon risk</option><option value="-2">Needs strong coaching</option><option value="-1">Needs some coaching</option><option value="1" selected>Can stay invested</option><option value="2">Can rebalance</option><option value="3">Rebalances into weakness</option></select></label>
             </div>
           </div>
           <div class="panel p-5">
-            <p class="label">Compass Readout</p>
+            <p class="label">Strategic Baseline</p>
             <h3 id="risaHeadline" class="mt-2 text-3xl font-black text-pine">--</h3>
             <p id="risaCopy" class="mt-3 leading-7 text-rock">--</p>
             <div class="mt-5 grid gap-3 sm:grid-cols-3">
@@ -185,6 +186,22 @@
               <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Cash Reserve</p><p id="cashYears" class="mt-1 font-black">--</p></div>
               <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Middle Bucket</p><p id="middleYears" class="mt-1 font-black">--</p></div>
             </div>
+          </div>
+        </div>
+        <div class="mt-5 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+          <div class="panel p-5">
+            <p class="label">RISA Matrix</p>
+            <canvas id="risaChart" aria-label="RISA matrix chart"></canvas>
+          </div>
+          <div class="panel p-5">
+            <p class="label">Strategy Alignment</p>
+            <div class="mt-4 grid gap-3 sm:grid-cols-3">
+              <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Axis Position</p><p id="risaAxis" class="mt-1 font-black">--</p></div>
+              <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">PS Score</p><p id="psScore" class="mt-1 font-black">--</p></div>
+              <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">OC Score</p><p id="ocScore" class="mt-1 font-black">--</p></div>
+            </div>
+            <p id="risaProducts" class="mt-4 leading-7 text-rock">--</p>
+            <p id="risaStress" class="mt-3 rounded-lg bg-glacier/60 p-4 text-sm font-bold leading-6 text-summit">--</p>
           </div>
         </div>
       </div>
@@ -212,6 +229,16 @@
           <canvas id="allocationChart" aria-label="Portfolio allocation chart"></canvas>
         </div>
       </div>
+      <div class="mt-5 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="panel p-5">
+          <p class="label">Return vs. Risk</p>
+          <canvas id="riskReturnChart" aria-label="Model return and standard deviation comparison chart"></canvas>
+        </div>
+        <div class="panel p-5">
+          <p class="label">Period Returns</p>
+          <div id="periodReturnGrid" class="mt-4 grid gap-3 sm:grid-cols-2"></div>
+        </div>
+      </div>
     </section>
 
     <section id="buckets" class="bg-white/70 py-12">
@@ -224,6 +251,43 @@
           <div class="panel p-5"><p class="label">Bucket 1</p><h3 class="mt-2 text-2xl font-black">Short-Term Reserve</h3><p id="bucketOne" class="mt-3 text-rock"></p></div>
           <div class="panel p-5"><p class="label">Bucket 2</p><h3 class="mt-2 text-2xl font-black">Stability Refill</h3><p id="bucketTwo" class="mt-3 text-rock"></p></div>
           <div class="panel p-5"><p class="label">Bucket 3</p><h3 class="mt-2 text-2xl font-black">Growth Engine</h3><p id="bucketThree" class="mt-3 text-rock"></p></div>
+        </div>
+        <div class="mt-5 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+          <div class="panel p-5">
+            <label><span class="label">Stress Period</span><select id="stressPeriod" class="field"><option value="1">Worst rolling 1-year</option><option value="3">Worst rolling 3-year</option><option value="5">Worst rolling 5-year</option><option value="10">Worst rolling 10-year</option></select></label>
+            <p id="stressNarrative" class="mt-4 leading-7 text-rock">--</p>
+          </div>
+          <div class="panel p-5">
+            <p class="label">Income Stability Stress Test</p>
+            <canvas id="stressChart" aria-label="Bucket stress test chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tax" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mb-6">
+        <p class="label">Tax & Cash Flow Pass</p>
+        <h2 class="mt-2 text-3xl font-black">Roth, RMD, taxes, and annual withdrawals</h2>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <div class="panel p-5">
+          <canvas id="cashFlowChart" aria-label="Year by year retirement cash flow chart"></canvas>
+        </div>
+        <div class="panel p-5">
+          <p class="label">Planning Windows</p>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2">
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Roth Window</p><p id="rothWindow" class="mt-1 text-xl font-black">--</p></div>
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">First RMD</p><p id="firstRmd" class="mt-1 text-xl font-black">--</p></div>
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Year 1 Tax</p><p id="yearOneTax" class="mt-1 text-xl font-black">--</p></div>
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Taxable Gap</p><p id="taxableGap" class="mt-1 text-xl font-black">--</p></div>
+          </div>
+          <div class="mt-5 overflow-hidden rounded-lg border border-summit/10">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-summit text-white"><tr><th class="p-3">Year</th><th class="p-3">Age</th><th class="p-3">Withdrawal</th><th class="p-3">Tax</th><th class="p-3">RMD</th></tr></thead>
+              <tbody id="cashFlowTable" class="divide-y divide-summit/10 bg-white"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

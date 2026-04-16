@@ -10,7 +10,7 @@ const SHERPA_DFA_DATA = {
     {
       name: "Fixed | Capital Preservation",
       shortName: "Fixed",
-      style: "Income Protector",
+      style: "Income Protection",
       description: "Capital preservation with a large short-term credit, bond, and TIPS foundation.",
       annualizedReturn: 0.0314362635,
       standardDeviation: 0.0356566776,
@@ -24,6 +24,9 @@ const SHERPA_DFA_DATA = {
       highOneYearStart: "10/1/2023",
       lowOneYear: -0.1081806231,
       lowOneYearStart: "11/1/2021",
+      lowThreeYear: -0.0135509259,
+      lowFiveYear: 0.0120270085,
+      lowTenYear: 0.0190571979,
       allocations: [
         ["Short-Term Credit Bonds", 40],
         ["US Aggregate Bonds", 25],
@@ -36,7 +39,7 @@ const SHERPA_DFA_DATA = {
     {
       name: "Income",
       shortName: "Income",
-      style: "Income Protector",
+      style: "Income Protection",
       description: "Income and moderate stability using bonds, TIPS, global REITs, and limited global equity.",
       annualizedReturn: 0.0293911048,
       standardDeviation: 0.0491978612,
@@ -50,6 +53,9 @@ const SHERPA_DFA_DATA = {
       highOneYearStart: "10/1/2023",
       lowOneYear: -0.1409779078,
       lowOneYearStart: "11/1/2021",
+      lowThreeYear: -0.0268688262,
+      lowFiveYear: 0.0062660706,
+      lowTenYear: 0.0171242911,
       allocations: [
         ["US Aggregate Bonds", 35],
         ["Global Bonds Hedged", 25],
@@ -62,7 +68,7 @@ const SHERPA_DFA_DATA = {
     {
       name: "Balanced",
       shortName: "Balanced",
-      style: "Conservative Growth",
+      style: "Time Segmentation",
       description: "A 60/40-style global allocation balancing growth, stability, and inflation defense.",
       annualizedReturn: 0.0799241023,
       standardDeviation: 0.0905009492,
@@ -76,6 +82,9 @@ const SHERPA_DFA_DATA = {
       highOneYearStart: "4/1/2020",
       lowOneYear: -0.1790956545,
       lowOneYearStart: "10/1/2021",
+      lowThreeYear: 0.0149819133,
+      lowFiveYear: 0.0319788599,
+      lowTenYear: 0.0516188173,
       allocations: [
         ["US Total Market", 35],
         ["US Aggregate Bonds", 25],
@@ -88,7 +97,7 @@ const SHERPA_DFA_DATA = {
     {
       name: "Growth",
       shortName: "Growth",
-      style: "Moderate Growth",
+      style: "Total Return",
       description: "Long-term appreciation with broad global equities and a stabilizing bond sleeve.",
       annualizedReturn: 0.0977774327,
       standardDeviation: 0.1132122542,
@@ -102,6 +111,9 @@ const SHERPA_DFA_DATA = {
       highOneYearStart: "4/1/2020",
       lowOneYear: -0.197637421,
       lowOneYearStart: "10/1/2021",
+      lowThreeYear: 0.02427111,
+      lowFiveYear: 0.0339697099,
+      lowTenYear: 0.0617944829,
       allocations: [
         ["US Total Market", 45],
         ["US Aggregate Bonds", 20],
@@ -112,7 +124,7 @@ const SHERPA_DFA_DATA = {
     {
       name: "Aggressive",
       shortName: "Aggressive",
-      style: "Growth Maximizer",
+      style: "Risk Wrap",
       description: "Maximum growth orientation with global equity concentration and a small bond sleeve.",
       annualizedReturn: 0.1120256193,
       standardDeviation: 0.1319949575,
@@ -126,6 +138,9 @@ const SHERPA_DFA_DATA = {
       highOneYearStart: "4/1/2020",
       lowOneYear: -0.208013909,
       lowOneYearStart: "10/1/2021",
+      lowThreeYear: 0.0158635383,
+      lowFiveYear: 0.030872621,
+      lowTenYear: 0.0704129841,
       allocations: [
         ["US Total Market", 50],
         ["International Developed", 25],
@@ -153,28 +168,40 @@ const SHERPA_DFA_DATA = {
     { date: "3/31/2026", "Fixed | Capital Preservation": 1.5344514435, Income: 1.4928941626, Balanced: 2.8969415881, Growth: 3.63452615, Aggressive: 4.3443149266 }
   ],
   risaMap: {
-    "Income Protector": {
+    "Income Protection": {
       portfolio: "Income",
       bucketOneYears: 3,
       bucketTwoYears: 7,
+      axis: "Safety-First + Commitment",
+      products: "Guaranteed income floor, income annuities, pensions, liability matching, conservative reserves",
+      stress: "Market-only withdrawals may feel unreliable. The client may overreact if income is not contractually anchored.",
       copy: "Safety and commitment are leading the conversation. Lead with durable income, larger reserves, and clear guardrails."
     },
-    "Conservative Growth": {
+    "Time Segmentation": {
       portfolio: "Balanced",
       bucketOneYears: 2.5,
       bucketTwoYears: 6,
+      axis: "Safety-First + Optionality",
+      products: "Bucket strategy, bond ladders, cash reserve, TIPS, balanced model, flexible refill rules",
+      stress: "The client wants protection, but may resist locking into an irreversible solution. Buckets make volatility easier to tolerate.",
       copy: "The client wants growth, but the plan must make volatility feel survivable. Keep a sturdy middle bucket."
     },
-    "Moderate Growth": {
+    "Total Return": {
       portfolio: "Growth",
       bucketOneYears: 2,
       bucketTwoYears: 5,
+      axis: "Probability-Based + Optionality",
+      products: "Globally diversified portfolio, systematic withdrawals, guardrails, opportunistic Roth conversions",
+      stress: "The client can stay flexible, but needs a written volatility rule so optionality does not become indecision.",
       copy: "The client can use market returns, but values flexibility. Balance optionality with disciplined refill rules."
     },
-    "Growth Maximizer": {
+    "Risk Wrap": {
       portfolio: "Aggressive",
       bucketOneYears: 1.5,
       bucketTwoYears: 4,
+      axis: "Probability-Based + Commitment",
+      products: "Market participation with structured guardrails, protected income wrappers, buffered strategies",
+      stress: "The client accepts market exposure, but still wants a committed structure. Explain the cost and tradeoff of each guardrail.",
       copy: "The client is growth-oriented and can commit to a long runway. Protect behavior during drawdowns."
     }
   }
