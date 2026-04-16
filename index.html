@@ -105,7 +105,12 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      min-width: 230px;
+      min-width: 260px;
+    }
+
+    .brand__logo {
+      width: 214px;
+      height: auto;
     }
 
     .brand__mark {
@@ -770,6 +775,10 @@
         min-width: 0;
       }
 
+      .brand__logo {
+        width: 176px;
+      }
+
       .brand__mark {
         width: 40px;
         height: 40px;
@@ -845,11 +854,7 @@
   <header class="site-header">
     <nav class="nav__inner" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="Stahlnecker Group home">
-        <span class="brand__mark">SG</span>
-        <span>
-          <span class="brand__name">Stahlnecker Group</span>
-          <span class="brand__sub">Financial readiness, built before the storm.</span>
-        </span>
+        <img class="brand__logo" src="./assets/stahlnecker-logo-black.png" alt="Stahlnecker Wealth Management Group" />
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <div id="navLinks" class="nav__links">
