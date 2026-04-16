@@ -44,14 +44,18 @@
       <p class="label">Client Intake</p>
       <h1 class="mt-2 text-4xl font-black">Build your retirement income snapshot.</h1>
       <p class="mt-3 max-w-3xl leading-7 text-rock">Complete the fields below, then open SHERPA Axis with your information loaded for advisor review.</p>
+      <div class="mt-5 flex flex-wrap items-center gap-3">
+        <span class="rounded-full bg-glacier px-4 py-2 text-xs font-black uppercase text-summit">Morgan Household sample loaded</span>
+        <button class="rounded-lg border border-summit/20 px-4 py-2 text-sm font-black text-summit" type="button" id="loadSample">Reload Sample</button>
+      </div>
     </div>
 
     <form id="intakeForm" class="grid gap-6">
       <section class="panel p-5">
         <h2 class="text-2xl font-black">Household</h2>
         <div class="mt-4 grid gap-4 sm:grid-cols-2">
-          <label><span class="label">Client</span><input name="clientName" class="field" value="Sample Household" /></label>
-          <label><span class="label">Spouse/Partner</span><input name="spouseName" class="field" placeholder="Optional" /></label>
+          <label><span class="label">Client</span><input name="clientName" class="field" value="Morgan Household" /></label>
+          <label><span class="label">Spouse/Partner</span><input name="spouseName" class="field" value="Alex and Jordan Morgan" /></label>
           <label><span class="label">Email</span><input name="clientEmail" class="field" type="email" placeholder="client@example.com" /></label>
           <label><span class="label">State</span><input name="clientState" class="field" value="GA" maxlength="2" /></label>
           <label><span class="label">Current Age</span><input name="age" class="field" type="number" value="62" /></label>
@@ -91,10 +95,11 @@
       <section class="panel p-5">
         <h2 class="text-2xl font-black">Retirement Income Preferences</h2>
         <div class="mt-4 grid gap-4 lg:grid-cols-3">
-          <label><span class="label">Market Comfort</span><select name="marketComfort" class="field"><option value="-3">Needs guarantees</option><option value="-2">Strongly prefers stability</option><option value="-1">Slightly safety-first</option><option value="1" selected>Slightly market-based</option><option value="2">Can use markets</option><option value="3">Wants growth engine</option></select></label>
-          <label><span class="label">Income Preference</span><select name="incomePreference" class="field"><option value="-3">Strong commitment</option><option value="-2">Mostly locked-in</option><option value="-1">Slight commitment</option><option value="1" selected>Slight flexibility</option><option value="2">Flexible withdrawals</option><option value="3">Maximum optionality</option></select></label>
-          <label><span class="label">Downturn Behavior</span><select name="downturnBehavior" class="field"><option value="-3">Likely to abandon risk</option><option value="-2">Needs strong coaching</option><option value="-1">Needs some coaching</option><option value="1" selected>Can stay invested</option><option value="2">Can rebalance</option><option value="3">Rebalances into weakness</option></select></label>
+          <label><span class="label">Market Comfort</span><select name="marketComfort" class="field"><option value="-3">Needs guarantees</option><option value="-2">Strongly prefers stability</option><option value="-1">Slightly safety-first</option><option value="1">Slightly market-based</option><option value="2" selected>Can use markets</option><option value="3">Wants growth engine</option></select></label>
+          <label><span class="label">Income Preference</span><select name="incomePreference" class="field"><option value="-3">Strong commitment</option><option value="-2">Mostly locked-in</option><option value="-1">Slight commitment</option><option value="1">Slight flexibility</option><option value="2" selected>Flexible withdrawals</option><option value="3">Maximum optionality</option></select></label>
+          <label><span class="label">Downturn Behavior</span><select name="downturnBehavior" class="field"><option value="-3">Likely to abandon risk</option><option value="-2">Needs strong coaching</option><option value="-1">Needs some coaching</option><option value="1">Can stay invested</option><option value="2" selected>Can rebalance</option><option value="3">Rebalances into weakness</option></select></label>
         </div>
+        <input name="portfolioSelect" type="hidden" value="Growth" />
       </section>
 
       <div class="flex flex-wrap gap-3">
@@ -109,6 +114,42 @@
     const form = document.querySelector("#intakeForm");
     const copyStatus = document.querySelector("#copyStatus");
     const clean = (value) => String(value || "").replace(/,/g, "").trim();
+    const morganSample = {
+      clientName: "Morgan Household",
+      spouseName: "Alex and Jordan Morgan",
+      clientState: "GA",
+      age: "62",
+      retirementAge: "67",
+      horizon: "30",
+      legacyGoal: "250,000",
+      monthlyLifestyle: "7,000",
+      healthcareAnnual: "7,200",
+      debtAnnual: "0",
+      givingAnnual: "4,800",
+      oneTimeGoals: "0",
+      socialSecurity: "38,000",
+      pensionIncome: "12,000",
+      annuityIncome: "0",
+      otherIncome: "0",
+      inflation: "3",
+      taxRate: "18",
+      cash: "75,000",
+      taxable: "350,000",
+      traditional: "900,000",
+      roth: "150,000",
+      marketComfort: "2",
+      incomePreference: "2",
+      downturnBehavior: "2",
+      portfolioSelect: "Growth"
+    };
+
+    const loadSample = () => {
+      Object.entries(morganSample).forEach(([name, value]) => {
+        const field = form.elements[name];
+        if (field) field.value = value;
+      });
+      copyStatus.textContent = "Morgan Household sample is loaded.";
+    };
 
     const buildAxisUrl = () => {
       const params = new URLSearchParams();
@@ -135,6 +176,8 @@
       await navigator.clipboard.writeText(url);
       copyStatus.textContent = "Intake-to-Axis link copied.";
     });
+
+    document.querySelector("#loadSample").addEventListener("click", loadSample);
   </script>
 </body>
 </html>

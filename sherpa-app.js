@@ -511,7 +511,7 @@ const update = () => {
   output.spendingBuild.textContent = money.format(plan.annualSpending);
   output.incomeBuild.textContent = money.format(plan.guaranteedIncome);
   output.assetBuild.textContent = money.format(plan.totalAssets);
-  output.loadedClient.textContent = fields.clientName.value || "Sample Household";
+  output.loadedClient.textContent = fields.clientName.value || "Morgan Household";
   output.intakeSummary.textContent = intakeProgress >= 0.9 ? "Client intake loaded. Review the route before presenting recommendations." : "Using the default sample household until a completed client intake is submitted.";
   output.rothWindow.textContent = rothWindowYears > 0 ? `${rothWindowYears} years` : "Closed";
   output.firstRmd.textContent = money.format(firstRmdAmount);
