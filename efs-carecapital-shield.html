@@ -59,20 +59,20 @@
   </style>
 </head>
 <body class="font-sans antialiased">
-  <header class="no-print sticky top-0 z-50 border-b border-white/10 bg-navy/95 text-white backdrop-blur">
+  <header class="no-print sticky top-0 z-50 border-b border-navy/10 bg-white/95 text-navy shadow-sm backdrop-blur">
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
       <a href="#top" class="flex items-center gap-3" aria-label="Enhanced Funding Solutions home">
-        <img class="h-12 w-20 object-contain" src="./assets/efs-logo.png?v=20260416-1" alt="Enhanced Funding Solutions logo" />
+        <img class="h-14 w-24 object-contain" src="./assets/efs-logo.png?v=20260416-2" alt="Enhanced Funding Solutions logo" />
         <span>
           <span class="block text-sm font-black uppercase tracking-wide">Enhanced Funding Solutions</span>
-          <span class="block text-xs text-mist">Asset protection through prepared funding</span>
+          <span class="block text-xs font-bold text-efsgreen">Asset protection through prepared funding</span>
         </span>
       </a>
-      <div class="hidden items-center gap-5 text-sm font-semibold text-mist md:flex">
-        <a class="hover:text-white" href="#walkthrough">Walk Through</a>
-        <a class="hover:text-white" href="#risk">Risk Readout</a>
-        <a class="hover:text-white" href="#impact">Asset Impact</a>
-        <a class="hover:text-white" href="#action">Action Plan</a>
+      <div class="hidden items-center gap-5 text-sm font-semibold text-navy/70 md:flex">
+        <a class="hover:text-efsgreen" href="#walkthrough">Walk Through</a>
+        <a class="hover:text-efsgreen" href="#risk">Risk Readout</a>
+        <a class="hover:text-efsgreen" href="#impact">Asset Impact</a>
+        <a class="hover:text-efsgreen" href="#action">Action Plan</a>
       </div>
     </nav>
   </header>
@@ -89,7 +89,7 @@
       <div class="relative mx-auto grid min-h-[88vh] max-w-7xl content-center gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
         <div>
           <div class="mb-7 inline-flex items-center gap-3 rounded border border-gold/70 bg-black/20 px-4 py-2 text-xs font-black uppercase tracking-wide text-gold">
-            <span class="h-2 w-2 bg-signal"></span>
+            <span class="h-2 w-2 bg-efsgreen"></span>
             An Estate Planning Attorney & EFS Partnership
           </div>
           <h1 class="max-w-4xl text-4xl font-black leading-tight sm:text-6xl lg:text-7xl">
@@ -102,7 +102,7 @@
             A guided long term care planning tool for repositioning exposed assets into protected care capital before a health event forces decisions.
           </p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <button id="startDrill" class="rounded bg-signal px-6 py-4 text-sm font-black uppercase tracking-wide text-white shadow-hard transition hover:bg-red-800">
+            <button id="startDrill" class="rounded bg-efsgreen px-6 py-4 text-sm font-black uppercase tracking-wide text-white shadow-hard transition hover:bg-green-800">
               Start the Walk Through
             </button>
             <a href="#risk" class="rounded border border-gold px-6 py-4 text-center text-sm font-black uppercase tracking-wide text-gold transition hover:bg-gold hover:text-navy">
@@ -113,10 +113,10 @@
         <aside class="self-center rounded border border-gold/60 bg-white p-6 text-navy shadow-hard">
           <div class="mb-5 flex items-center justify-between gap-5">
             <div>
-              <p class="text-xs font-black uppercase tracking-wide text-signal">Preparedness Readout</p>
+              <p class="text-xs font-black uppercase tracking-wide text-efsgreen">Preparedness Readout</p>
               <h2 class="mt-2 text-2xl font-black">The goal is not panic. The goal is preparedness.</h2>
             </div>
-            <img class="h-28 w-40 shrink-0 object-contain" src="./assets/efs-logo.png?v=20260416-1" alt="Enhanced Funding Solutions logo" />
+            <img class="h-28 w-40 shrink-0 object-contain" src="./assets/efs-logo.png?v=20260416-2" alt="Enhanced Funding Solutions logo" />
           </div>
           <div class="grid gap-3 text-sm leading-6">
             <p><strong>70%</strong> of people turning 65 are expected to need long term care.</p>
@@ -134,7 +134,7 @@
           <p class="mt-2 text-sm font-bold leading-6 text-navy/75">of people turning 65 are expected to need long term care.</p>
         </article>
         <article class="rounded border border-navy/10 bg-paper p-5">
-          <p class="text-4xl font-black text-signal">73%</p>
+          <p class="text-4xl font-black text-efsgreen">73%</p>
           <p class="mt-2 text-sm font-bold leading-6 text-navy/75">of Americans have not planned for long term care.</p>
         </article>
         <article class="rounded border border-navy/10 bg-paper p-5">
@@ -151,7 +151,7 @@
     <section id="walkthrough" class="bg-paper py-16">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mb-9 border-l-4 border-gold pl-5">
-          <p class="text-sm font-black uppercase tracking-wide text-signal">Walk Through</p>
+          <p class="text-sm font-black uppercase tracking-wide text-efsgreen">Walk Through</p>
           <h2 class="mt-2 text-3xl font-black text-navy sm:text-4xl">Enter the scenario</h2>
           <p class="mt-3 max-w-3xl text-base leading-7 text-navy/75">Use a client-ready example or adjust the fields live during an attorney meeting.</p>
         </div>
@@ -219,12 +219,12 @@
             </div>
             <div class="mt-6 grid gap-5 border-t border-navy/10 pt-5">
               <label class="flex items-center gap-3 text-sm font-bold">
-                <input id="inflationEnabled" type="checkbox" class="h-5 w-5 accent-signal" checked />
+                <input id="inflationEnabled" type="checkbox" class="h-5 w-5 accent-efsgreen" checked />
                 Include care-cost inflation
               </label>
               <label class="block">
                 <span class="flex justify-between text-sm font-bold">Inflation assumption <span id="inflationLabel">3.0%</span></span>
-                <input id="inflationRate" type="range" min="0" max="7" step="0.5" value="3" class="mt-2 w-full accent-signal" />
+                <input id="inflationRate" type="range" min="0" max="7" step="0.5" value="3" class="mt-2 w-full accent-efsgreen" />
               </label>
               <label class="block">
                 <span class="flex justify-between text-sm font-bold">Asset-based LTC benefit leverage <span id="leverageLabel">3:1</span></span>
@@ -241,15 +241,15 @@
             </div>
             <div class="grid gap-4 sm:grid-cols-2">
               <div class="rounded border border-navy/10 bg-white p-5 shadow-hard">
-                <p class="text-sm font-black uppercase tracking-wide text-signal">Reposition</p>
+                <p class="text-sm font-black uppercase tracking-wide text-efsgreen">Reposition</p>
                 <p class="mt-2 leading-6 text-navy/75">Identify assets that may be exposed to care costs before the family is under pressure.</p>
               </div>
               <div class="rounded border border-navy/10 bg-white p-5 shadow-hard">
-                <p class="text-sm font-black uppercase tracking-wide text-signal">Protect</p>
+                <p class="text-sm font-black uppercase tracking-wide text-efsgreen">Protect</p>
                 <p class="mt-2 leading-6 text-navy/75">Coordinate advisor strategy with legal planning so care funding supports the estate plan.</p>
               </div>
               <div class="rounded border border-navy/10 bg-white p-5 shadow-hard sm:col-span-2">
-                <p class="text-sm font-black uppercase tracking-wide text-signal">Prepare</p>
+                <p class="text-sm font-black uppercase tracking-wide text-efsgreen">Prepare</p>
                 <p class="mt-2 leading-6 text-navy/75">Create a family roadmap before decisions must be made during a health event.</p>
               </div>
             </div>
@@ -260,14 +260,14 @@
 
     <section id="risk" class="bg-white py-16">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-9 border-l-4 border-signal pl-5">
-          <p class="text-sm font-black uppercase tracking-wide text-signal">Risk Readout</p>
+        <div class="mb-9 border-l-4 border-efsgreen pl-5">
+          <p class="text-sm font-black uppercase tracking-wide text-efsgreen">Risk Readout</p>
           <h2 class="mt-2 text-3xl font-black sm:text-4xl">Convert care costs into planning pressure</h2>
         </div>
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <article class="rounded border border-navy/10 bg-paper p-5 shadow-hard">
             <p class="text-sm font-black uppercase tracking-wide text-navy/60">Annual state cost</p>
-            <p id="annualCost" class="mt-3 text-4xl font-black text-signal">$0</p>
+            <p id="annualCost" class="mt-3 text-4xl font-black text-efsgreen">$0</p>
             <p id="monthlyCost" class="mt-2 text-sm font-bold text-navy/70">$0 per month</p>
           </article>
           <article class="rounded border border-navy/10 bg-paper p-5 shadow-hard">
@@ -277,7 +277,7 @@
           </article>
           <article class="rounded border border-navy/10 bg-paper p-5 shadow-hard">
             <p class="text-sm font-black uppercase tracking-wide text-navy/60">Liquid assets consumed</p>
-            <p id="liquidExposure" class="mt-3 text-4xl font-black text-signal">0%</p>
+            <p id="liquidExposure" class="mt-3 text-4xl font-black text-efsgreen">0%</p>
             <p id="depletionTimeline" class="mt-2 text-sm font-bold text-navy/70">0 years.</p>
           </article>
           <article class="rounded border border-navy/10 bg-paper p-5 shadow-hard">
@@ -318,7 +318,7 @@
           </div>
           <div class="grid gap-4">
             <article class="rounded border border-white/10 bg-white p-5 text-navy shadow-hard">
-              <p class="text-sm font-black uppercase tracking-wide text-signal">Remaining assets after care</p>
+              <p class="text-sm font-black uppercase tracking-wide text-efsgreen">Remaining assets after care</p>
               <p id="remainingAssets" class="mt-3 text-4xl font-black">$0</p>
             </article>
             <article class="rounded border border-white/10 bg-white p-5 text-navy shadow-hard">
@@ -337,33 +337,33 @@
     <section class="bg-paper py-16">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mb-9 border-l-4 border-gold pl-5">
-          <p class="text-sm font-black uppercase tracking-wide text-signal">Planning Comparison</p>
+          <p class="text-sm font-black uppercase tracking-wide text-efsgreen">Planning Comparison</p>
           <h2 class="mt-2 text-3xl font-black text-navy sm:text-4xl">Two paths, very different family experiences</h2>
           <p class="mt-3 max-w-3xl leading-7 text-navy/75">The numbers matter, but the real planning question is what happens around the family when care decisions arrive.</p>
         </div>
 
         <div class="grid gap-6 lg:grid-cols-2">
-          <article class="overflow-hidden rounded border-2 border-signal/40 bg-white shadow-hard">
-            <div class="bg-signal p-6 text-white">
+          <article class="overflow-hidden rounded border-2 border-efsgreen/40 bg-white shadow-hard">
+            <div class="bg-efsgreen p-6 text-white">
               <p class="text-sm font-black uppercase tracking-wide text-white/80">Without a strategy</p>
               <h3 class="mt-2 text-3xl font-black">The default path</h3>
               <p class="mt-3 leading-7 text-white/85">Care costs are handled under pressure, often by drawing from the assets the estate plan was meant to preserve.</p>
             </div>
             <div class="grid gap-3 p-6">
-              <div class="flex gap-4 rounded border border-signal/20 bg-red-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-signal text-sm font-black text-white">1</span>
+              <div class="flex gap-4 rounded border border-efsgreen/20 bg-green-50 p-4">
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-efsgreen text-sm font-black text-white">1</span>
                 <p class="font-bold text-navy">Portfolio and liquid reserves become the first line of defense.</p>
               </div>
-              <div class="flex gap-4 rounded border border-signal/20 bg-red-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-signal text-sm font-black text-white">2</span>
+              <div class="flex gap-4 rounded border border-efsgreen/20 bg-green-50 p-4">
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-efsgreen text-sm font-black text-white">2</span>
                 <p class="font-bold text-navy">Forced liquidation can happen when timing is unfavorable.</p>
               </div>
-              <div class="flex gap-4 rounded border border-signal/20 bg-red-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-signal text-sm font-black text-white">3</span>
+              <div class="flex gap-4 rounded border border-efsgreen/20 bg-green-50 p-4">
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-efsgreen text-sm font-black text-white">3</span>
                 <p class="font-bold text-navy">Spouse, heirs, and adult children absorb more coordination stress.</p>
               </div>
-              <div class="flex gap-4 rounded border border-signal/20 bg-red-50 p-4">
-                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-signal text-sm font-black text-white">4</span>
+              <div class="flex gap-4 rounded border border-efsgreen/20 bg-green-50 p-4">
+                <span class="grid h-9 w-9 shrink-0 place-items-center rounded bg-efsgreen text-sm font-black text-white">4</span>
                 <p class="font-bold text-navy">Estate documents may be technically sound but financially strained.</p>
               </div>
             </div>
@@ -408,7 +408,7 @@
                 <h2 class="mt-2 text-3xl font-black sm:text-4xl">Continue the planning conversation</h2>
                 <p id="summaryScenario" class="mt-3 inline-flex rounded border border-gold/60 px-3 py-2 text-sm font-black uppercase tracking-wide text-mist">Scenario</p>
               </div>
-              <button id="printSummary" class="no-print rounded bg-signal px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-red-800">
+              <button id="printSummary" class="no-print rounded bg-efsgreen px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-green-800">
                 Print Summary
               </button>
             </div>
@@ -416,17 +416,17 @@
 
           <div class="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.05fr_0.95fr]">
             <div class="grid gap-4">
-              <div class="rounded border-2 border-signal/30 bg-white p-5 shadow-hard">
-                <p class="text-sm font-black uppercase tracking-wide text-signal">Client Readout</p>
+              <div class="rounded border-2 border-efsgreen/30 bg-white p-5 shadow-hard">
+                <p class="text-sm font-black uppercase tracking-wide text-efsgreen">Client Readout</p>
                 <h3 id="summaryHeadline" class="mt-2 text-2xl font-black leading-tight text-navy">Care exposure creates planning pressure.</h3>
                 <div class="mt-5 grid gap-3 sm:grid-cols-3">
-                  <div class="rounded border border-signal/20 bg-red-50 p-4">
+                  <div class="rounded border border-efsgreen/20 bg-green-50 p-4">
                     <p class="text-xs font-black uppercase tracking-wide text-navy/55">Total assets at risk</p>
-                    <p id="summaryTotalRisk" class="mt-2 text-3xl font-black text-signal">0%</p>
+                    <p id="summaryTotalRisk" class="mt-2 text-3xl font-black text-efsgreen">0%</p>
                   </div>
-                  <div class="rounded border border-signal/20 bg-red-50 p-4">
+                  <div class="rounded border border-efsgreen/20 bg-green-50 p-4">
                     <p class="text-xs font-black uppercase tracking-wide text-navy/55">Liquid assets consumed</p>
-                    <p id="summaryLiquidRisk" class="mt-2 text-3xl font-black text-signal">0%</p>
+                    <p id="summaryLiquidRisk" class="mt-2 text-3xl font-black text-efsgreen">0%</p>
                   </div>
                   <div class="rounded border border-gold/30 bg-yellow-50 p-4">
                     <p class="text-xs font-black uppercase tracking-wide text-navy/55">Modeled preservation</p>

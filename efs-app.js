@@ -224,8 +224,8 @@ const initChart = () => {
         {
           label: "No Planning",
           data: [],
-          borderColor: "#b42318",
-          backgroundColor: "rgba(180, 35, 24, 0.12)",
+          borderColor: "#050d3d",
+          backgroundColor: "rgba(5, 13, 61, 0.12)",
           fill: true,
           tension: 0.28,
           pointRadius: 4
