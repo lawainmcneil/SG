@@ -557,14 +557,17 @@
 
     .advisor {
       display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
+      grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
       gap: 46px;
       align-items: center;
     }
 
     .advisor img {
-      width: 100%;
-      aspect-ratio: 5 / 6;
+      justify-self: center;
+      width: min(100%, 300px);
+      aspect-ratio: 25 / 22;
+      border: 12px solid var(--paper);
+      box-shadow: 0 22px 42px rgba(23, 32, 27, 0.16);
       object-fit: cover;
       object-position: center top;
     }
