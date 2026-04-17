@@ -787,6 +787,43 @@
       font-size: 1.04rem;
     }
 
+    .closing-cta {
+      background: var(--paper);
+      padding: 72px 0;
+    }
+
+    .closing-cta__panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 26px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: var(--white);
+      padding: 34px;
+      box-shadow: 0 20px 44px rgba(23, 32, 27, 0.1);
+    }
+
+    .closing-cta h2 {
+      margin: 8px 0 0;
+      color: var(--forest);
+      font-size: 2.4rem;
+      line-height: 1.08;
+    }
+
+    .closing-cta p {
+      max-width: 690px;
+      margin: 14px 0 0;
+      color: rgba(23, 32, 27, 0.72);
+      font-size: 1.02rem;
+    }
+
+    .closing-cta__actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
     .site-footer {
       background: var(--ink);
       color: var(--white);
@@ -900,8 +937,13 @@
       .advisor,
       .readiness,
       .cta,
+      .closing-cta__panel,
       .footer__inner {
         grid-template-columns: 1fr;
+      }
+
+      .closing-cta__actions {
+        justify-content: flex-start;
       }
 
       .promise__visual .promise__image {
@@ -1307,6 +1349,24 @@
           <div class="contact-item">
             <span>Office</span>
             <strong>139 S Front Street, Milton PA 17847</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-cta" aria-labelledby="closing-cta-title">
+      <div class="section__inner">
+        <div class="closing-cta__panel">
+          <div>
+            <div class="eyebrow">Next Step</div>
+            <h2 id="closing-cta-title">Ready to see where your plan stands?</h2>
+            <p>
+              Start with a focused conversation about the gaps, risks, and planning decisions that deserve attention before life applies pressure.
+            </p>
+          </div>
+          <div class="closing-cta__actions">
+            <a class="btn btn--primary" href="mailto:brooks@stahlneckergroup.com?subject=Request%20a%20Financial%20Fire%20Drill">Request a Financial Fire Drill</a>
+            <a class="btn btn--outline-dark" href="mailto:brooks@stahlneckergroup.com?subject=Planning%20Question">Ask a Planning Question</a>
           </div>
         </div>
       </div>
