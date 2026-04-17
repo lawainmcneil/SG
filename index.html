@@ -421,6 +421,7 @@
     }
 
     .fire-drill-section .promise {
+      position: relative;
       display: block;
       max-width: 1040px;
       margin: 0 auto;
@@ -438,6 +439,20 @@
       grid-column: 1 / -1;
       max-width: 790px;
       margin-bottom: 8px;
+    }
+
+    .fire-drill-cta {
+      position: absolute;
+      top: 46px;
+      right: 46px;
+      max-width: 230px;
+      background: var(--alarm);
+      color: var(--white);
+      text-align: center;
+    }
+
+    .fire-drill-cta:hover {
+      background: #9f0f19;
     }
 
     .fire-drill-badge {
@@ -827,6 +842,12 @@
         padding: 30px;
       }
 
+      .fire-drill-cta {
+        position: static;
+        max-width: none;
+        margin: 0 0 24px;
+      }
+
       .fire-drill-section .promise__content {
         grid-template-columns: 1fr;
       }
@@ -1004,6 +1025,7 @@
     <section id="fire-drill" class="section fire-drill-section">
       <div class="section__inner">
         <div class="promise">
+          <a class="btn fire-drill-cta" href="#contact">Take Your Financial Fire Drill Today</a>
           <div class="promise__content">
             <div class="fire-drill-intro">
               <img class="fire-drill-badge" src="./assets/ffd-course-logo.png" alt="Financial Fire Drill" />
