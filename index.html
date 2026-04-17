@@ -164,9 +164,9 @@
     .nav__links {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 17px;
       color: rgba(23, 32, 27, 0.78);
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 800;
     }
 
@@ -556,6 +556,48 @@
       color: rgba(255, 255, 255, 0.78);
     }
 
+    .insights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .insight-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      padding: 26px;
+      box-shadow: 0 18px 38px rgba(23, 32, 27, 0.08);
+    }
+
+    .insight-card__tag {
+      color: var(--coral);
+      font-size: 0.74rem;
+      font-weight: 950;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .insight-card h3 {
+      margin: 22px 0 0;
+      color: var(--forest);
+      font-size: 1.35rem;
+      line-height: 1.18;
+    }
+
+    .insight-card p {
+      margin: 14px 0 0;
+      color: rgba(23, 32, 27, 0.7);
+    }
+
+    .insight-card a {
+      margin-top: auto;
+      color: var(--forest);
+      font-weight: 950;
+    }
+
     .advisor {
       display: grid;
       grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
@@ -865,6 +907,10 @@
         grid-template-columns: 1fr;
       }
 
+      .insights {
+        grid-template-columns: 1fr;
+      }
+
       .contact-grid {
         grid-template-columns: 1fr;
       }
@@ -981,13 +1027,14 @@
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
       <div id="navLinks" class="nav__links">
-        <a href="#planning">What We Do</a>
-        <a href="#process">Our Process</a>
-        <a href="#fire-drill">Financial Fire Drill</a>
-        <a href="#about">About Brooks</a>
+        <a href="#planning">Planning</a>
+        <a href="#process">Process</a>
+        <a href="#fire-drill">Fire Drill</a>
+        <a href="#insights">Insights</a>
+        <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </div>
-      <a class="btn btn--primary nav__cta" href="#contact">Let's Start the Conversation</a>
+      <a class="btn btn--primary nav__cta" href="#contact">Start Here</a>
     </nav>
   </header>
 
@@ -1132,6 +1179,40 @@
       </div>
     </section>
 
+    <section id="insights" class="section section--white">
+      <div class="section__inner">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Preparedness Insights</div>
+            <h2>Clear thinking before life applies pressure.</h2>
+          </div>
+          <p>
+            Practical notes for families who want to make retirement, protection, tax, and estate decisions before urgency takes over.
+          </p>
+        </div>
+        <div class="insights">
+          <article class="insight-card">
+            <span class="insight-card__tag">Financial Fire Drill</span>
+            <h3>What Is a Financial Fire Drill?</h3>
+            <p>A simple way to stress-test your plan before market swings, health events, or family transitions force hard decisions.</p>
+            <a href="#fire-drill">Start here</a>
+          </article>
+          <article class="insight-card">
+            <span class="insight-card__tag">Retirement Readiness</span>
+            <h3>The Questions Families Wait Too Long to Ask</h3>
+            <p>Income, taxes, healthcare, long-term care, and legacy goals all deserve attention before retirement pressure builds.</p>
+            <a href="#contact">Talk through it</a>
+          </article>
+          <article class="insight-card">
+            <span class="insight-card__tag">Preparedness Mindset</span>
+            <h3>First-Responder Thinking for Financial Planning</h3>
+            <p>Identify gaps, assess risk, and create an action plan while there is still time to choose your next move calmly.</p>
+            <a href="#process">See the process</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="about" class="section section--white">
       <div class="section__inner">
         <div class="advisor">
@@ -1221,9 +1302,10 @@
         </a>
       </div>
       <div class="footer-links">
-        <a href="#planning">What We Do</a>
-        <a href="#process">Our Process</a>
-        <a href="#fire-drill">Financial Fire Drill</a>
+        <a href="#planning">Planning</a>
+        <a href="#process">Process</a>
+        <a href="#fire-drill">Fire Drill</a>
+        <a href="#insights">Insights</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
         <a href="https://www.linkedin.com/" rel="noreferrer">LinkedIn</a>
