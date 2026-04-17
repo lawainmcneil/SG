@@ -410,7 +410,10 @@
     }
 
     .fire-drill-section .promise-item {
-      border-left-color: var(--alarm);
+      min-height: 190px;
+      border-top: 5px solid var(--alarm);
+      border-left: 1px solid rgba(23, 32, 27, 0.1);
+      box-shadow: 0 18px 38px rgba(23, 32, 27, 0.08);
     }
 
     .fire-drill-section .promise-item h3 {
@@ -418,13 +421,23 @@
     }
 
     .fire-drill-section .promise {
-      align-items: start;
+      display: block;
+      max-width: 1040px;
+      margin: 0 auto;
+      border: 1px solid rgba(23, 32, 27, 0.1);
+      background: linear-gradient(135deg, #ffffff 0%, #f8f4f1 100%);
+      padding: 46px;
     }
 
-    .fire-drill-section .promise__image {
-      aspect-ratio: 16 / 10;
-      min-height: 440px;
-      object-position: center center;
+    .fire-drill-section .promise__content {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .fire-drill-intro {
+      grid-column: 1 / -1;
+      max-width: 790px;
+      margin-bottom: 8px;
     }
 
     .fire-drill-badge {
@@ -810,8 +823,12 @@
         min-height: 430px;
       }
 
-      .fire-drill-section .promise__image {
-        min-height: 340px;
+      .fire-drill-section .promise {
+        padding: 30px;
+      }
+
+      .fire-drill-section .promise__content {
+        grid-template-columns: 1fr;
       }
 
       .services {
@@ -987,15 +1004,8 @@
     <section id="fire-drill" class="section fire-drill-section">
       <div class="section__inner">
         <div class="promise">
-          <div class="promise__visual">
-            <img
-              class="promise__image"
-              src="./assets/allegheny-mountains-fire-drill.png"
-              alt="Allegheny Mountains at dusk"
-            />
-          </div>
           <div class="promise__content">
-            <div>
+            <div class="fire-drill-intro">
               <img class="fire-drill-badge" src="./assets/ffd-course-logo.png" alt="Financial Fire Drill" />
               <div class="eyebrow">The Financial Fire Drill</div>
               <h2 style="margin: 10px 0 0; font-size: 3rem; line-height: 1.06;">Preparedness changes the outcome.</h2>
