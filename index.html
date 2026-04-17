@@ -801,6 +801,13 @@
       font-weight: 800;
     }
 
+    .footer-brand .brand__badge {
+      border-radius: 8px;
+      background: var(--white);
+      padding: 4px;
+      mix-blend-mode: normal;
+    }
+
     .disclosure {
       grid-column: 1 / -1;
       border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -1294,11 +1301,11 @@
   <footer class="site-footer">
     <div class="footer__inner">
       <div>
-        <a class="brand" href="#top" aria-label="Stahlnecker Group home">
-          <span class="brand__mark" style="border-color: var(--gold); color: var(--gold);">SG</span>
-          <span>
-            <span class="brand__name" style="color: var(--white);">Stahlnecker Group</span>
-            <span class="brand__sub" style="color: rgba(255, 255, 255, 0.62);">Financial readiness, smart investing, confident future.</span>
+        <a class="brand footer-brand" href="#top" aria-label="Stahlnecker Group home">
+          <img class="brand__badge" src="./assets/stahlnecker-badge-only.jpg" alt="" />
+          <span class="brand__name" style="color: var(--white);">
+            <span class="brand__line">Stahlnecker</span>
+            <span class="brand__line brand__line--sub" style="color: rgba(255, 255, 255, 0.74);">Wealth Management Group</span>
           </span>
         </a>
       </div>
