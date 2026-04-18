@@ -167,6 +167,32 @@ const SHERPA_DFA_DATA = {
     { date: "12/31/2025", "Fixed | Capital Preservation": 1.5357148278, Income: 1.4905663028, Balanced: 2.9428521136, Growth: 3.710319763, Aggressive: 4.440982835 },
     { date: "3/31/2026", "Fixed | Capital Preservation": 1.5344514435, Income: 1.4928941626, Balanced: 2.8969415881, Growth: 3.63452615, Aggressive: 4.3443149266 }
   ],
+  glidePaths: [
+    {
+      name: "Early Accumulation",
+      range: "25+ years out",
+      minYearsToRetirement: 25,
+      allocation: { usStocks: 54, internationalStocks: 36, usBonds: 7, internationalBonds: 3, tips: 0 }
+    },
+    {
+      name: "Mid-Career",
+      range: "15-20 years out",
+      minYearsToRetirement: 15,
+      allocation: { usStocks: 45, internationalStocks: 30, usBonds: 17, internationalBonds: 8, tips: 0 }
+    },
+    {
+      name: "Near Retirement",
+      range: "About 5 years out",
+      minYearsToRetirement: 1,
+      allocation: { usStocks: 33, internationalStocks: 23, usBonds: 28, internationalBonds: 11, tips: 5 }
+    },
+    {
+      name: "Retirement / Income Phase",
+      range: "Retired or within 1 year",
+      minYearsToRetirement: -100,
+      allocation: { usStocks: 18, internationalStocks: 12, usBonds: 37, internationalBonds: 16, tips: 17 }
+    }
+  ],
   risaMap: {
     "Income Protection": {
       portfolio: "Income",

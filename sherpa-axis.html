@@ -256,6 +256,22 @@
           <div id="periodReturnGrid" class="mt-4 grid gap-3 sm:grid-cols-2"></div>
         </div>
       </div>
+      <div class="mt-5 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <div class="panel p-5">
+          <p class="label">Glide Path Lens</p>
+          <h3 id="glideStage" class="mt-2 text-2xl font-black">--</h3>
+          <p id="glideNarrative" class="mt-3 leading-7 text-rock">--</p>
+          <div class="mt-4 grid gap-3 sm:grid-cols-3">
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Years to Retirement</p><p id="yearsToRetirement" class="mt-1 text-xl font-black">--</p></div>
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Glide Equity</p><p id="glideEquity" class="mt-1 text-xl font-black">--</p></div>
+            <div class="rounded-lg bg-snow p-4"><p class="text-xs font-bold text-rock">Axis Equity</p><p id="axisEquity" class="mt-1 text-xl font-black">--</p></div>
+          </div>
+        </div>
+        <div class="panel p-5">
+          <p class="label">Axis Model vs. TDF Glide Path</p>
+          <canvas id="glideChart" aria-label="Axis model versus target date glide path allocation chart"></canvas>
+        </div>
+      </div>
     </section>
 
     <section id="buckets" class="bg-white/70 py-12">
