@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHERPA LTC Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            summit: "#11201e",
+            pine: "#235d57",
+            moss: "#4d8f8a",
+            glacier: "#dfeeed",
+            parchment: "#f5f1e8",
+            trail: "#c69d52",
+            ember: "#9f2f2f",
+            slate: "#5f6f6e"
+          },
+          fontFamily: {
+            sans: ["Manrope", "ui-sans-serif", "system-ui", "sans-serif"],
+            display: ["Space Grotesk", "ui-sans-serif", "system-ui", "sans-serif"]
+          },
+          boxShadow: {
+            lift: "0 24px 80px rgba(17, 32, 30, 0.16)"
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(198, 157, 82, 0.18), transparent 24%),
+        radial-gradient(circle at top right, rgba(77, 143, 138, 0.18), transparent 26%),
+        linear-gradient(180deg, #f7f4ee 0%, #edf2ef 56%, #f8faf8 100%);
+      color: #11201e;
+    }
+
+    .hero-shell {
+      background:
+        linear-gradient(135deg, rgba(17, 32, 30, 0.96), rgba(35, 93, 87, 0.92)),
+        url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .glass-panel {
+      border: 1px solid rgba(223, 238, 237, 0.16);
+      background: rgba(15, 29, 27, 0.64);
+      backdrop-filter: blur(16px);
+    }
+
+    .surface {
+      border: 1px solid rgba(17, 32, 30, 0.08);
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 24px 80px rgba(17, 32, 30, 0.08);
+    }
+
+    .metric-card {
+      border: 1px solid rgba(223, 238, 237, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .leader-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) 80px minmax(0, 1fr);
+      gap: 0.75rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.85rem 1rem;
+      border-radius: 1rem;
+      background: rgba(17, 32, 30, 0.03);
+      transition: 180ms ease;
+    }
+
+    .leader-row:hover,
+    .leader-row.active {
+      background: rgba(35, 93, 87, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .stat-tile {
+      border-radius: 1rem;
+      border: 1px solid rgba(17, 32, 30, 0.08);
+      background: rgba(245, 241, 232, 0.76);
+      padding: 1rem;
+    }
+
+    .stat-tile span {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5f6f6e;
+    }
+
+    .stat-tile strong {
+      display: block;
+      margin-top: 0.45rem;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #11201e;
+    }
+
+    .field {
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid rgba(17, 32, 30, 0.12);
+      background: rgba(255, 255, 255, 0.88);
+      padding: 0.9rem 1rem;
+      color: #11201e;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5f6f6e;
+    }
+
+    .note {
+      border-radius: 1rem;
+      border: 1px solid rgba(17, 32, 30, 0.08);
+      background: rgba(223, 238, 237, 0.56);
+      padding: 0.95rem 1rem;
+      line-height: 1.65;
+    }
+
+    .analysis-table th,
+    .analysis-table td {
+      padding: 0.85rem 0.9rem;
+      text-align: right;
+    }
+
+    .analysis-table th:first-child,
+    .analysis-table td:first-child {
+      text-align: left;
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+
+      body {
+        background: #ffffff;
+      }
+
+      .surface,
+      .glass-panel,
+      .metric-card {
+        box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <header class="no-print sticky top-0 z-50 border-b border-white/10 bg-summit/92 text-white backdrop-blur">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <a href="#top" class="font-display text-lg font-bold tracking-wide">SHERPA LTC Analyzer</a>
+      <div class="hidden items-center gap-6 text-sm font-semibold text-glacier md:flex">
+        <a href="#market">Market</a>
+        <a href="#scenario">Scenario Lab</a>
+        <a href="#playbook">Playbook</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero-shell relative overflow-hidden text-white">
+      <div class="mx-auto grid min-h-[88vh] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8">
+        <div>
+          <p class="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-glacier">Balance-sheet intelligence for long-term care</p>
+          <h1 class="mt-6 max-w-4xl font-display text-4xl font-bold leading-tight sm:text-6xl lg:text-7xl">
+            Find the Florida markets worth pursuing, then show the care-cost story in one advisor-ready page.
+          </h1>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-glacier/90">
+            SHERPA LTC Analyzer combines your Florida opportunity data with a client-facing care impact model so advisors can move from market focus to planning conversation without switching tools.
+          </p>
+          <div class="mt-9 flex flex-wrap gap-3">
+            <a href="#market" class="rounded-2xl bg-trail px-5 py-3 text-sm font-black uppercase tracking-wide text-summit">Explore Florida markets</a>
+            <a href="#scenario" class="rounded-2xl border border-white/25 px-5 py-3 text-sm font-black uppercase tracking-wide text-white">Run the scenario lab</a>
+            <button id="printReport" class="rounded-2xl border border-glacier/40 px-5 py-3 text-sm font-black uppercase tracking-wide text-glacier">Print summary</button>
+          </div>
+        </div>
+
+        <aside class="glass-panel rounded-[2rem] p-6 shadow-lift">
+          <div class="grid gap-4 md:grid-cols-2">
+            <article class="metric-card rounded-[1.5rem] p-5">
+              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Top county</p>
+              <p id="topCountyMetric" class="mt-3 font-display text-3xl font-bold">Collier</p>
+              <p id="topCountyScore" class="mt-2 text-sm text-glacier/80">88.6 score</p>
+            </article>
+            <article class="metric-card rounded-[1.5rem] p-5">
+              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Top ZIP screen</p>
+              <p id="topZipMetric" class="mt-3 font-display text-3xl font-bold">33480</p>
+              <p id="topZipScore" class="mt-2 text-sm text-glacier/80">90.2 score</p>
+            </article>
+            <article class="metric-card rounded-[1.5rem] p-5 md:col-span-2">
+              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Phase-two county path</p>
+              <p id="focusCounties" class="mt-3 text-base font-semibold leading-7 text-white/90">Sarasota • Martin • Palm Beach • Collier • Lee</p>
+            </article>
+          </div>
+          <div class="mt-6 rounded-[1.5rem] border border-white/10 bg-black/15 p-5">
+            <p class="text-xs font-black uppercase tracking-[0.18em] text-trail">What this app is for</p>
+            <p class="mt-3 text-sm leading-7 text-glacier/88">
+              Prospecting and education. The scoring data surfaces visible asset proxies and market concentration; the care model supports conversation framing. It does not replace underwriting, actuarial pricing, tax advice, or suitability review.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="market" class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Florida Opportunity Map</p>
+          <h2 class="mt-3 font-display text-3xl font-bold sm:text-5xl">Market intelligence for where SHERPA should climb first</h2>
+          <p class="mt-4 max-w-3xl text-base leading-7 text-slate">
+            County scores come from weighted public indicators. ZIP screens surface concentrated wealth pockets. Use them together to choose the market, then move into parcel-owner enrichment or advisor outreach.
+          </p>
+        </div>
+        <div class="surface rounded-[1.5rem] p-4">
+          <label class="field-label" for="countySelect">County focus</label>
+          <select id="countySelect" class="field mt-2 min-w-[220px]"></select>
+        </div>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <div class="space-y-6">
+          <article class="surface rounded-[2rem] p-6">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">County profile</p>
+                <h3 id="countyName" class="mt-2 font-display text-3xl font-bold">Sarasota County</h3>
+                <p id="countyTier" class="mt-2 inline-flex rounded-full bg-glacier px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-pine">Phase-two county</p>
+              </div>
+              <div class="rounded-2xl bg-summit px-4 py-3 text-right text-white">
+                <p class="text-xs uppercase tracking-[0.16em] text-glacier/70">Selected ZIP</p>
+                <p id="zipHeadline" class="mt-2 font-display text-2xl font-bold">ZIP 34228</p>
+              </div>
+            </div>
+            <p id="countyNarrative" class="mt-5 text-base leading-7 text-slate"></p>
+            <div id="countyStats" class="mt-5 grid gap-3 sm:grid-cols-2"></div>
+            <div class="mt-5 rounded-[1.5rem] bg-summit p-5 text-white">
+              <p class="text-xs font-black uppercase tracking-[0.18em] text-trail">ZIP screen</p>
+              <p id="zipNarrative" class="mt-3 text-sm leading-7 text-glacier/90"></p>
+            </div>
+          </article>
+
+          <article class="surface rounded-[2rem] p-6">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">County leaderboard</p>
+                <p class="mt-2 text-sm text-slate">Top Florida counties by weighted opportunity score.</p>
+              </div>
+            </div>
+            <div id="countyTable" class="grid gap-3"></div>
+          </article>
+        </div>
+
+        <div class="space-y-6">
+          <article class="rounded-[2rem] bg-summit p-6 text-white shadow-lift">
+            <div class="mb-5 flex items-end justify-between gap-4">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-trail">County score chart</p>
+                <h3 class="mt-2 font-display text-2xl font-bold">Top 10 Florida counties</h3>
+              </div>
+            </div>
+            <div class="h-[360px]">
+              <canvas id="countyChart" aria-label="County opportunity score chart"></canvas>
+            </div>
+          </article>
+
+          <article class="surface rounded-[2rem] p-6">
+            <div class="mb-5 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">ZIP concentration chart</p>
+                <h3 class="mt-2 font-display text-2xl font-bold">Affluent ZIP screens</h3>
+              </div>
+              <div class="w-full md:max-w-[240px]">
+                <label class="field-label" for="zipSearch">Find ZIP</label>
+                <input id="zipSearch" class="field mt-2" type="text" placeholder="Search a ZIP" inputmode="numeric" />
+              </div>
+            </div>
+            <div class="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+              <div class="h-[340px]">
+                <canvas id="zipChart" aria-label="ZIP opportunity bubble chart"></canvas>
+              </div>
+              <div id="zipTable" class="grid gap-3"></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="scenario" class="bg-white/60 py-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Scenario Lab</p>
+          <h2 class="mt-3 font-display text-3xl font-bold sm:text-5xl">Turn the care-cost story into a client conversation</h2>
+          <p class="mt-4 max-w-3xl text-base leading-7 text-slate">
+            This planning model uses simplified educational assumptions to compare self-funding, a traditional annual premium path, and an asset-based LTC design. It is built to support advisor discussion, not to quote a product.
+          </p>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+          <form class="surface rounded-[2rem] p-6">
+            <div class="grid gap-4 sm:grid-cols-2">
+              <label>
+                <span class="field-label">Jurisdiction</span>
+                <select id="jurisdiction" class="field mt-2">
+                  <option value="FL">Florida 2025 medians</option>
+                  <option value="USA">USA 2025 medians</option>
+                </select>
+              </label>
+              <label>
+                <span class="field-label">Care type</span>
+                <select id="careType" class="field mt-2">
+                  <option value="assisted_living">Assisted living</option>
+                  <option value="home_care">Home care</option>
+                  <option value="nursing_home_semiprivate">Nursing home semi-private</option>
+                  <option value="nursing_home_private">Nursing home private</option>
+                </select>
+              </label>
+              <label>
+                <span class="field-label">Current age</span>
+                <input id="currentAge" class="field mt-2" type="number" min="35" max="90" value="60" />
+              </label>
+              <label>
+                <span class="field-label">Years until care need</span>
+                <input id="yearsToCare" class="field mt-2" type="number" min="0" max="40" value="10" />
+              </label>
+              <label>
+                <span class="field-label">Care duration</span>
+                <input id="careDuration" class="field mt-2" type="number" min="1" max="10" step="0.5" value="4" />
+              </label>
+              <label>
+                <span class="field-label">Inflation rate</span>
+                <input id="inflationRate" class="field mt-2" type="number" min="0" max="10" step="0.1" value="3" />
+              </label>
+              <label class="sm:col-span-2">
+                <span class="field-label">Total investable assets</span>
+                <input id="assets" class="field mt-2" type="number" min="100000" step="10000" value="2000000" />
+              </label>
+              <label>
+                <span class="field-label">Annual income need</span>
+                <input id="annualIncomeNeed" class="field mt-2" type="number" min="0" step="5000" value="90000" />
+              </label>
+              <label>
+                <span class="field-label">Portfolio return</span>
+                <input id="portfolioReturn" class="field mt-2" type="number" min="0" max="12" step="0.1" value="5.5" />
+              </label>
+              <label>
+                <span class="field-label">Traditional annual premium</span>
+                <input id="traditionalPremium" class="field mt-2" type="number" min="0" step="500" value="9000" />
+              </label>
+              <label>
+                <span class="field-label">Traditional coverage rate</span>
+                <input id="traditionalCoverage" class="field mt-2" type="number" min="0" max="100" step="5" value="75" />
+              </label>
+              <label>
+                <span class="field-label">Asset-based single premium</span>
+                <input id="assetBasedPremium" class="field mt-2" type="number" min="0" step="5000" value="150000" />
+              </label>
+              <label>
+                <span class="field-label">Asset pool multiple</span>
+                <input id="assetPoolMultiple" class="field mt-2" type="number" min="1" max="8" step="0.1" value="3" />
+              </label>
+            </div>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <button id="runAnalysis" class="rounded-2xl bg-pine px-5 py-3 text-sm font-black uppercase tracking-wide text-white" type="button">Run analysis</button>
+              <button class="rounded-2xl border border-summit/15 px-5 py-3 text-sm font-black uppercase tracking-wide text-summit" type="button" onclick="window.print()">Print / Save PDF</button>
+            </div>
+          </form>
+
+          <div class="space-y-6">
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              <article class="surface rounded-[1.75rem] p-5">
+                <p class="text-xs font-black uppercase tracking-[0.16em] text-slate">Annual cost at claim</p>
+                <p id="annualCareCost" class="mt-3 font-display text-3xl font-bold text-summit">$0</p>
+              </article>
+              <article class="surface rounded-[1.75rem] p-5">
+                <p class="text-xs font-black uppercase tracking-[0.16em] text-slate">Total care exposure</p>
+                <p id="totalCareExposure" class="mt-3 font-display text-3xl font-bold text-summit">$0</p>
+              </article>
+              <article class="surface rounded-[1.75rem] p-5">
+                <p class="text-xs font-black uppercase tracking-[0.16em] text-slate">Self-fund drag</p>
+                <p id="selfFundDrag" class="mt-3 font-display text-3xl font-bold text-ember">0%</p>
+              </article>
+              <article class="surface rounded-[1.75rem] p-5">
+                <p class="text-xs font-black uppercase tracking-[0.16em] text-slate">Asset-based pool</p>
+                <p id="assetPool" class="mt-3 font-display text-3xl font-bold text-pine">$0</p>
+              </article>
+            </div>
+
+            <article class="surface rounded-[2rem] p-6">
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p class="text-xs font-black uppercase tracking-[0.16em] text-pine">Scenario comparison</p>
+                  <h3 class="mt-2 font-display text-2xl font-bold">Portfolio after care by planning path</h3>
+                </div>
+                <p id="coverageMix" class="text-sm font-semibold text-slate">Coverage mix</p>
+              </div>
+              <div class="mt-5 h-[320px]">
+                <canvas id="scenarioChart" aria-label="Scenario comparison chart"></canvas>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+          <article class="surface rounded-[2rem] p-6">
+            <p class="text-xs font-black uppercase tracking-[0.16em] text-pine">Funding path</p>
+            <h3 class="mt-2 font-display text-2xl font-bold">How the portfolio changes through the care episode</h3>
+            <div class="mt-5 h-[360px]">
+              <canvas id="fundingChart" aria-label="Funding path chart"></canvas>
+            </div>
+          </article>
+
+          <article class="surface rounded-[2rem] p-6">
+            <p class="text-xs font-black uppercase tracking-[0.16em] text-pine">Balance sheet outcomes</p>
+            <div class="mt-5 overflow-x-auto">
+              <table class="analysis-table min-w-full text-sm">
+                <thead class="text-slate">
+                  <tr>
+                    <th>Scenario</th>
+                    <th>Before care</th>
+                    <th>Out of pocket</th>
+                    <th>After care</th>
+                  </tr>
+                </thead>
+                <tbody id="scenarioRows" class="divide-y divide-summit/10"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="playbook" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mb-8">
+        <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Advisor Playbook</p>
+        <h2 class="mt-3 font-display text-3xl font-bold sm:text-5xl">Use the market signal and the care signal together</h2>
+        <p class="mt-4 max-w-3xl text-base leading-7 text-slate">
+          The Florida data points to where affluent balance-sheet complexity is concentrated. The care model shows why the conversation matters. Together they create a better first meeting frame than generic LTC outreach.
+        </p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-[1fr_0.94fr]">
+        <article class="surface rounded-[2rem] p-6">
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-pine">Planner notes</p>
+          <div id="plannerNotes" class="mt-5 grid gap-3"></div>
+        </article>
+
+        <article class="rounded-[2rem] bg-summit p-6 text-white shadow-lift">
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-trail">Recommended next actions</p>
+          <ol id="actionList" class="mt-5 list-decimal space-y-4 pl-5 text-sm leading-7 text-glacier/92"></ol>
+          <div class="mt-6 rounded-[1.5rem] border border-white/10 bg-white/5 p-5 text-sm leading-7 text-glacier/85">
+            Phase-two parcel scoring logic in your Drive emphasizes multi-property ownership, high market value, trust/entity ownership, out-of-state mailing, and owner-occupied proxies. Those are the strongest next enrichment layers after county and ZIP selection.
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="./sherpa-ltc-data.js"></script>
+  <script src="./sherpa-ltc-app.js"></script>
+</body>
+</html>
