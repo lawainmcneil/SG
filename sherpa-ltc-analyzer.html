@@ -191,13 +191,13 @@
         <div>
           <p class="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-glacier">Balance-sheet intelligence for long-term care</p>
           <h1 class="mt-6 max-w-4xl font-display text-4xl font-bold leading-tight sm:text-6xl lg:text-7xl">
-            Find the Florida markets worth pursuing, then show the care-cost story in one advisor-ready page.
+            Find the best SHERPA target markets, then show the care-cost story in one advisor-ready page.
           </h1>
           <p class="mt-6 max-w-2xl text-lg leading-8 text-glacier/90">
-            SHERPA LTC Analyzer combines your Florida opportunity data with a client-facing care impact model so advisors can move from market focus to planning conversation without switching tools.
+            SHERPA LTC Analyzer combines your scored Florida opportunity data, expansion-watchlist markets, and a client-facing care impact model so advisors can move from market focus to planning conversation without switching tools.
           </p>
           <div class="mt-9 flex flex-wrap gap-3">
-            <a href="#market" class="rounded-2xl bg-trail px-5 py-3 text-sm font-black uppercase tracking-wide text-summit">Explore Florida markets</a>
+            <a href="#market" class="rounded-2xl bg-trail px-5 py-3 text-sm font-black uppercase tracking-wide text-summit">Explore target markets</a>
             <a href="#scenario" class="rounded-2xl border border-white/25 px-5 py-3 text-sm font-black uppercase tracking-wide text-white">Run the scenario lab</a>
             <button id="printReport" class="rounded-2xl border border-glacier/40 px-5 py-3 text-sm font-black uppercase tracking-wide text-glacier">Print summary</button>
           </div>
@@ -206,17 +206,17 @@
         <aside class="glass-panel rounded-[2rem] p-6 shadow-lift">
           <div class="grid gap-4 md:grid-cols-2">
             <article class="metric-card rounded-[1.5rem] p-5">
-              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Top county</p>
-              <p id="topCountyMetric" class="mt-3 font-display text-3xl font-bold">Collier</p>
-              <p id="topCountyScore" class="mt-2 text-sm text-glacier/80">88.6 score</p>
+              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Active state</p>
+              <p id="topCountyMetric" class="mt-3 font-display text-3xl font-bold">Florida</p>
+              <p id="topCountyScore" class="mt-2 text-sm text-glacier/80">6 markets</p>
             </article>
             <article class="metric-card rounded-[1.5rem] p-5">
-              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Top ZIP screen</p>
-              <p id="topZipMetric" class="mt-3 font-display text-3xl font-bold">33480</p>
-              <p id="topZipScore" class="mt-2 text-sm text-glacier/80">90.2 score</p>
+              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Selected market</p>
+              <p id="topZipMetric" class="mt-3 font-display text-3xl font-bold">Sarasota County</p>
+              <p id="topZipScore" class="mt-2 text-sm text-glacier/80">49.8 score</p>
             </article>
             <article class="metric-card rounded-[1.5rem] p-5 md:col-span-2">
-              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Phase-two county path</p>
+              <p class="text-xs font-black uppercase tracking-[0.18em] text-glacier/70">Priority market path</p>
               <p id="focusCounties" class="mt-3 text-base font-semibold leading-7 text-white/90">Sarasota • Martin • Palm Beach • Collier • Lee</p>
             </article>
           </div>
@@ -233,15 +233,23 @@
     <section id="market" class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Florida Opportunity Map</p>
+          <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Opportunity Map</p>
           <h2 class="mt-3 font-display text-3xl font-bold sm:text-5xl">Market intelligence for where SHERPA should climb first</h2>
           <p class="mt-4 max-w-3xl text-base leading-7 text-slate">
-            County scores come from weighted public indicators. ZIP screens surface concentrated wealth pockets. Use them together to choose the market, then move into parcel-owner enrichment or advisor outreach.
+            Florida county scores come from weighted public indicators. ZIP screens surface concentrated wealth pockets. The new expansion watchlist lets you track Baltimore, Chicago, and Pennsylvania county targets without pretending they already have Florida-style scores.
           </p>
         </div>
         <div class="surface rounded-[1.5rem] p-4">
-          <label class="field-label" for="countySelect">County focus</label>
-          <select id="countySelect" class="field mt-2 min-w-[220px]"></select>
+          <div class="grid gap-4 md:grid-cols-2">
+            <label>
+              <span class="field-label" for="stateSelect">State</span>
+              <select id="stateSelect" class="field mt-2 min-w-[180px]"></select>
+            </label>
+            <label>
+              <span class="field-label" for="marketSelect">County / metro area</span>
+              <select id="marketSelect" class="field mt-2 min-w-[220px]"></select>
+            </label>
+          </div>
         </div>
       </div>
 
@@ -250,12 +258,12 @@
           <article class="surface rounded-[2rem] p-6">
             <div class="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">County profile</p>
-                <h3 id="countyName" class="mt-2 font-display text-3xl font-bold">Sarasota County</h3>
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Market profile</p>
+                <h3 id="countyName" class="mt-2 font-display text-3xl font-bold">Sarasota County, Florida</h3>
                 <p id="countyTier" class="mt-2 inline-flex rounded-full bg-glacier px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-pine">Phase-two county</p>
               </div>
               <div class="rounded-2xl bg-summit px-4 py-3 text-right text-white">
-                <p class="text-xs uppercase tracking-[0.16em] text-glacier/70">Selected ZIP</p>
+                <p class="text-xs uppercase tracking-[0.16em] text-glacier/70">ZIP / rollout view</p>
                 <p id="zipHeadline" class="mt-2 font-display text-2xl font-bold">ZIP 34228</p>
               </div>
             </div>
@@ -271,10 +279,20 @@
             <div class="mb-4 flex items-center justify-between gap-3">
               <div>
                 <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">County leaderboard</p>
-                <p class="mt-2 text-sm text-slate">Top Florida counties by weighted opportunity score.</p>
+                <p class="mt-2 text-sm text-slate">Top Florida counties by weighted opportunity score. Use the state selector above to switch into the metro and Pennsylvania county expansion markets.</p>
               </div>
             </div>
             <div id="countyTable" class="grid gap-3"></div>
+          </article>
+
+          <article class="surface rounded-[2rem] p-6">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Expansion watchlist</p>
+                <p class="mt-2 text-sm text-slate">Manual SHERPA target markets added outside the Florida scored dataset.</p>
+              </div>
+            </div>
+            <div id="expansionTable" class="grid gap-3"></div>
           </article>
         </div>
 
@@ -309,6 +327,7 @@
               <div id="zipTable" class="grid gap-3"></div>
             </div>
           </article>
+
         </div>
       </div>
     </section>
@@ -462,7 +481,7 @@
         <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Advisor Playbook</p>
         <h2 class="mt-3 font-display text-3xl font-bold sm:text-5xl">Use the market signal and the care signal together</h2>
         <p class="mt-4 max-w-3xl text-base leading-7 text-slate">
-          The Florida data points to where affluent balance-sheet complexity is concentrated. The care model shows why the conversation matters. Together they create a better first meeting frame than generic LTC outreach.
+          The scored Florida data points to where affluent balance-sheet complexity is concentrated. The expansion watchlist keeps your next geographies visible. The care model shows why the conversation matters. Together they create a better first meeting frame than generic LTC outreach.
         </p>
       </div>
 

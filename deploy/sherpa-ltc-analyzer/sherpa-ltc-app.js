@@ -27,15 +27,104 @@ const CARE_LABELS = {
 };
 
 const PHASE_TWO_COUNTIES = ["Sarasota", "Martin", "Palm Beach", "Collier", "Lee"];
+const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+const EXPANSION_MARKETS = [
+  {
+    id: "greater-baltimore",
+    name: "Greater Baltimore",
+    state: "Maryland",
+    type: "Metro expansion market",
+    readiness: "COI + advisor outreach",
+    focus: "Affluent suburban households, business-owner planning, and legacy-sensitive retirees across the Baltimore corridor.",
+    footprint: "Baltimore metro footprint",
+    play: "Lead with estate coordination, asset protection framing, and balance-sheet preservation instead of product-first LTC language."
+  },
+  {
+    id: "greater-chicago",
+    name: "Greater Chicago",
+    state: "Illinois",
+    type: "Metro expansion market",
+    readiness: "Centers of influence + segmented campaigns",
+    focus: "Higher-net-worth professionals, business owners, and multigenerational households who respond to tax-aware and asset-preservation framing.",
+    footprint: "Chicago metro footprint",
+    play: "Use segmented advisor and CPA channels, then localize the conversation around self-funding drag and family liquidity pressure."
+  },
+  {
+    id: "northumberland",
+    name: "Northumberland County",
+    state: "Pennsylvania",
+    type: "County expansion market",
+    readiness: "County-level enrichment",
+    focus: "Retiree and family-held asset conversations that may benefit from estate execution and protection planning.",
+    footprint: "Northumberland County, PA",
+    play: "Build a county parcel-owner layer first, then pair local outreach with the care-impact scenario to create urgency."
+  },
+  {
+    id: "lycoming",
+    name: "Lycoming County",
+    state: "Pennsylvania",
+    type: "County expansion market",
+    readiness: "County-level enrichment",
+    focus: "A practical secondary Pennsylvania target for households where land, business, and retirement assets need protection from care-event drag.",
+    footprint: "Lycoming County, PA",
+    play: "Prioritize COIs and estate-planning partners, then enrich visible wealth proxies before broad outbound activity."
+  },
+  {
+    id: "montour",
+    name: "Montour County",
+    state: "Pennsylvania",
+    type: "County expansion market",
+    readiness: "Targeted local testing",
+    focus: "A compact county market suitable for high-touch outreach and local referral testing before larger scale expansion.",
+    footprint: "Montour County, PA",
+    play: "Use a small-market pilot approach with trusted local introductions and a strong balance-sheet protection story."
+  },
+  {
+    id: "union",
+    name: "Union County",
+    state: "Pennsylvania",
+    type: "County expansion market",
+    readiness: "Targeted local testing",
+    focus: "A smaller Pennsylvania county where advisor-led relationship prospecting can be tested with lower noise and tighter local positioning.",
+    footprint: "Union County, PA",
+    play: "Treat this as a focused pilot county and validate response through attorney, CPA, and community-based channels."
+  }
+];
 
 const countyData = [...SHERPA_LTC_COUNTY_DATA].sort((a, b) => b.score - a.score);
 const zipData = [...SHERPA_LTC_ZIP_DATA].sort((a, b) => b.score - a.score);
+const getCountyTier = (score) => {
+  if (score >= 60) return "High-priority county";
+  if (score >= 35) return "Phase-two county";
+  if (score >= 20) return "Monitor and enrich";
+  return "Foundational county";
+};
+const FLORIDA_MARKETS = countyData.map((row) => ({
+  id: `florida-${slugify(row.county)}`,
+  name: `${row.county} County`,
+  shortName: row.county,
+  state: "Florida",
+  type: "Scored county market",
+  readiness: getCountyTier(row.score),
+  focus: `${row.county} is part of the scored Florida model and can be prioritized using visible wealth concentration, age mix, and owner-occupied stability.`,
+  footprint: `${row.county} County, FL`,
+  play: "Use the scored county and ZIP data together, then move into parcel-owner enrichment and advisor outreach.",
+  scored: true,
+  countyKey: row.county
+}));
+const ALL_MARKETS = [
+  ...FLORIDA_MARKETS,
+  ...EXPANSION_MARKETS.map((market) => ({ ...market, shortName: market.name, scored: false }))
+];
+const MARKET_STATES = ["Florida", "Illinois", "Maryland", "Pennsylvania"].filter((state) => ALL_MARKETS.some((market) => market.state === state));
 
 const elements = {
-  countySelect: document.querySelector("#countySelect"),
+  stateSelect: document.querySelector("#stateSelect"),
+  marketSelect: document.querySelector("#marketSelect"),
   zipSearch: document.querySelector("#zipSearch"),
   countyTable: document.querySelector("#countyTable"),
   zipTable: document.querySelector("#zipTable"),
+  expansionTable: document.querySelector("#expansionTable"),
   countyName: document.querySelector("#countyName"),
   countyTier: document.querySelector("#countyTier"),
   countyNarrative: document.querySelector("#countyNarrative"),
@@ -74,6 +163,8 @@ const elements = {
 
 let selectedCounty = countyData.find((row) => row.county === "Sarasota") || countyData[0];
 let selectedZip = zipData.find((row) => row.zip === "34228") || zipData[0];
+let selectedState = "Florida";
+let selectedMarket = FLORIDA_MARKETS.find((market) => market.shortName === "Sarasota") || FLORIDA_MARKETS[0];
 
 let countyChart;
 let zipChart;
@@ -102,13 +193,6 @@ const totalInflatedCareCost = (annualCostAtClaim, inflationPct, durationYears) =
   }
 
   return total;
-};
-
-const getCountyTier = (score) => {
-  if (score >= 60) return "High-priority county";
-  if (score >= 35) return "Phase-two county";
-  if (score >= 20) return "Monitor and enrich";
-  return "Foundational county";
 };
 
 const getInputs = () => ({
@@ -208,12 +292,17 @@ const buildFundingSeries = (model) => {
 
 const getPlannerNotes = (model) => {
   const notes = [];
-  const countyTier = getCountyTier(selectedCounty.score);
-
-  notes.push(`${selectedCounty.county} screens as ${countyTier.toLowerCase()} with a Florida county opportunity score of ${selectedCounty.score.toFixed(1)}.`);
+  if (selectedMarket.scored) {
+    const countyTier = getCountyTier(selectedCounty.score);
+    notes.push(`${selectedMarket.name} screens as ${countyTier.toLowerCase()} with a Florida county opportunity score of ${selectedCounty.score.toFixed(1)}.`);
+    notes.push(`${selectedMarket.name} shows ${money.format(selectedCounty.agiPerReturn)} AGI per return, ${selectedCounty.age65PlusPct.toFixed(1)}% age 65+, and ${selectedCounty.ownerOccupiedPct.toFixed(1)}% owner occupancy.`);
+    notes.push(`ZIP ${selectedZip.zip} adds a sharper affluent screen at ${selectedZip.score.toFixed(1)} with ${money.format(selectedZip.agiPerReturn)} AGI per return.`);
+  } else {
+    notes.push(`${selectedMarket.name}, ${selectedMarket.state} is currently an expansion market on the SHERPA watchlist with a ${selectedMarket.readiness.toLowerCase()} motion.`);
+    notes.push(`${selectedMarket.focus}`);
+    notes.push(`Recommended rollout play: ${selectedMarket.play}`);
+  }
   notes.push(`The illustrated care event begins around age ${model.claimAge.toFixed(0)} and overlaps with ${money.format(model.incomeReserveNeed)} of household income need across the modeled care duration.`);
-  notes.push(`${selectedCounty.county} shows ${money.format(selectedCounty.agiPerReturn)} AGI per return, ${selectedCounty.age65PlusPct.toFixed(1)}% age 65+, and ${selectedCounty.ownerOccupiedPct.toFixed(1)}% owner occupancy.`);
-  notes.push(`ZIP ${selectedZip.zip} adds a sharper affluent screen at ${selectedZip.score.toFixed(1)} with ${money.format(selectedZip.agiPerReturn)} AGI per return.`);
 
   if (model.selfFundDrag >= 0.35) {
     notes.push("The self-funding path creates material portfolio drag before taxes, market stress, or legal execution friction are layered in.");
@@ -234,12 +323,14 @@ const getPlannerNotes = (model) => {
 
 const getActionItems = (model) => {
   const items = [];
-  const countyIsPriority = PHASE_TWO_COUNTIES.includes(selectedCounty.county);
+  const countyIsPriority = selectedMarket.scored && PHASE_TWO_COUNTIES.includes(selectedCounty.county);
 
   if (countyIsPriority) {
-    items.push(`${selectedCounty.county} is already in the phase-two county list, so parcel-owner enrichment is a practical next move.`);
+    items.push(`${selectedMarket.name} is already in the phase-two county list, so parcel-owner enrichment is a practical next move.`);
+  } else if (selectedMarket.scored) {
+    items.push(`Keep ${selectedMarket.name} in a monitor lane unless advisor distribution, referral density, or local trigger events justify deeper enrichment.`);
   } else {
-    items.push(`Keep ${selectedCounty.county} in a monitor lane unless advisor distribution, referral density, or local trigger events justify deeper enrichment.`);
+    items.push(`Use ${selectedMarket.name} as an expansion market with a ${selectedMarket.readiness.toLowerCase()} motion before investing in full county scoring work.`);
   }
 
   if (model.selfFundDrag >= 0.35) {
@@ -248,31 +339,50 @@ const getActionItems = (model) => {
     items.push("Use the analyzer as a preparedness conversation starter, then validate whether protection motivation or estate coordination is the stronger angle.");
   }
 
-  if (selectedCounty.score >= 50) {
+  if (selectedMarket.scored && selectedCounty.score >= 50) {
     items.push("Pair county opportunity with the top local ZIP screens to tighten seminar, mailer, or COI targeting.");
-  } else {
+  } else if (selectedMarket.scored) {
     items.push("Use county-level messaging broadly, then refine outreach only when ZIP or parcel signals confirm visible wealth concentration.");
+  } else {
+    items.push("Build the local county or metro dataset next, then bring it into the same scored workflow the Florida counties already use.");
   }
 
+  items.push(`For ${selectedMarket.name}, start with ${selectedMarket.readiness.toLowerCase()} and use this play: ${selectedMarket.play}`);
   items.push("Cross-check trusts, multi-property ownership, entity ownership, and out-of-state mailing patterns before promoting a record into high-priority outreach.");
   return items;
 };
 
 const renderCountyDetail = () => {
-  elements.countyName.textContent = `${selectedCounty.county} County`;
-  elements.countyTier.textContent = getCountyTier(selectedCounty.score);
-  elements.countyNarrative.textContent = `${selectedCounty.county} combines a ${selectedCounty.score.toFixed(1)} opportunity score with ${money.format(selectedCounty.agiPerReturn)} AGI per return and ${selectedCounty.age65PlusPct.toFixed(1)}% of residents age 65+, which makes it a strong SHERPA market context for balance-sheet protection conversations.`;
-  elements.countyStats.innerHTML = `
-    <div class="stat-tile"><span>Score</span><strong>${selectedCounty.score.toFixed(1)}</strong></div>
-    <div class="stat-tile"><span>AGI / return</span><strong>${money.format(selectedCounty.agiPerReturn)}</strong></div>
-    <div class="stat-tile"><span>Dividend / return</span><strong>${money.format(selectedCounty.dividendsPerReturn)}</strong></div>
-    <div class="stat-tile"><span>65+ share</span><strong>${selectedCounty.age65PlusPct.toFixed(1)}%</strong></div>
-  `;
+  elements.countyName.textContent = `${selectedMarket.name}, ${selectedMarket.state}`;
+  if (selectedMarket.scored) {
+    elements.countyTier.textContent = getCountyTier(selectedCounty.score);
+    elements.countyNarrative.textContent = `${selectedMarket.name} combines a ${selectedCounty.score.toFixed(1)} opportunity score with ${money.format(selectedCounty.agiPerReturn)} AGI per return and ${selectedCounty.age65PlusPct.toFixed(1)}% of residents age 65+, which makes it a strong SHERPA market context for balance-sheet protection conversations.`;
+    elements.countyStats.innerHTML = `
+      <div class="stat-tile"><span>Score</span><strong>${selectedCounty.score.toFixed(1)}</strong></div>
+      <div class="stat-tile"><span>AGI / return</span><strong>${money.format(selectedCounty.agiPerReturn)}</strong></div>
+      <div class="stat-tile"><span>Dividend / return</span><strong>${money.format(selectedCounty.dividendsPerReturn)}</strong></div>
+      <div class="stat-tile"><span>65+ share</span><strong>${selectedCounty.age65PlusPct.toFixed(1)}%</strong></div>
+    `;
+  } else {
+    elements.countyTier.textContent = selectedMarket.type;
+    elements.countyNarrative.textContent = `${selectedMarket.focus} This market is on the active SHERPA watchlist and is best approached through ${selectedMarket.readiness.toLowerCase()} before full local scoring is built.`;
+    elements.countyStats.innerHTML = `
+      <div class="stat-tile"><span>State</span><strong>${selectedMarket.state}</strong></div>
+      <div class="stat-tile"><span>Readiness</span><strong>${selectedMarket.readiness}</strong></div>
+      <div class="stat-tile"><span>Footprint</span><strong>${selectedMarket.footprint}</strong></div>
+      <div class="stat-tile"><span>Role</span><strong>Expansion watchlist</strong></div>
+    `;
+  }
 };
 
 const renderZipDetail = () => {
-  elements.zipHeadline.textContent = `ZIP ${selectedZip.zip}`;
-  elements.zipNarrative.textContent = `This ZIP screens at ${selectedZip.score.toFixed(1)} with ${money.format(selectedZip.agiPerReturn)} AGI per return, ${money.format(selectedZip.interestPerReturn)} taxable interest per return, and ${whole.format(selectedZip.returns)} returns in the 2022 IRS sample.`;
+  if (selectedMarket.scored) {
+    elements.zipHeadline.textContent = `ZIP ${selectedZip.zip}`;
+    elements.zipNarrative.textContent = `This ZIP screens at ${selectedZip.score.toFixed(1)} with ${money.format(selectedZip.agiPerReturn)} AGI per return, ${money.format(selectedZip.interestPerReturn)} taxable interest per return, and ${whole.format(selectedZip.returns)} returns in the 2022 IRS sample.`;
+  } else {
+    elements.zipHeadline.textContent = selectedMarket.state;
+    elements.zipNarrative.textContent = "This market does not yet have a local ZIP concentration model inside the app. The next build step is a county- or metro-specific dataset so it can move into the same scored workflow as Florida.";
+  }
 };
 
 const renderTables = () => {
@@ -293,6 +403,14 @@ const renderTables = () => {
       <span>${money.format(row.agiPerReturn)}</span>
     </button>
   `).join("");
+
+  elements.expansionTable.innerHTML = EXPANSION_MARKETS.map((market) => `
+    <button class="leader-row${market.id === selectedMarket.id ? " active" : ""}" data-expansion="${market.id}">
+      <span>${market.name}</span>
+      <span>${market.state}</span>
+      <span>${market.readiness}</span>
+    </button>
+  `).join("");
 };
 
 const drawCountyChart = () => {
@@ -306,7 +424,7 @@ const drawCountyChart = () => {
       datasets: [{
         label: "Opportunity score",
         data: topCounties.map((row) => row.score),
-        backgroundColor: topCounties.map((row) => row.county === selectedCounty.county ? "#c69d52" : "#235d57"),
+        backgroundColor: topCounties.map((row) => selectedMarket.scored && row.county === selectedCounty.county ? "#c69d52" : "#235d57"),
         borderRadius: 10
       }]
     },
@@ -499,16 +617,42 @@ const renderScenario = () => {
   drawFundingChart(model);
 };
 
-const populateCountySelect = () => {
-  elements.countySelect.innerHTML = countyData.map((row) => `
-    <option value="${row.county}" ${row.county === selectedCounty.county ? "selected" : ""}>${row.county}</option>
+const populateStateSelect = () => {
+  elements.stateSelect.innerHTML = MARKET_STATES.map((state) => `
+    <option value="${state}" ${state === selectedState ? "selected" : ""}>${state}</option>
   `).join("");
 };
 
+const populateMarketSelect = () => {
+  const stateMarkets = ALL_MARKETS.filter((market) => market.state === selectedState);
+  if (!stateMarkets.some((market) => market.id === selectedMarket.id)) {
+    selectedMarket = stateMarkets[0];
+  }
+  elements.marketSelect.innerHTML = stateMarkets.map((market) => `
+    <option value="${market.id}" ${market.id === selectedMarket.id ? "selected" : ""}>${market.name}</option>
+  `).join("");
+};
+
+const syncSelectedMarket = () => {
+  if (selectedMarket.scored) {
+    selectedCounty = countyData.find((row) => row.county === selectedMarket.countyKey) || selectedCounty;
+  }
+};
+
 const wireEvents = () => {
-  elements.countySelect.addEventListener("change", () => {
-    selectedCounty = countyData.find((row) => row.county === elements.countySelect.value) || countyData[0];
+  elements.stateSelect.addEventListener("change", () => {
+    selectedState = elements.stateSelect.value;
+    populateMarketSelect();
+    syncSelectedMarket();
     renderMarket();
+    renderScenario();
+  });
+
+  elements.marketSelect.addEventListener("change", () => {
+    selectedMarket = ALL_MARKETS.find((market) => market.id === elements.marketSelect.value) || selectedMarket;
+    syncSelectedMarket();
+    renderMarket();
+    renderScenario();
   });
 
   elements.zipSearch.addEventListener("input", renderTables);
@@ -516,16 +660,30 @@ const wireEvents = () => {
   document.addEventListener("click", (event) => {
     const countyButton = event.target.closest("[data-county]");
     const zipButton = event.target.closest("[data-zip]");
+    const expansionButton = event.target.closest("[data-expansion]");
 
     if (countyButton) {
       selectedCounty = countyData.find((row) => row.county === countyButton.dataset.county) || selectedCounty;
-      elements.countySelect.value = selectedCounty.county;
+      selectedState = "Florida";
+      selectedMarket = FLORIDA_MARKETS.find((market) => market.countyKey === selectedCounty.county) || selectedMarket;
+      populateStateSelect();
+      populateMarketSelect();
       renderMarket();
+      renderScenario();
     }
 
     if (zipButton) {
       selectedZip = zipData.find((row) => row.zip === zipButton.dataset.zip) || selectedZip;
       renderMarket();
+    }
+
+    if (expansionButton) {
+      selectedMarket = EXPANSION_MARKETS.find((market) => market.id === expansionButton.dataset.expansion) || selectedMarket;
+      selectedState = selectedMarket.state;
+      populateStateSelect();
+      populateMarketSelect();
+      renderMarket();
+      renderScenario();
     }
   });
 
@@ -553,11 +711,11 @@ const wireEvents = () => {
 };
 
 const renderMarket = () => {
-  elements.topCountyMetric.textContent = countyData[0].county;
-  elements.topCountyScore.textContent = `${countyData[0].score.toFixed(1)} score`;
-  elements.topZipMetric.textContent = zipData[0].zip;
-  elements.topZipScore.textContent = `${zipData[0].score.toFixed(1)} score`;
-  elements.focusCounties.textContent = PHASE_TWO_COUNTIES.join(" • ");
+  elements.topCountyMetric.textContent = selectedState;
+  elements.topCountyScore.textContent = `${ALL_MARKETS.filter((market) => market.state === selectedState).length} markets`;
+  elements.topZipMetric.textContent = selectedMarket.name;
+  elements.topZipScore.textContent = selectedMarket.scored ? `${selectedCounty.score.toFixed(1)} score` : selectedMarket.type;
+  elements.focusCounties.textContent = [...PHASE_TWO_COUNTIES, "Greater Baltimore", "Greater Chicago", "Northumberland", "Lycoming", "Montour", "Union"].join(" • ");
 
   renderCountyDetail();
   renderZipDetail();
@@ -566,7 +724,9 @@ const renderMarket = () => {
   drawZipChart();
 };
 
-populateCountySelect();
+populateStateSelect();
+populateMarketSelect();
+syncSelectedMarket();
 wireEvents();
 renderMarket();
 renderScenario();
