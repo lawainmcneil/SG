@@ -180,10 +180,16 @@
     }
 
     .nav__cta {
-      max-width: 142px;
-      line-height: 1.12;
+      min-height: 54px;
+      max-width: 150px;
+      padding: 9px 16px;
+      line-height: 1.15;
       text-align: center;
       white-space: normal;
+    }
+
+    .nav__cta span {
+      display: block;
     }
 
     .menu-toggle {
@@ -1099,7 +1105,10 @@
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </div>
-      <a class="btn btn--primary nav__cta" href="#contact">Let's Start the Conversation</a>
+      <a class="btn btn--primary nav__cta" href="#contact">
+        <span>Let's Start</span>
+        <span>the Conversation</span>
+      </a>
     </nav>
   </header>
 
