@@ -1,0 +1,4 @@
+owner_name,parcel_id,property_address,property_city,property_state,property_zip,mailing_address,mailing_city,mailing_state,mailing_zip,county,state,assessed_value,sale_date,land_use,homestead_flag
+Sarasota Bay Trust,0105-12-0034,1448 Bay Point Dr,Sarasota,FL,34236,PO Box 1448,Sarasota,FL,34230,Sarasota County,FL,1685000,2012-03-28,Single Family,N
+Gulf Legacy LLC,0150-04-2211,910 Harbor View Ln,Longboat Key,FL,34228,2200 Main St Suite 400,Tampa,FL,33602,Sarasota County,FL,2140000,2015-07-16,Single Family,N
+Marjorie Allen,0789-09-1102,421 Laurel Park Ave,Sarasota,FL,34236,421 Laurel Park Ave,Sarasota,FL,34236,Sarasota County,FL,835000,2004-05-11,Single Family,Y

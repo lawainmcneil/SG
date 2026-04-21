@@ -1,0 +1,17 @@
+{
+  "record_count": 3,
+  "states": {
+    "PA": 3
+  },
+  "top_tags": {
+    "legacy-planning-likely": 3,
+    "long-tenure-owner": 3,
+    "pa-watchlist-county": 3,
+    "absentee-owner": 2,
+    "trust-owned": 1,
+    "entity-owned": 1,
+    "high-property-value": 1
+  },
+  "generated_on": "2026-04-20T20:08:55",
+  "workflow_type": "safe_public_record_prospect_registry"
+}

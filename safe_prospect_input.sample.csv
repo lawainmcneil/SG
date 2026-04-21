@@ -1,0 +1,4 @@
+owner_name,parcel_id,property_address,property_city,property_state,property_zip,mailing_address,mailing_city,mailing_state,mailing_zip,county,state,assessed_value,sale_date,land_use,homestead_flag
+McNeil Family Trust,19-31-18-0000-00010,123 Summit View Dr,Sarasota,FL,34236,PO Box 455,Sarasota,FL,34230,Sarasota County,FL,1450000,2011-05-14,Single Family,N
+Harbor Legacy LLC,04030012010000,18 Harbor Ridge Rd,Towson,MD,21204,2200 Pratt St Suite 200,Baltimore,MD,21201,Baltimore County,MD,980000,2014-09-22,Single Family,N
+Eleanor Porter,14-22-405-011-0000,9 Ridge Lane,Lake Forest,IL,60045,9 Ridge Lane,Lake Forest,IL,60045,Lake County,IL,1275000,2003-06-01,Single Family,Y

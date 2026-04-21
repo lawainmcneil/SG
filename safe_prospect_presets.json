@@ -1,0 +1,32 @@
+{
+  "pa-northumberland": {
+    "state": "PA",
+    "county": "Northumberland County",
+    "source_system": "Northumberland County public assessment records",
+    "source_url": ""
+  },
+  "pa-lycoming": {
+    "state": "PA",
+    "county": "Lycoming County",
+    "source_system": "Lycoming County public assessment records",
+    "source_url": ""
+  },
+  "pa-montour": {
+    "state": "PA",
+    "county": "Montour County",
+    "source_system": "Montour County public assessment records",
+    "source_url": ""
+  },
+  "pa-union": {
+    "state": "PA",
+    "county": "Union County",
+    "source_system": "Union County public assessment records",
+    "source_url": ""
+  },
+  "fl-sarasota": {
+    "state": "FL",
+    "county": "Sarasota County",
+    "source_system": "Sarasota County Property Appraiser public records",
+    "source_url": "https://www.sc-pa.com/propertysearch/"
+  }
+}

@@ -1,0 +1,4 @@
+prospect_id,owner_name,source_file,source_system,source_url,collected_on,record_basis,contains_phone,contains_email,contains_credit_or_criminal_fields,permitted_use_note
+c6fd2862f644,KEYSTONE HOLDINGS LLC,safe_prospect_pa_northumberland.sample.csv,Northumberland County public assessment records,,2026-04-20,public property/tax record,no,no,no,Advisor outreach prioritization only; not for eligibility or adverse decisions.
+265ecc8c4985,MILLER FAMILY TRUST,safe_prospect_pa_northumberland.sample.csv,Northumberland County public assessment records,,2026-04-20,public property/tax record,no,no,no,Advisor outreach prioritization only; not for eligibility or adverse decisions.
+3d1d33d34391,HARRIET COLEMAN,safe_prospect_pa_northumberland.sample.csv,Northumberland County public assessment records,,2026-04-20,public property/tax record,no,no,no,Advisor outreach prioritization only; not for eligibility or adverse decisions.

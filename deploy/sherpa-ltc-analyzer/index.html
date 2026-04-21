@@ -79,7 +79,7 @@
 
     .leader-row {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) 80px minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.15fr) minmax(88px, 0.7fr) minmax(0, 1fr);
       gap: 0.75rem;
       width: 100%;
       text-align: left;
@@ -87,6 +87,65 @@
       border-radius: 1rem;
       background: rgba(17, 32, 30, 0.03);
       transition: 180ms ease;
+      align-items: start;
+      font-size: 0.95rem;
+    }
+
+    .leader-row span {
+      min-width: 0;
+      line-height: 1.35;
+    }
+
+    .leader-row.zip {
+      grid-template-columns: minmax(62px, 0.7fr) minmax(52px, 0.55fr) minmax(112px, 1fr);
+      align-items: center;
+    }
+
+    .leader-row.zip span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.92rem;
+      line-height: 1.2;
+    }
+
+    .leader-row.zip span:last-child {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .leader-row.status-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.6rem;
+      align-items: start;
+      padding: 1rem 1.05rem;
+    }
+
+    .leader-row.status-row span {
+      display: block;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+      line-height: 1.35;
+    }
+
+    .leader-row.status-row .status-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #11201e;
+    }
+
+    .leader-row.status-row .status-meta {
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #5f6f6e;
+    }
+
+    .leader-row.status-row .status-copy {
+      font-size: 0.9rem;
+      color: #314140;
     }
 
     .leader-row:hover,
@@ -124,8 +183,10 @@
       border-radius: 1rem;
       border: 1px solid rgba(17, 32, 30, 0.12);
       background: rgba(255, 255, 255, 0.88);
-      padding: 0.9rem 1rem;
+      padding: 0.8rem 0.95rem;
       color: #11201e;
+      font-size: 0.98rem;
+      line-height: 1.2;
     }
 
     .field-label {
@@ -135,6 +196,41 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #5f6f6e;
+      line-height: 1.35;
+    }
+
+    .selector-panel {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .selector-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 1rem;
+    }
+
+    .market-header-copy,
+    .market-header-copy > * {
+      min-width: 0;
+    }
+
+    .stat-tile strong,
+    #countyNarrative,
+    #zipNarrative,
+    #focusCounties,
+    #coverageMix,
+    #zipHeadline {
+      overflow-wrap: anywhere;
+    }
+
+    #countyName {
+      max-width: 18ch;
+      line-height: 1.08;
+      overflow-wrap: normal;
+      text-wrap: initial;
+      font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(2rem, 2.3vw, 2.8rem);
     }
 
     .note {
@@ -143,6 +239,68 @@
       background: rgba(223, 238, 237, 0.56);
       padding: 0.95rem 1rem;
       line-height: 1.65;
+    }
+
+    #countyTier,
+    #countyTableLabel,
+    #expansionTableLabel {
+      overflow-wrap: anywhere;
+      text-wrap: pretty;
+    }
+
+    .metric-value {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1;
+      text-wrap: initial;
+      font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(1.18rem, 1.45vw, 1.62rem);
+      letter-spacing: -0.09em;
+      font-variant-numeric: tabular-nums;
+      overflow-wrap: normal;
+      word-break: keep-all;
+    }
+
+    #coverageMix {
+      line-height: 1.6;
+      text-wrap: pretty;
+    }
+
+    #zipHeadline {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      overflow-wrap: normal;
+      font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.1;
+    }
+
+    #stateSelect,
+    #marketSelect,
+    #jurisdiction,
+    #careType {
+      font-size: 0.88rem;
+      line-height: 1.1;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .metric-summary-card {
+      min-width: 0;
+      padding: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      #countyName {
+        max-width: none;
+        font-size: clamp(1.7rem, 5vw, 2.4rem);
+      }
+
+      .metric-value {
+        font-size: clamp(1.08rem, 3.2vw, 1.35rem);
+      }
     }
 
     .analysis-table th,
@@ -197,7 +355,7 @@
             SHERPA LTC Analyzer combines your scored Florida opportunity data, expansion-watchlist markets, and a client-facing care impact model so advisors can move from market focus to planning conversation without switching tools.
           </p>
           <div class="mt-9 flex flex-wrap gap-3">
-            <a href="#market" class="rounded-2xl bg-trail px-5 py-3 text-sm font-black uppercase tracking-wide text-summit">Explore target markets</a>
+            <a href="#market" class="rounded-2xl bg-trail px-5 py-3 text-sm font-black uppercase tracking-wide text-summit">Open market explorer</a>
             <a href="#scenario" class="rounded-2xl border border-white/25 px-5 py-3 text-sm font-black uppercase tracking-wide text-white">Run the scenario lab</a>
             <button id="printReport" class="rounded-2xl border border-glacier/40 px-5 py-3 text-sm font-black uppercase tracking-wide text-glacier">Print summary</button>
           </div>
@@ -239,15 +397,15 @@
             Florida county scores come from weighted public indicators. ZIP screens surface concentrated wealth pockets. The new expansion watchlist lets you track Baltimore, Chicago, and Pennsylvania county targets without pretending they already have Florida-style scores.
           </p>
         </div>
-        <div class="surface rounded-[1.5rem] p-4">
-          <div class="grid gap-4 md:grid-cols-2">
+        <div class="selector-panel surface rounded-[1.5rem] p-4">
+          <div class="selector-grid">
             <label>
               <span class="field-label" for="stateSelect">State</span>
-              <select id="stateSelect" class="field mt-2 min-w-[180px]"></select>
+              <select id="stateSelect" class="field mt-2"></select>
             </label>
             <label>
               <span class="field-label" for="marketSelect">County / metro area</span>
-              <select id="marketSelect" class="field mt-2 min-w-[220px]"></select>
+              <select id="marketSelect" class="field mt-2"></select>
             </label>
           </div>
         </div>
@@ -256,13 +414,13 @@
       <div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <div class="space-y-6">
           <article class="surface rounded-[2rem] p-6">
-            <div class="flex flex-wrap items-start justify-between gap-4">
-              <div>
+            <div class="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
+              <div class="market-header-copy flex-1">
                 <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Market profile</p>
                 <h3 id="countyName" class="mt-2 font-display text-3xl font-bold">Sarasota County, Florida</h3>
                 <p id="countyTier" class="mt-2 inline-flex rounded-full bg-glacier px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-pine">Phase-two county</p>
               </div>
-              <div class="rounded-2xl bg-summit px-4 py-3 text-right text-white">
+              <div class="rounded-2xl bg-summit px-4 py-3 text-right text-white max-sm:w-full sm:max-w-[11.5rem]">
                 <p class="text-xs uppercase tracking-[0.16em] text-glacier/70">ZIP / rollout view</p>
                 <p id="zipHeadline" class="mt-2 font-display text-2xl font-bold">ZIP 34228</p>
               </div>
@@ -279,7 +437,7 @@
             <div class="mb-4 flex items-center justify-between gap-3">
               <div>
                 <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">County leaderboard</p>
-                <p class="mt-2 text-sm text-slate">Top Florida counties by weighted opportunity score. Use the state selector above to switch into the metro and Pennsylvania county expansion markets.</p>
+                <p id="countyTableLabel" class="mt-2 text-sm leading-6 text-slate">Top Florida counties by weighted opportunity score. Use the state selector above to switch into the metro and Pennsylvania county expansion markets.</p>
               </div>
             </div>
             <div id="countyTable" class="grid gap-3"></div>
@@ -289,7 +447,7 @@
             <div class="mb-4 flex items-center justify-between gap-3">
               <div>
                 <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Expansion watchlist</p>
-                <p class="mt-2 text-sm text-slate">Manual SHERPA target markets added outside the Florida scored dataset.</p>
+                <p id="expansionTableLabel" class="mt-2 text-sm leading-6 text-slate">Manual SHERPA target markets added outside the Florida scored dataset.</p>
               </div>
             </div>
             <div id="expansionTable" class="grid gap-3"></div>
@@ -301,7 +459,7 @@
             <div class="mb-5 flex items-end justify-between gap-4">
               <div>
                 <p class="text-xs font-black uppercase tracking-[0.18em] text-trail">County score chart</p>
-                <h3 class="mt-2 font-display text-2xl font-bold">Top 10 Florida counties</h3>
+                <h3 id="countyChartTitle" class="mt-2 font-display text-2xl font-bold">Top 10 Florida counties</h3>
               </div>
             </div>
             <div class="h-[360px]">
@@ -313,7 +471,7 @@
             <div class="mb-5 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">ZIP concentration chart</p>
-                <h3 class="mt-2 font-display text-2xl font-bold">Affluent ZIP screens</h3>
+                <h3 id="zipChartTitle" class="mt-2 font-display text-2xl font-bold">Affluent ZIP screens</h3>
               </div>
               <div class="w-full md:max-w-[240px]">
                 <label class="field-label" for="zipSearch">Find ZIP</label>
@@ -338,7 +496,7 @@
           <p class="text-xs font-black uppercase tracking-[0.18em] text-pine">Scenario Lab</p>
           <h2 class="mt-3 font-display text-3xl font-bold sm:text-5xl">Turn the care-cost story into a client conversation</h2>
           <p class="mt-4 max-w-3xl text-base leading-7 text-slate">
-            This planning model uses simplified educational assumptions to compare self-funding, a traditional annual premium path, and an asset-based LTC design. It is built to support advisor discussion, not to quote a product.
+            This planning model uses simplified educational assumptions to compare self-funding, a traditional annual premium path, and an asset-based LTC design. The care-cost benchmark now follows the selected market state by default, while still allowing a manual national comparison.
           </p>
         </div>
 
@@ -347,10 +505,7 @@
             <div class="grid gap-4 sm:grid-cols-2">
               <label>
                 <span class="field-label">Jurisdiction</span>
-                <select id="jurisdiction" class="field mt-2">
-                  <option value="FL">Florida 2025 medians</option>
-                  <option value="USA">USA 2025 medians</option>
-                </select>
+                <select id="jurisdiction" class="field mt-2"></select>
               </label>
               <label>
                 <span class="field-label">Care type</span>
@@ -414,21 +569,21 @@
 
           <div class="space-y-6">
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <article class="surface rounded-[1.75rem] p-5">
+              <article class="metric-summary-card surface rounded-[1.75rem]">
                 <p class="text-xs font-black uppercase tracking-[0.16em] text-slate">Annual cost at claim</p>
-                <p id="annualCareCost" class="mt-3 font-display text-3xl font-bold text-summit">$0</p>
+                <p id="annualCareCost" class="metric-value mt-3 font-bold text-summit">$0</p>
               </article>
-              <article class="surface rounded-[1.75rem] p-5">
+              <article class="metric-summary-card surface rounded-[1.75rem]">
                 <p class="text-xs font-black uppercase tracking-[0.16em] text-slate">Total care exposure</p>
-                <p id="totalCareExposure" class="mt-3 font-display text-3xl font-bold text-summit">$0</p>
+                <p id="totalCareExposure" class="metric-value mt-3 font-bold text-summit">$0</p>
               </article>
-              <article class="surface rounded-[1.75rem] p-5">
+              <article class="metric-summary-card surface rounded-[1.75rem]">
                 <p class="text-xs font-black uppercase tracking-[0.16em] text-slate">Self-fund drag</p>
-                <p id="selfFundDrag" class="mt-3 font-display text-3xl font-bold text-ember">0%</p>
+                <p id="selfFundDrag" class="metric-value mt-3 font-bold text-ember">0%</p>
               </article>
-              <article class="surface rounded-[1.75rem] p-5">
+              <article class="metric-summary-card surface rounded-[1.75rem]">
                 <p class="text-xs font-black uppercase tracking-[0.16em] text-slate">Asset-based pool</p>
-                <p id="assetPool" class="mt-3 font-display text-3xl font-bold text-pine">$0</p>
+                <p id="assetPool" class="metric-value mt-3 font-bold text-pine">$0</p>
               </article>
             </div>
 
@@ -503,6 +658,7 @@
   </main>
 
   <script src="./sherpa-ltc-data.js"></script>
+  <script src="./metro_zip_data.js"></script>
   <script src="./sherpa-ltc-app.js"></script>
 </body>
 </html>
