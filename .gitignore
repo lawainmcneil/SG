@@ -1,3 +1,5 @@
 chart.html
 .vercel
 deploy/**/.vercel
+.DS_Store
+sherpa-ltc-analyzer-app/

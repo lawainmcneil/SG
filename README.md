@@ -2,6 +2,16 @@
 
 A static Stahlnecker Group homepage prototype inspired by the editorial structure, service presentation, and conversion flow of Carson Wealth.
 
+## LTC Repo
+
+The SHERPA LTC Analyzer has been split into its own standalone private repo and should no longer be edited from this mixed workspace:
+
+- Local app folder: [sherpa-ltc-analyzer-app](/Users/lawainmcneil/Documents/New%20project/sherpa-ltc-analyzer-app)
+- GitHub repo: [lawainmcneil/sherpa-ltc-analyzer-app](https://github.com/lawainmcneil/sherpa-ltc-analyzer-app)
+- Vercel project: [https://sherpa-ltc-analyzer-app.vercel.app](https://sherpa-ltc-analyzer-app.vercel.app)
+
+Use that repo for all future LTC app, ZIP data, and safe prospecting work.
+
 ## Run
 
 Open `index.html` in a browser for the rebuilt Stahlnecker Group website.
