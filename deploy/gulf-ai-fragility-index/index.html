@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gulf AI Fragility Index</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .risk-row {
+      display: block;
+    }
+
+    .risk-row-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .risk-label {
+      color: #1e293b;
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .risk-value {
+      color: #020617;
+      font-size: 0.875rem;
+      font-weight: 800;
+    }
+
+    .risk-note {
+      margin-top: 0.35rem;
+      color: #64748b;
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .risk-track {
+      margin-top: 0.5rem;
+      height: 0.5rem;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #f1f5f9;
+    }
+
+    .risk-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 240ms ease, background-color 240ms ease;
+    }
+
+    .source-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .source-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      background: #f8fafc;
+      padding: 0.75rem;
+    }
+
+    .source-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .source-name {
+      color: #0f172a;
+      font-size: 0.875rem;
+      font-weight: 800;
+    }
+
+    .source-type {
+      margin-top: 0.1rem;
+      color: #64748b;
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .source-state {
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .source-state-live {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .source-state-loading {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .source-state-fallback {
+      background: #ffe4e6;
+      color: #9f1239;
+    }
+
+    .source-detail,
+    .source-metrics {
+      color: #475569;
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .source-detail {
+      margin-top: 0.55rem;
+    }
+
+    .source-metrics {
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+    }
+
+    .source-link {
+      color: #334155;
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-color: #cbd5e1;
+      text-underline-offset: 2px;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#f5f7f4] text-slate-950">
+  <main class="mx-auto flex min-h-screen w-full max-w-5xl items-center px-4 py-8 sm:px-6 lg:px-8">
+    <section class="w-full rounded-lg border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
+      <div class="grid gap-0 lg:grid-cols-[0.72fr_1.28fr]">
+        <aside class="border-b border-slate-200 p-5 sm:p-6 lg:border-b-0 lg:border-r">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">Live Risk Dashboard</p>
+              <h1 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">Gulf AI Fragility Index</h1>
+            </div>
+            <div class="rounded-md bg-rose-50 px-3 py-2 text-right">
+              <p class="text-xs font-semibold uppercase tracking-[0.12em] text-rose-700">Composite</p>
+              <p class="text-2xl font-bold text-rose-800" id="compositeScore">6.8</p>
+            </div>
+          </div>
+
+          <div class="mt-4 flex flex-wrap items-center gap-2 text-xs">
+            <span class="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-800" id="liveStatus">Loading live feeds</span>
+            <button class="rounded-md border border-slate-200 px-3 py-1 font-semibold text-slate-700 transition hover:border-slate-400" id="refreshButton" type="button">
+              Refresh
+            </button>
+          </div>
+
+          <dl class="mt-6 grid grid-cols-2 gap-3">
+            <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
+              <dt class="text-xs font-medium text-slate-500">Highest</dt>
+              <dd class="mt-1 text-sm font-bold text-slate-950" id="highestFactor">-</dd>
+            </div>
+            <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
+              <dt class="text-xs font-medium text-slate-500">Lowest</dt>
+              <dd class="mt-1 text-sm font-bold text-slate-950" id="lowestFactor">-</dd>
+            </div>
+            <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
+              <dt class="text-xs font-medium text-slate-500">Scale</dt>
+              <dd class="mt-1 text-sm font-bold text-slate-950">0-10</dd>
+            </div>
+            <div class="rounded-md border border-slate-200 bg-slate-50 p-3">
+              <dt class="text-xs font-medium text-slate-500">Updated</dt>
+              <dd class="mt-1 text-sm font-bold text-slate-950" id="updatedAt">-</dd>
+            </div>
+          </dl>
+
+          <div class="mt-6 rounded-md border border-slate-200 bg-white p-3">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Source Layer</p>
+                <p class="mt-1 text-xs text-slate-500">Live inputs, fallback behavior, and scoring logic.</p>
+              </div>
+              <span class="source-state source-state-loading" id="sourceLayerStatus">Loading</span>
+            </div>
+            <p class="mt-2 text-sm leading-5 text-slate-700" id="sourceStatus">
+              Baseline scores are visible while GDELT news and Open-Meteo weather load.
+            </p>
+            <div class="source-grid mt-3" id="sourceCards" aria-label="Data source layer"></div>
+            <details class="mt-3 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+              <summary class="cursor-pointer font-bold text-slate-700">Scoring method</summary>
+              <div class="mt-2 space-y-2 leading-5">
+                <p>GDELT article counts are normalized into 0-10 scores using category-specific high-water marks.</p>
+                <p>Open-Meteo heat, wind, and rain forecasts are normalized against simple operational risk ranges.</p>
+                <p>Baseline scores remain visible whenever a public feed is slow, rate-limited, or unavailable.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="mt-6 space-y-3" id="riskList" aria-label="Fragility score breakdown"></div>
+        </aside>
+
+        <div class="p-5 sm:p-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
+            <div>
+              <p class="text-sm font-semibold text-slate-600">Fragility Score</p>
+              <p class="text-xs text-slate-500">Scores update from no-key public APIs when available.</p>
+            </div>
+            <div class="flex items-center gap-2 text-xs font-semibold text-slate-600">
+              <span class="h-3 w-3 rounded-full bg-emerald-500"></span>
+              <span>Low</span>
+              <span class="mx-1 h-px w-7 bg-slate-300"></span>
+              <span class="h-3 w-3 rounded-full bg-amber-500"></span>
+              <span>Mid</span>
+              <span class="mx-1 h-px w-7 bg-slate-300"></span>
+              <span class="h-3 w-3 rounded-full bg-rose-600"></span>
+              <span>High</span>
+            </div>
+          </div>
+
+          <div class="relative mx-auto mt-6 aspect-square w-full max-w-[620px]">
+            <canvas id="fragilityChart" aria-label="Radar chart showing Gulf AI fragility scores" role="img"></canvas>
+          </div>
+
+          <div class="mt-5 grid gap-3 text-xs text-slate-500 sm:grid-cols-2">
+            <p>News signal: <a class="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-2" href="https://www.gdeltproject.org/" target="_blank" rel="noreferrer">GDELT DOC 2.0</a></p>
+            <p>Weather signal: <a class="font-semibold text-slate-700 underline decoration-slate-300 underline-offset-2" href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo Forecast API</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const baselineFactors = [
+      { id: "geopolitical", label: "Geopolitical Risk", chartLabel: ["Geopolitical", "Risk"], score: 7, note: "Baseline until GDELT responds." },
+      { id: "physical", label: "Physical Risk", chartLabel: ["Physical", "Risk"], score: 5, note: "Baseline until Open-Meteo responds." },
+      { id: "environmental", label: "Environmental", chartLabel: ["Environmental"], score: 6, note: "Baseline until Open-Meteo responds." },
+      { id: "supply", label: "Supply Chain", chartLabel: ["Supply", "Chain"], score: 6, note: "Baseline until GDELT responds." },
+      { id: "capital", label: "Capital Stability", chartLabel: ["Capital", "Stability"], score: 4, note: "Baseline until GDELT responds." },
+      { id: "regulation", label: "Regulation", chartLabel: ["Regulation"], score: 5, note: "Baseline until GDELT responds." }
+    ];
+
+    const gulfLocations = [
+      { name: "Dubai", latitude: 25.2048, longitude: 55.2708 },
+      { name: "Riyadh", latitude: 24.7136, longitude: 46.6753 },
+      { name: "Manama", latitude: 26.2235, longitude: 50.5876 },
+      { name: "Doha", latitude: 25.2854, longitude: 51.5310 },
+      { name: "Kuwait City", latitude: 29.3759, longitude: 47.9774 },
+      { name: "Muscat", latitude: 23.5880, longitude: 58.3829 }
+    ];
+
+    const keywordGroups = {
+      geopolitical: ["iran", "hormuz", "war", "attack", "sanction", "ceasefire", "israel", "lebanon", "conflict", "missile", "naval", "blockade", "strait"],
+      supply: ["submarine", "cable", "data center", "datacenter", "chip", "semiconductor", "shipping", "port", "logistics", "infrastructure", "compute", "power", "grid"],
+      capital: ["market", "stock", "capital", "investment", "funding", "finance", "bank", "oil", "price", "billion", "sell-off", "index", "retreat"],
+      regulation: ["regulation", "regulatory", "policy", "law", "governance", "government", "ministry", "public services", "sovereign", "compliance"]
+    };
+
+    const riskList = document.getElementById("riskList");
+    const liveStatus = document.getElementById("liveStatus");
+    const sourceCards = document.getElementById("sourceCards");
+    const sourceLayerStatus = document.getElementById("sourceLayerStatus");
+    const sourceStatus = document.getElementById("sourceStatus");
+    const updatedAt = document.getElementById("updatedAt");
+    const refreshButton = document.getElementById("refreshButton");
+    const compositeScore = document.getElementById("compositeScore");
+    const highestFactor = document.getElementById("highestFactor");
+    const lowestFactor = document.getElementById("lowestFactor");
+    const ctx = document.getElementById("fragilityChart").getContext("2d");
+    let currentFactors = baselineFactors.map((item) => ({ ...item }));
+    let sourceLayer = {
+      gdelt: {
+        name: "GDELT DOC 2.0",
+        type: "Global news signal",
+        url: "https://www.gdeltproject.org/",
+        status: "loading",
+        detail: "Waiting to scan Gulf AI news coverage.",
+        affects: "Geopolitical, Supply Chain, Capital Stability, Regulation",
+        metrics: ["Window: trailing 7 days", "Request shape: one broad article-list query"]
+      },
+      openMeteo: {
+        name: "Open-Meteo Forecast API",
+        type: "Weather forecast signal",
+        url: "https://open-meteo.com/",
+        status: "loading",
+        detail: "Waiting to scan Gulf city forecasts.",
+        affects: "Physical Risk, Environmental",
+        metrics: ["Window: next 7 days", "Cities: Dubai, Riyadh, Manama, Doha, Kuwait City, Muscat"]
+      },
+      baseline: {
+        name: "Baseline Model",
+        type: "Local fallback layer",
+        url: "",
+        status: "live",
+        detail: "Provides starting values and keeps the dashboard usable if a public API is unavailable.",
+        affects: "All six factors",
+        metrics: ["Fallback range: 0-10", "Composite: average of factor scores"]
+      }
+    };
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const roundScore = (value) => Math.round(clamp(value, 0, 10));
+
+    const colorForScore = (score) => {
+      if (score >= 8) return "#e11d48";
+      if (score >= 6) return "#f59e0b";
+      return "#10b981";
+    };
+
+    const scoreFromCount = (count, highWater) => roundScore(2 + (count / highWater) * 8);
+    const scoreFromRange = (value, low, high, floor, ceiling) => {
+      const normalized = clamp((value - low) / (high - low), 0, 1);
+      return floor + normalized * (ceiling - floor);
+    };
+
+    const formatTime = (date) => new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      timeZoneName: "short"
+    }).format(date);
+
+    function statusLabel(status) {
+      if (status === "live") return "Live";
+      if (status === "fallback") return "Fallback";
+      return "Loading";
+    }
+
+    function renderSourceLayer() {
+      const sources = Object.values(sourceLayer);
+      sourceCards.innerHTML = "";
+      sources.forEach((source) => {
+        const card = document.createElement("article");
+        const stateClass = source.status === "live" ? "source-state-live" : source.status === "fallback" ? "source-state-fallback" : "source-state-loading";
+        const title = source.url
+          ? `<a class="source-link" href="${source.url}" target="_blank" rel="noreferrer">${source.name}</a>`
+          : source.name;
+        card.className = "source-card";
+        card.innerHTML = `
+          <div class="source-card-head">
+            <div>
+              <p class="source-name">${title}</p>
+              <p class="source-type">${source.type} &middot; affects ${source.affects}</p>
+            </div>
+            <span class="source-state ${stateClass}">${statusLabel(source.status)}</span>
+          </div>
+          <p class="source-detail">${source.detail}</p>
+          <ul class="source-metrics">
+            ${source.metrics.map((metric) => `<li>${metric}</li>`).join("")}
+          </ul>
+        `;
+        sourceCards.appendChild(card);
+      });
+
+      const liveCount = sources.filter((source) => source.status === "live").length;
+      const fallbackCount = sources.filter((source) => source.status === "fallback").length;
+      sourceLayerStatus.textContent = fallbackCount ? "Mixed" : liveCount === sources.length ? "Live" : "Loading";
+      sourceLayerStatus.className = `source-state ${fallbackCount ? "source-state-fallback" : liveCount === sources.length ? "source-state-live" : "source-state-loading"}`;
+    }
+
+    const chart = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: baselineFactors.map((item) => item.chartLabel),
+        datasets: [{
+          label: "Fragility Score",
+          data: baselineFactors.map((item) => item.score),
+          fill: true,
+          backgroundColor: "rgba(225, 29, 72, 0.18)",
+          borderColor: "#e11d48",
+          borderWidth: 2,
+          pointBackgroundColor: "#ffffff",
+          pointBorderColor: "#e11d48",
+          pointBorderWidth: 2,
+          pointHoverBackgroundColor: "#e11d48",
+          pointHoverBorderColor: "#ffffff",
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: "#0f172a",
+            bodyColor: "#f8fafc",
+            borderColor: "rgba(255, 255, 255, 0.14)",
+            borderWidth: 1,
+            displayColors: false,
+            callbacks: {
+              title: (items) => currentFactors[items[0].dataIndex].label,
+              label: (context) => `${context.dataset.label}: ${context.formattedValue} / 10`
+            }
+          }
+        },
+        scales: {
+          r: {
+            suggestedMin: 0,
+            suggestedMax: 10,
+            ticks: {
+              stepSize: 2,
+              backdropColor: "transparent",
+              color: "#64748b",
+              font: {
+                size: 11
+              }
+            },
+            pointLabels: {
+              color: "#334155",
+              font: {
+                size: 13,
+                weight: "600"
+              }
+            },
+            grid: {
+              color: "rgba(100, 116, 139, 0.22)"
+            },
+            angleLines: {
+              color: "rgba(100, 116, 139, 0.24)"
+            }
+          }
+        }
+      }
+    });
+
+    function renderFactors(factors) {
+      currentFactors = factors;
+      riskList.innerHTML = "";
+
+      factors.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "risk-row";
+        row.innerHTML = `
+          <div class="risk-row-head">
+            <p class="risk-label">${item.label}</p>
+            <p class="risk-value">${item.score}</p>
+          </div>
+          <div class="risk-track">
+            <div class="risk-fill" style="width: ${item.score * 10}%; background-color: ${colorForScore(item.score)}"></div>
+          </div>
+          <p class="risk-note">${item.note}</p>
+        `;
+        riskList.appendChild(row);
+      });
+
+      const averageScore = factors.reduce((sum, item) => sum + item.score, 0) / factors.length;
+      const sorted = [...factors].sort((a, b) => b.score - a.score);
+      compositeScore.textContent = averageScore.toFixed(1);
+      highestFactor.textContent = `${sorted[0].label.replace(" Risk", "")} (${sorted[0].score})`;
+      lowestFactor.textContent = `${sorted[sorted.length - 1].label.replace(" Risk", "")} (${sorted[sorted.length - 1].score})`;
+      updatedAt.textContent = formatTime(new Date());
+
+      chart.data.datasets[0].data = factors.map((item) => item.score);
+      chart.update();
+    }
+
+    function buildGdeltUrl() {
+      const url = new URL("https://api.gdeltproject.org/api/v2/doc/doc");
+      url.searchParams.set("query", '("artificial intelligence" OR AI OR datacenter OR "data center" OR semiconductor OR chip) (saudi OR uae OR qatar OR kuwait OR oman OR bahrain OR "gulf states" OR "gulf cooperation council")');
+      url.searchParams.set("mode", "artlist");
+      url.searchParams.set("format", "json");
+      url.searchParams.set("timespan", "7d");
+      url.searchParams.set("maxrecords", "50");
+      url.searchParams.set("sort", "datedesc");
+      return url.toString();
+    }
+
+    function buildWeatherUrl() {
+      const url = new URL("https://api.open-meteo.com/v1/forecast");
+      url.searchParams.set("latitude", gulfLocations.map((item) => item.latitude).join(","));
+      url.searchParams.set("longitude", gulfLocations.map((item) => item.longitude).join(","));
+      url.searchParams.set("daily", "temperature_2m_max,precipitation_sum,wind_speed_10m_max");
+      url.searchParams.set("forecast_days", "7");
+      url.searchParams.set("timezone", "auto");
+      return url.toString();
+    }
+
+    async function fetchWithTimeout(url, timeout = 16000) {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), timeout);
+      try {
+        const response = await fetch(url, { signal: controller.signal });
+        const text = await response.text();
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        if (text.includes("Please limit requests")) {
+          throw new Error("GDELT rate limit");
+        }
+        return JSON.parse(text);
+      } catch (error) {
+        if (controller.signal.aborted) {
+          throw new Error("request timed out");
+        }
+        throw error;
+      } finally {
+        window.clearTimeout(timeoutId);
+      }
+    }
+
+    function normalizeArticles(articles = []) {
+      const seen = new Set();
+      return articles.filter((article) => {
+        const key = (article.title || article.url || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function countKeywordHits(articles, keywords) {
+      return articles.filter((article) => {
+        const text = `${article.title || ""} ${article.domain || ""} ${article.sourcecountry || ""}`.toLowerCase();
+        return keywords.some((keyword) => text.includes(keyword));
+      }).length;
+    }
+
+    async function getNewsScores() {
+      const data = await fetchWithTimeout(buildGdeltUrl(), 32000);
+      const articles = normalizeArticles(data.articles || []);
+      const counts = {
+        geopolitical: countKeywordHits(articles, keywordGroups.geopolitical),
+        supply: countKeywordHits(articles, keywordGroups.supply),
+        capital: countKeywordHits(articles, keywordGroups.capital),
+        regulation: countKeywordHits(articles, keywordGroups.regulation)
+      };
+
+      return {
+        totalArticles: articles.length,
+        counts,
+        scores: {
+          geopolitical: {
+            score: scoreFromCount(counts.geopolitical, 10),
+            note: `GDELT: ${counts.geopolitical} geopolitical stories from ${articles.length} Gulf AI articles in 7 days.`
+          },
+          supply: {
+            score: scoreFromCount(counts.supply, 12),
+            note: `GDELT: ${counts.supply} infrastructure, compute, cable, or logistics stories in 7 days.`
+          },
+          capital: {
+            score: scoreFromCount(counts.capital, 10),
+            note: `GDELT: ${counts.capital} market, oil, funding, or banking stories in 7 days.`
+          },
+          regulation: {
+            score: scoreFromCount(counts.regulation, 8),
+            note: `GDELT: ${counts.regulation} policy, government, governance, or compliance stories in 7 days.`
+          }
+        }
+      };
+    }
+
+    async function getWeatherScores() {
+      const data = await fetchWithTimeout(buildWeatherUrl(), 12000);
+      const locations = Array.isArray(data) ? data : [data];
+      const temperatures = locations.flatMap((location) => location.daily.temperature_2m_max || []);
+      const winds = locations.flatMap((location) => location.daily.wind_speed_10m_max || []);
+      const dailyRain = locations.flatMap((location) => location.daily.precipitation_sum || []);
+      const maxTemp = Math.max(...temperatures);
+      const maxWind = Math.max(...winds);
+      const maxRain = Math.max(...dailyRain);
+      const hotReadings = temperatures.filter((value) => value >= 38).length;
+      const heatPersistence = temperatures.length ? hotReadings / temperatures.length : 0;
+      const environmentalScore = roundScore(scoreFromRange(maxTemp, 32, 45, 3, 10) + heatPersistence * 2);
+      const physicalScore = roundScore(Math.max(
+        scoreFromRange(maxWind, 20, 55, 2, 9),
+        scoreFromRange(maxRain, 2, 30, 1, 8)
+      ));
+
+      return {
+        metrics: {
+          locations: locations.length,
+          maxTemp,
+          maxWind,
+          maxRain
+        },
+        scores: {
+          environmental: {
+            score: environmentalScore,
+            note: `Open-Meteo: ${maxTemp.toFixed(1)} C max forecast heat across ${locations.length} Gulf cities.`
+          },
+          physical: {
+            score: physicalScore,
+            note: `Open-Meteo: ${maxWind.toFixed(1)} km/h max wind and ${maxRain.toFixed(1)} mm max daily rain forecast.`
+          }
+        }
+      };
+    }
+
+    function mergeScores(baseFactors, liveScores) {
+      return baseFactors.map((factor) => {
+        const liveScore = liveScores[factor.id];
+        if (!liveScore) return factor;
+        return {
+          ...factor,
+          score: liveScore.score,
+          note: liveScore.note
+        };
+      });
+    }
+
+    async function refreshDashboard() {
+      refreshButton.disabled = true;
+      refreshButton.textContent = "Refreshing";
+      liveStatus.textContent = "Loading live feeds";
+      sourceStatus.textContent = "Pulling one GDELT news feed and one Open-Meteo forecast feed.";
+      sourceLayer.gdelt = {
+        ...sourceLayer.gdelt,
+        status: "loading",
+        detail: "Scanning recent Gulf AI, data-center, semiconductor, and infrastructure news.",
+        metrics: ["Window: trailing 7 days", "Maximum records: 50", "Output: article titles and metadata"]
+      };
+      sourceLayer.openMeteo = {
+        ...sourceLayer.openMeteo,
+        status: "loading",
+        detail: "Scanning 7-day max temperature, wind, and precipitation forecasts.",
+        metrics: ["Forecast days: 7", "Cities: Dubai, Riyadh, Manama, Doha, Kuwait City, Muscat"]
+      };
+      renderSourceLayer();
+      const factors = baselineFactors.map((item) => ({ ...item }));
+      renderFactors(factors);
+
+      const [newsResult, weatherResult] = await Promise.allSettled([
+        getNewsScores(),
+        getWeatherScores()
+      ]);
+
+      const liveScores = {};
+      const sourceMessages = [];
+
+      if (newsResult.status === "fulfilled") {
+        Object.assign(liveScores, newsResult.value.scores);
+        sourceMessages.push(`GDELT live: ${newsResult.value.totalArticles} unique articles scanned.`);
+        sourceLayer.gdelt = {
+          ...sourceLayer.gdelt,
+          status: "live",
+          detail: "Article feed responded and contributed four news-driven dimensions.",
+          metrics: [
+            `Articles scanned: ${newsResult.value.totalArticles}`,
+            `Geopolitical hits: ${newsResult.value.counts.geopolitical}`,
+            `Supply-chain hits: ${newsResult.value.counts.supply}`,
+            `Capital hits: ${newsResult.value.counts.capital}`,
+            `Regulation hits: ${newsResult.value.counts.regulation}`
+          ]
+        };
+      } else {
+        sourceMessages.push(`GDELT fallback: ${newsResult.reason.message}.`);
+        sourceLayer.gdelt = {
+          ...sourceLayer.gdelt,
+          status: "fallback",
+          detail: `News feed unavailable, so baseline values remain for its four dimensions: ${newsResult.reason.message}.`,
+          metrics: ["Fallback factors: Geopolitical, Supply Chain, Capital Stability, Regulation", "Retry with Refresh"]
+        };
+      }
+
+      if (weatherResult.status === "fulfilled") {
+        Object.assign(liveScores, weatherResult.value.scores);
+        sourceMessages.push("Open-Meteo live: 7-day forecast scanned across six Gulf cities.");
+        sourceLayer.openMeteo = {
+          ...sourceLayer.openMeteo,
+          status: "live",
+          detail: "Forecast feed responded and contributed physical and environmental dimensions.",
+          metrics: [
+            `Cities scanned: ${weatherResult.value.metrics.locations}`,
+            `Max heat: ${weatherResult.value.metrics.maxTemp.toFixed(1)} C`,
+            `Max wind: ${weatherResult.value.metrics.maxWind.toFixed(1)} km/h`,
+            `Max daily rain: ${weatherResult.value.metrics.maxRain.toFixed(1)} mm`
+          ]
+        };
+      } else {
+        sourceMessages.push(`Open-Meteo fallback: ${weatherResult.reason.message}.`);
+        sourceLayer.openMeteo = {
+          ...sourceLayer.openMeteo,
+          status: "fallback",
+          detail: `Weather feed unavailable, so baseline values remain for physical and environmental dimensions: ${weatherResult.reason.message}.`,
+          metrics: ["Fallback factors: Physical Risk, Environmental", "Retry with Refresh"]
+        };
+      }
+
+      renderFactors(mergeScores(factors, liveScores));
+      renderSourceLayer();
+      liveStatus.textContent = Object.keys(liveScores).length ? "Live data applied" : "Using fallback scores";
+      sourceStatus.textContent = sourceMessages.join(" ");
+      refreshButton.disabled = false;
+      refreshButton.textContent = "Refresh";
+    }
+
+    refreshButton.addEventListener("click", refreshDashboard);
+    renderSourceLayer();
+    renderFactors(currentFactors);
+    refreshDashboard();
+  </script>
+</body>
+</html>

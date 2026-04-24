@@ -38,4 +38,6 @@ Open `docs/sherpa-florida-county-prospect-playbook.md` for the Florida county ro
 
 Open `trout-brain.html` in a browser for the Trout Brain catch probability and conditions model.
 
+Open `gulf-ai-fragility-index.html` in a browser for the Gulf AI Fragility Index dashboard widget.
+
 The standalone tool pages use Tailwind CSS and Chart.js from CDNs, with state cost data embedded in `data.js`. The intake forms use Tailwind CSS from the CDN and are print-friendly standalone pages.
