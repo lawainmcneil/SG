@@ -3,29 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hawklab Studio | Web Systems, SEO Ops, Print & Signage</title>
+  <title>Stahlnecker Group | Financial Readiness, Smart Investing, Confident Future</title>
   <meta
     name="description"
-    content="Hawklab Studio builds adaptive websites, SEO and reputation systems, and brand collateral with a clean technical foundation."
+    content="Stahlnecker Wealth Management Group helps families build financial readiness through disciplined planning, smart investing, protection strategies, and the Financial Fire Drill."
   />
   <style>
     :root {
-      --bg: #071014;
-      --bg-soft: #0d171d;
-      --panel: rgba(14, 24, 30, 0.78);
-      --panel-strong: rgba(8, 14, 18, 0.92);
-      --line: rgba(169, 188, 198, 0.14);
-      --line-strong: rgba(169, 188, 198, 0.28);
-      --text: #eff5f7;
-      --muted: #93a7b2;
-      --accent: #cbe7f2;
-      --accent-2: #7cc8e5;
-      --glow: rgba(124, 200, 229, 0.2);
-      --max: 1180px;
-      --radius: 26px;
-      --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
-      --sans: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-      --mono: "SFMono-Regular", "SF Mono", "Roboto Mono", "Menlo", monospace;
+      --ink: #17201b;
+      --forest: #194c3a;
+      --leaf: #2f7a57;
+      --gold: #c79a2b;
+      --alarm: #c1121f;
+      --coral: #d45a3f;
+      --paper: #f7f8f4;
+      --mist: #e8efe8;
+      --line: rgba(23, 32, 27, 0.13);
+      --white: #ffffff;
     }
 
     * {
@@ -38,26 +32,10 @@
 
     body {
       margin: 0;
-      min-width: 320px;
-      background:
-        radial-gradient(circle at top left, rgba(124, 200, 229, 0.14), transparent 28%),
-        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.08), transparent 24%),
-        linear-gradient(180deg, #091217 0%, #071014 48%, #050b0e 100%);
-      color: var(--text);
-      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent 92%);
     }
 
     img {
@@ -70,845 +48,1464 @@
       text-decoration: none;
     }
 
-    button {
+    button,
+    input,
+    textarea {
       font: inherit;
     }
 
-    .shell {
-      width: min(var(--max), calc(100% - 32px));
+    .topbar {
+      background: var(--ink);
+      color: var(--white);
+      font-size: 0.85rem;
+    }
+
+    .topbar__inner,
+    .nav__inner,
+    .section__inner,
+    .footer__inner {
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
     }
 
-    .eyebrow,
-    .stack-tag,
-    .stat__label,
-    .service__index,
-    .timeline__label,
-    .footer__mark,
-    .kicker {
-      font-family: var(--mono);
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+    .topbar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 10px 0;
+    }
+
+    .topbar__links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.82);
     }
 
     .site-header {
       position: sticky;
       top: 0;
       z-index: 20;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(247, 248, 244, 0.94);
       backdrop-filter: blur(16px);
-      background: rgba(6, 11, 14, 0.72);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .site-header__inner {
+    .nav__inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
+      gap: 18px;
       min-height: 82px;
     }
 
     .brand {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 14px;
+      min-width: 252px;
+    }
+
+    .brand__badge {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
     }
 
     .brand__logo {
-      width: 48px;
-      height: 48px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.08));
+      width: 44px;
+      height: auto;
     }
 
-    .brand__text {
+    .brand__mark {
       display: grid;
-      gap: 4px;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border: 2px solid var(--forest);
+      border-radius: 8px;
+      color: var(--forest);
+      font-weight: 900;
+      letter-spacing: 0;
     }
 
     .brand__name {
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
+      display: block;
+      color: var(--ink);
+      font-size: 1.08rem;
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1.1;
+    }
+
+    .brand__line {
+      display: block;
+    }
+
+    .brand__line--sub {
+      margin-top: 2px;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
     .brand__sub {
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.74rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+      display: block;
+      margin-top: 3px;
+      color: rgba(23, 32, 27, 0.66);
+      font-size: 0.76rem;
+      font-weight: 700;
     }
 
-    .nav {
+    .nav__links {
       display: flex;
       align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 0.93rem;
+      gap: 12px;
+      color: rgba(23, 32, 27, 0.78);
+      font-size: 0.84rem;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    .nav a:hover,
-    .nav a:focus-visible {
-      color: var(--text);
+    .nav__links a {
+      padding: 29px 0;
+    }
+
+    .nav__links a:hover {
+      color: var(--forest);
+    }
+
+    .nav__cta {
+      max-width: 142px;
+      line-height: 1.12;
+      text-align: center;
+      white-space: normal;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 900;
+      padding: 10px 13px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 0 18px;
-      border-radius: 999px;
+      min-height: 46px;
       border: 1px solid transparent;
-      font-weight: 700;
-      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0.01em;
+      padding: 12px 18px;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
     }
 
-    .btn:hover,
-    .btn:focus-visible {
+    .btn:hover {
       transform: translateY(-1px);
     }
 
     .btn--primary {
-      background: linear-gradient(135deg, #eff5f7 0%, #badfeb 100%);
-      color: #041015;
-      box-shadow: 0 12px 30px rgba(203, 231, 242, 0.2);
+      background: var(--forest);
+      color: var(--white);
     }
 
-    .btn--ghost {
-      border-color: var(--line-strong);
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.02);
+    .btn--primary:hover {
+      background: var(--leaf);
+    }
+
+    .btn--light {
+      background: var(--white);
+      color: var(--forest);
+    }
+
+    .btn--outline {
+      border-color: rgba(255, 255, 255, 0.62);
+      color: var(--white);
+    }
+
+    .btn--outline-dark {
+      border-color: var(--forest);
+      color: var(--forest);
     }
 
     .hero {
-      padding: 72px 0 44px;
-    }
-
-    .hero__panel {
       position: relative;
+      min-height: calc(100vh - 122px);
       overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: calc(var(--radius) + 6px);
-      padding: clamp(28px, 4vw, 52px);
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 28%),
-        linear-gradient(145deg, rgba(124, 200, 229, 0.08), rgba(5, 11, 14, 0.3)),
-        var(--panel-strong);
-      box-shadow: var(--shadow);
-      isolation: isolate;
+      background: var(--ink);
+      color: var(--white);
     }
 
-    .hero__panel::before,
-    .hero__panel::after {
-      content: "";
+    .hero__image {
       position: absolute;
-      border-radius: 999px;
-      filter: blur(12px);
-      z-index: -1;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      opacity: 0.28;
     }
 
-    .hero__panel::before {
-      top: -80px;
-      right: -40px;
-      width: 220px;
-      height: 220px;
-      background: rgba(124, 200, 229, 0.08);
-    }
-
-    .hero__panel::after {
-      bottom: -120px;
-      left: -20px;
-      width: 260px;
-      height: 260px;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .hero__topline {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--accent);
-      font-size: 0.75rem;
-    }
-
-    .hero__topline::before {
+    .hero::after {
+      position: absolute;
+      inset: 0;
       content: "";
-      width: 42px;
-      height: 1px;
-      background: currentColor;
+      background:
+        linear-gradient(90deg, rgba(23, 32, 27, 0.91) 0%, rgba(23, 32, 27, 0.74) 45%, rgba(23, 32, 27, 0.18) 100%),
+        linear-gradient(0deg, rgba(25, 76, 58, 0.45), transparent 42%);
     }
 
-    .hero__grid {
+    .hero__inner {
+      position: relative;
+      z-index: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(290px, 0.8fr);
-      gap: 32px;
-      align-items: end;
-      margin-top: 20px;
+      align-content: center;
+      width: min(1180px, calc(100% - 32px));
+      min-height: calc(100vh - 122px);
+      margin: 0 auto;
+      padding: 72px 0 96px;
     }
 
-    h1,
-    h2,
-    h3,
-    p {
-      margin: 0;
-    }
-
-    .hero h1 {
-      max-width: 12ch;
-      font-size: clamp(3rem, 7vw, 6.3rem);
-      line-height: 0.94;
-      letter-spacing: -0.05em;
+    .eyebrow {
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 950;
+      letter-spacing: 0.11em;
       text-transform: uppercase;
     }
 
-    .hero__lede {
-      max-width: 62ch;
-      margin-top: 22px;
-      color: #d2dee4;
-      font-size: clamp(1rem, 1.4vw, 1.15rem);
+    .hero h1 {
+      max-width: 780px;
+      margin: 16px 0 0;
+      font-size: 4.7rem;
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 24px 0 0;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 1.18rem;
+      line-height: 1.75;
     }
 
     .hero__actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 28px;
+      gap: 12px;
+      margin-top: 34px;
     }
 
-    .hero__meta {
+    .hero__metrics {
+      position: absolute;
+      right: 0;
+      bottom: 24px;
+      left: 0;
+      z-index: 2;
       display: grid;
-      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--ink);
     }
 
-    .terminal {
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-      overflow: hidden;
+    .metric {
+      min-height: 112px;
+      padding: 22px;
     }
 
-    .terminal__bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.02);
+    .metric + .metric {
+      border-left: 1px solid var(--line);
     }
 
-    .terminal__dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.32);
+    .metric strong {
+      display: block;
+      color: var(--forest);
+      font-size: 1.7rem;
+      line-height: 1;
     }
 
-    .terminal__body {
-      padding: 18px;
-      font-family: var(--mono);
-      font-size: 0.88rem;
-      color: #dce8ed;
-    }
-
-    .terminal__row + .terminal__row {
+    .metric span {
+      display: block;
       margin-top: 10px;
+      color: rgba(23, 32, 27, 0.72);
+      font-size: 0.93rem;
+      font-weight: 750;
     }
 
-    .terminal__prompt {
-      color: var(--accent-2);
+    section {
+      scroll-margin-top: 88px;
     }
 
-    .terminal__dim {
-      color: var(--muted);
+    .section {
+      padding: 88px 0;
     }
 
-    .hero__stats {
+    .section--white {
+      background: var(--white);
+    }
+
+    .section--forest {
+      background: var(--forest);
+      color: var(--white);
+    }
+
+    .section-heading {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 26px;
-    }
-
-    .stat {
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 18px;
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .stat__value {
-      font-size: clamp(1.55rem, 2vw, 2rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-    }
-
-    .stat__label {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 0.7rem;
-    }
-
-    main section {
-      padding: 28px 0;
-    }
-
-    .section-head {
-      display: flex;
-      flex-wrap: wrap;
+      grid-template-columns: minmax(0, 0.95fr) minmax(260px, 0.7fr);
+      gap: 36px;
       align-items: end;
-      justify-content: space-between;
-      gap: 14px 24px;
-      margin-bottom: 24px;
+      margin-bottom: 42px;
     }
 
-    .eyebrow {
-      color: var(--accent-2);
-      font-size: 0.72rem;
-      margin-bottom: 12px;
+    .section-heading h2 {
+      margin: 10px 0 0;
+      font-size: 3rem;
+      line-height: 1.06;
+      letter-spacing: 0;
     }
 
-    .section-head h2 {
-      font-size: clamp(2rem, 3vw, 3rem);
-      line-height: 0.98;
-      letter-spacing: -0.05em;
-      text-transform: uppercase;
-    }
-
-    .section-head p {
-      max-width: 54ch;
-      color: var(--muted);
-    }
-
-    .stack {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .stack__item {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 16px;
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .stack-tag {
-      color: var(--accent-2);
-      font-size: 0.68rem;
-    }
-
-    .stack__item strong {
-      display: block;
-      margin-top: 10px;
+    .section-heading p {
+      margin: 0;
+      color: rgba(23, 32, 27, 0.7);
       font-size: 1.02rem;
+      line-height: 1.75;
     }
 
-    .stack__item span {
+    .section--forest .section-heading p {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .promise {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .promise__image {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+    }
+
+    .promise__visual {
+      position: relative;
+      min-height: 100%;
+    }
+
+    .promise__visual .promise__image {
+      height: 100%;
+      min-height: 560px;
+    }
+
+    .fire-drill-section .eyebrow {
+      color: var(--alarm);
+    }
+
+    .fire-drill-section .promise-item {
+      min-height: 190px;
+      border-top: 5px solid var(--alarm);
+      border-left: 1px solid rgba(23, 32, 27, 0.1);
+      box-shadow: 0 18px 38px rgba(23, 32, 27, 0.08);
+    }
+
+    .fire-drill-section .promise-item h3 {
+      color: var(--alarm);
+    }
+
+    .fire-drill-section .promise {
+      position: relative;
       display: block;
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 0.92rem;
+      max-width: 1040px;
+      margin: 0 auto;
+      border: 1px solid rgba(23, 32, 27, 0.1);
+      background: linear-gradient(135deg, #ffffff 0%, #f8f4f1 100%);
+      padding: 46px;
+    }
+
+    .fire-drill-section .promise__content {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .fire-drill-intro {
+      grid-column: 1 / -1;
+      max-width: 790px;
+      margin-bottom: 8px;
+    }
+
+    .fire-drill-cta {
+      position: absolute;
+      top: 46px;
+      right: 46px;
+      max-width: 230px;
+      background: var(--alarm);
+      color: var(--white);
+      text-align: center;
+    }
+
+    .fire-drill-cta:hover {
+      background: #9f0f19;
+    }
+
+    .fire-drill-badge {
+      width: 118px;
+      margin-bottom: 14px;
+      filter: drop-shadow(0 10px 16px rgba(23, 32, 27, 0.2));
+    }
+
+    .promise__content {
+      display: grid;
+      gap: 20px;
+    }
+
+    .promise-item {
+      border-left: 5px solid var(--gold);
+      background: var(--white);
+      padding: 23px 26px;
+    }
+
+    .promise-item h3 {
+      margin: 0;
+      color: var(--forest);
+      font-size: 1.35rem;
+    }
+
+    .promise-item p {
+      margin: 9px 0 0;
+      color: rgba(23, 32, 27, 0.72);
     }
 
     .services {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 18px;
     }
 
     .service {
       display: grid;
-      align-content: start;
-      gap: 18px;
-      min-height: 100%;
-      padding: 24px;
+      min-height: 330px;
+      overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 28%),
-        var(--panel);
-      box-shadow: var(--shadow);
+      background: var(--white);
     }
 
-    .service__index {
-      color: var(--accent-2);
-      font-size: 0.72rem;
+    .service img {
+      width: 100%;
+      height: 145px;
+      object-fit: cover;
     }
 
-    .service h3 {
-      font-size: 1.55rem;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      text-transform: uppercase;
+    .service__body {
+      display: flex;
+      flex-direction: column;
+      padding: 22px;
     }
 
-    .service p {
-      color: #d7e4e9;
-    }
-
-    .service ul {
-      display: grid;
-      gap: 10px;
+    .service__body h3 {
       margin: 0;
-      padding: 0;
-      list-style: none;
+      color: var(--forest);
+      font-size: 1.2rem;
     }
 
-    .service li {
-      position: relative;
-      padding-left: 18px;
-      color: var(--muted);
-    }
-
-    .service li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.6em;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 0 5px var(--glow);
+    .service__body p {
+      margin: 12px 0 0;
+      color: rgba(23, 32, 27, 0.7);
     }
 
     .process {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .process-step {
+      min-height: 270px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+    }
+
+    .process-step span {
+      display: inline-grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 8px;
+      color: var(--gold);
+      font-weight: 950;
+    }
+
+    .process-step h3 {
+      margin: 28px 0 0;
+      font-size: 1.45rem;
+    }
+
+    .process-step p {
+      margin: 12px 0 0;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .insights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 18px;
-      align-items: start;
     }
 
-    .timeline,
-    .proof {
+    .insight-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 24px;
-      background: var(--panel);
+      background: var(--white);
+      padding: 26px;
+      box-shadow: 0 18px 38px rgba(23, 32, 27, 0.08);
     }
 
-    .timeline__step + .timeline__step {
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-    }
-
-    .timeline__label {
-      color: var(--accent-2);
-      font-size: 0.7rem;
-    }
-
-    .timeline__step h3 {
-      margin-top: 8px;
-      font-size: 1.18rem;
-      letter-spacing: -0.03em;
+    .insight-card__tag {
+      color: var(--coral);
+      font-size: 0.74rem;
+      font-weight: 950;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
-    .timeline__step p,
-    .proof li {
-      color: var(--muted);
+    .insight-card h3 {
+      margin: 22px 0 0;
+      color: var(--forest);
+      font-size: 1.35rem;
+      line-height: 1.18;
     }
 
-    .proof__logo {
-      width: clamp(86px, 12vw, 130px);
-      margin-bottom: 18px;
-      opacity: 0.96;
+    .insight-card p {
+      margin: 14px 0 0;
+      color: rgba(23, 32, 27, 0.7);
     }
 
-    .proof ul {
-      margin: 18px 0 0;
-      padding-left: 18px;
+    .insight-card a {
+      margin-top: auto;
+      color: var(--forest);
+      font-weight: 950;
+    }
+
+    .advisor {
       display: grid;
-      gap: 10px;
+      grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+      gap: 46px;
+      align-items: center;
+    }
+
+    .advisor img {
+      justify-self: center;
+      width: min(100%, 300px);
+      aspect-ratio: 25 / 22;
+      border: 12px solid var(--paper);
+      box-shadow: 0 22px 42px rgba(23, 32, 27, 0.16);
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .advisor h2 {
+      margin: 10px 0 0;
+      font-size: 3rem;
+      line-height: 1.07;
+    }
+
+    .advisor p {
+      color: rgba(23, 32, 27, 0.72);
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+
+    .quote {
+      margin-top: 24px;
+      border-left: 5px solid var(--coral);
+      padding-left: 22px;
+      color: var(--ink);
+      font-size: 1.45rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .readiness {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .readiness__intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 420px;
+      background:
+        linear-gradient(rgba(23, 32, 27, 0.72), rgba(23, 32, 27, 0.72)),
+        url("https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80") center/cover;
+      color: var(--white);
+      padding: 34px;
+    }
+
+    .readiness__intro h2 {
+      margin: 12px 0 0;
+      font-size: 2.55rem;
+      line-height: 1.07;
+    }
+
+    .readiness__intro p {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+    }
+
+    .quiz {
+      border: 1px solid var(--line);
+      background: var(--white);
+      padding: 30px;
+    }
+
+    .quiz__progress {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--mist);
+    }
+
+    .quiz__bar {
+      width: 33.333%;
+      height: 100%;
+      background: var(--coral);
+      transition: width 180ms ease;
+    }
+
+    .quiz h3 {
+      margin: 24px 0 0;
+      font-size: 1.7rem;
+    }
+
+    .quiz p {
+      color: rgba(23, 32, 27, 0.68);
+    }
+
+    .quiz__options {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .quiz__option {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 850;
+      padding: 16px;
+      text-align: left;
+    }
+
+    .quiz__option:hover,
+    .quiz__option.is-selected {
+      border-color: var(--forest);
+      background: var(--mist);
+    }
+
+    .quiz__result {
+      margin-top: 24px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+    }
+
+    .quiz__result strong {
+      display: block;
+      color: var(--forest);
+      font-size: 1.4rem;
     }
 
     .cta {
-      padding: 34px 0 80px;
-    }
-
-    .cta__panel {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 24px;
+      gap: 28px;
       align-items: center;
-      padding: clamp(24px, 4vw, 36px);
-      border: 1px solid var(--line-strong);
-      border-radius: calc(var(--radius) + 2px);
-      background:
-        linear-gradient(90deg, rgba(124, 200, 229, 0.08), rgba(255, 255, 255, 0.02)),
-        rgba(255, 255, 255, 0.03);
-      box-shadow: var(--shadow);
+      border-top: 1px solid rgba(255, 255, 255, 0.24);
+      padding-top: 34px;
     }
 
-    .cta__panel h2 {
-      font-size: clamp(1.8rem, 3vw, 3rem);
-      line-height: 1;
-      letter-spacing: -0.05em;
+    .cta h2 {
+      margin: 0;
+      font-size: 2.7rem;
+      line-height: 1.05;
+    }
+
+    .cta p {
+      max-width: 640px;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 38px;
+    }
+
+    .contact-item {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 22px;
+    }
+
+    .contact-item span {
+      display: block;
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 950;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
-    .cta__panel p {
-      margin-top: 12px;
-      max-width: 52ch;
-      color: var(--muted);
+    .contact-item strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 1.04rem;
     }
 
-    .footer {
-      padding: 0 0 28px;
-      color: var(--muted);
-      font-size: 0.92rem;
+    .closing-cta {
+      background: var(--paper);
+      padding: 72px 0;
+    }
+
+    .closing-cta__panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 26px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: var(--white);
+      padding: 34px;
+      box-shadow: 0 20px 44px rgba(23, 32, 27, 0.1);
+    }
+
+    .closing-cta h2 {
+      margin: 8px 0 0;
+      color: var(--forest);
+      font-size: 2.4rem;
+      line-height: 1.08;
+    }
+
+    .closing-cta p {
+      max-width: 690px;
+      margin: 14px 0 0;
+      color: rgba(23, 32, 27, 0.72);
+      font-size: 1.02rem;
+    }
+
+    .closing-cta__actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .site-footer {
+      background: var(--ink);
+      color: var(--white);
+      padding: 46px 0;
     }
 
     .footer__inner {
+      display: grid;
+      grid-template-columns: minmax(230px, 0.7fr) minmax(0, 1fr);
+      gap: 36px;
+    }
+
+    .footer-links {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px 20px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
+      gap: 16px;
+      justify-content: flex-end;
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: 800;
     }
 
-    .footer__mark {
-      color: var(--accent-2);
-      font-size: 0.68rem;
+    .footer-brand .brand__badge {
+      border-radius: 8px;
+      background: var(--white);
+      padding: 4px;
+      mix-blend-mode: normal;
     }
 
-    @media (max-width: 1080px) {
-      .hero__grid,
-      .process,
-      .cta__panel,
-      .services,
-      .stack {
-        grid-template-columns: 1fr;
+    .disclosure {
+      grid-column: 1 / -1;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 0.78rem;
+      line-height: 1.65;
+      padding-top: 24px;
+    }
+
+    .powered-by {
+      grid-column: 1 / -1;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    @media (max-width: 960px) {
+      .topbar__inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav__inner {
+        min-height: 72px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .nav__links {
+        position: absolute;
+        top: 72px;
+        right: 16px;
+        left: 16px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 8px;
+      }
+
+      .nav__links.is-open {
+        display: flex;
+      }
+
+      .nav__links a {
+        padding: 14px 12px;
+      }
+
+      .nav__cta {
+        display: none;
+      }
+
+      .hero,
+      .hero__inner {
+        min-height: 760px;
       }
 
       .hero h1 {
-        max-width: 100%;
+        font-size: 3.4rem;
       }
 
-      .hero__stats {
+      .hero__metrics {
         grid-template-columns: 1fr;
       }
+
+      .metric {
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .metric + .metric {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+
+      .section-heading,
+      .promise,
+      .advisor,
+      .readiness,
+      .cta,
+      .closing-cta__panel,
+      .footer__inner {
+        grid-template-columns: 1fr;
+      }
+
+      .closing-cta__actions {
+        justify-content: flex-start;
+      }
+
+      .promise__visual .promise__image {
+        min-height: 430px;
+      }
+
+      .fire-drill-section .promise {
+        padding: 30px;
+      }
+
+      .fire-drill-cta {
+        position: static;
+        max-width: none;
+        margin: 0 0 24px;
+      }
+
+      .fire-drill-section .promise__content {
+        grid-template-columns: 1fr;
+      }
+
+      .services {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .process {
+        grid-template-columns: 1fr;
+      }
+
+      .insights {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-links {
+        justify-content: flex-start;
+      }
     }
 
-    @media (max-width: 760px) {
-      .site-header__inner,
-      .nav {
-        flex-wrap: wrap;
+    @media (max-width: 640px) {
+      .topbar {
+        display: none;
       }
 
-      .nav {
-        width: 100%;
-        justify-content: space-between;
-        padding-bottom: 14px;
+      .brand {
+        min-width: 0;
+        gap: 10px;
       }
 
-      .hero {
-        padding-top: 34px;
+      .brand__badge {
+        width: 38px;
+        height: 38px;
       }
 
-      .hero__panel,
-      .service,
-      .timeline,
-      .proof,
-      .cta__panel {
-        border-radius: 22px;
-      }
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .hero__panel,
-      .service,
-      .stack__item,
-      .stat,
-      .timeline,
-      .proof,
-      .cta__panel {
-        animation: rise 800ms ease both;
+      .brand__logo {
+        width: 38px;
       }
 
-      .service:nth-child(2),
-      .stack__item:nth-child(2),
-      .timeline {
-        animation-delay: 90ms;
+      .brand__mark {
+        width: 40px;
+        height: 40px;
       }
 
-      .service:nth-child(3),
-      .stack__item:nth-child(3),
-      .proof {
-        animation-delay: 180ms;
+      .brand__name {
+        font-size: 0.94rem;
+        max-width: 190px;
       }
 
-      .stack__item:nth-child(4) {
-        animation-delay: 240ms;
+      .brand__line--sub {
+        font-size: 0.62rem;
       }
 
-      .stack__item:nth-child(5) {
-        animation-delay: 320ms;
+      .brand__sub {
+        display: none;
       }
 
-      @keyframes rise {
-        from {
-          opacity: 0;
-          transform: translateY(18px);
-        }
+      .hero,
+      .hero__inner {
+        min-height: 790px;
+      }
 
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .hero__inner {
+        padding-top: 56px;
+      }
+
+      .hero h1 {
+        font-size: 2.45rem;
+        line-height: 1.04;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .hero__metrics {
+        bottom: 12px;
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+
+      .section-heading h2,
+      .advisor h2 {
+        font-size: 2.15rem;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .readiness__intro,
+      .quiz {
+        padding: 24px;
+      }
+
+      .readiness__intro h2,
+      .cta h2 {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
 <body>
+  <div class="topbar">
+    <div class="topbar__inner">
+      <span>Milton, Pennsylvania financial planning with a readiness-first mindset.</span>
+      <div class="topbar__links">
+        <a href="tel:15702796099">(570) 279-6099</a>
+        <a href="mailto:brooks@stahlneckergroup.com">brooks@stahlneckergroup.com</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
   <header class="site-header">
-    <div class="shell site-header__inner">
-      <a class="brand" href="#top" aria-label="Hawklab Studio home">
-        <img class="brand__logo" src="assets/hawklab-logo-white.png" alt="Hawklab Studio logo" />
-        <span class="brand__text">
-          <span class="brand__name">Hawklab Studio</span>
-          <span class="brand__sub">Digital systems for local brands</span>
+    <nav class="nav__inner" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Stahlnecker Group home">
+        <img class="brand__badge" src="./assets/stahlnecker-badge-only.jpg" alt="" />
+        <span class="brand__name">
+          <span class="brand__line">Stahlnecker</span>
+          <span class="brand__line brand__line--sub">Wealth Management Group</span>
         </span>
       </a>
-      <nav class="nav" aria-label="Primary">
-        <a href="#services">Offerings</a>
-        <a href="#process">Process</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <div id="navLinks" class="nav__links">
+        <a href="#planning">Planning</a>
+        <a href="#process">Our Process</a>
+        <a href="#fire-drill">Financial Fire Drill</a>
+        <a href="#insights">Insights</a>
+        <a href="#about">About</a>
         <a href="#contact">Contact</a>
-        <a class="btn btn--ghost" href="mailto:hello@hawklab.studio">Book Discovery</a>
-      </nav>
-    </div>
+      </div>
+      <a class="btn btn--primary nav__cta" href="#contact">Let's Start the Conversation</a>
+    </nav>
   </header>
 
   <main id="top">
-    <section class="hero">
-      <div class="shell">
-        <div class="hero__panel">
-          <div class="hero__topline eyebrow">Hawklab Discovery + launch infrastructure</div>
-          <div class="hero__grid">
-            <div>
-              <h1>Minimal websites. Maximum signal.</h1>
-              <p class="hero__lede">
-                Hawklab Studio builds clean, adaptive marketing systems for businesses that want a sharp web presence, stronger local search visibility, and brand collateral that looks consistent everywhere it shows up.
+    <section class="hero" aria-labelledby="hero-title">
+      <img
+        class="hero__image"
+        src="./assets/ffd-hero-image-3.png"
+        alt="The Financial Fire Drill fire station in a community"
+      />
+      <div class="hero__inner">
+        <div>
+          <div class="eyebrow">Financial Readiness. Smart Investing. Confident Future.</div>
+          <h1 id="hero-title">A steadier path through every financial season.</h1>
+          <p>
+            Stahlnecker Group helps families replace market noise, uncertainty, and crisis planning with a clear financial strategy built around readiness, protection, and lasting confidence.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--light" href="#fire-drill">Explore the Financial Fire Drill</a>
+            <a class="btn btn--outline" href="#planning">See How We Help</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero__metrics" aria-label="Planning priorities">
+        <div class="metric">
+          <strong>01</strong>
+          <span>Identify gaps before they turn into emergencies.</span>
+        </div>
+        <div class="metric">
+          <strong>02</strong>
+          <span>Align investments, tax choices, and retirement income.</span>
+        </div>
+        <div class="metric">
+          <strong>03</strong>
+          <span>Protect the people, assets, and legacy that matter most.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="fire-drill" class="section fire-drill-section">
+      <div class="section__inner">
+        <div class="promise">
+          <a class="btn fire-drill-cta" href="#contact">Take Your Financial Fire Drill Today</a>
+          <div class="promise__content">
+            <div class="fire-drill-intro">
+              <img class="fire-drill-badge" src="./assets/ffd-course-logo.png" alt="Financial Fire Drill" />
+              <div class="eyebrow">The Financial Fire Drill</div>
+              <h2 style="margin: 10px 0 0; font-size: 3rem; line-height: 1.06;">Preparedness changes the outcome.</h2>
+              <p style="color: rgba(23, 32, 27, 0.72); font-size: 1.02rem; line-height: 1.75;">
+                Headlines, market swings, health events, and family transitions can pressure even thoughtful plans. The Financial Fire Drill turns those risks into practical next steps before urgency takes over.
               </p>
-              <div class="hero__actions">
-                <a class="btn btn--primary" href="mailto:hello@hawklab.studio?subject=Hawklab%20Studio%20Discovery">Start a project</a>
-                <a class="btn btn--ghost" href="#services">Explore the stack</a>
-              </div>
-              <div class="hero__stats">
-                <article class="stat">
-                  <div class="stat__value">95+</div>
-                  <div class="stat__label">Pagespeed target</div>
-                </article>
-                <article class="stat">
-                  <div class="stat__value">3 Days</div>
-                  <div class="stat__label">Content revision SLA</div>
-                </article>
-                <article class="stat">
-                  <div class="stat__value">Edge</div>
-                  <div class="stat__label">Astro + Cloudflare delivery</div>
-                </article>
-              </div>
             </div>
-
-            <aside class="hero__meta">
-              <div class="terminal" aria-label="Hawklab delivery snapshot">
-                <div class="terminal__bar">
-                  <span class="terminal__dot"></span>
-                  <span class="terminal__dot"></span>
-                  <span class="terminal__dot"></span>
-                </div>
-                <div class="terminal__body">
-                  <div class="terminal__row"><span class="terminal__prompt">$</span> hawklab deploy website</div>
-                  <div class="terminal__row"><span class="terminal__dim">framework:</span> Astro / edge cached / mobile-first</div>
-                  <div class="terminal__row"><span class="terminal__dim">seo:</span> schema + JSON-LD + sitemap + robots.txt</div>
-                  <div class="terminal__row"><span class="terminal__dim">brand:</span> logo variants / favicon / AI brand guide</div>
-                  <div class="terminal__row"><span class="terminal__dim">content:</span> blog webhook auto-rebuild pipeline</div>
-                  <div class="terminal__row"><span class="terminal__dim">ops:</span> unlimited edits revised within 3 business days</div>
-                </div>
-              </div>
-            </aside>
+            <article class="promise-item">
+              <h3>Know where you stand</h3>
+              <p>Clarify your current plan, exposed gaps, and the decisions that would become hardest during a crisis.</p>
+            </article>
+            <article class="promise-item">
+              <h3>Make the next move visible</h3>
+              <p>Build an action plan that connects your investments, insurance, estate planning, and income needs.</p>
+            </article>
+            <article class="promise-item">
+              <h3>Move with calm confidence</h3>
+              <p>Give your family a framework for decisions that protects peace of mind as much as the portfolio.</p>
+            </article>
           </div>
         </div>
       </div>
     </section>
 
-    <section aria-labelledby="stack-title">
-      <div class="shell">
-        <div class="section-head">
+    <section id="planning" class="section section--white">
+      <div class="section__inner">
+        <div class="section-heading">
           <div>
-            <div class="eyebrow">Technical foundation</div>
-            <h2 id="stack-title">Built like a lightweight production stack</h2>
+            <div class="eyebrow">What We Do</div>
+            <h2>You define the future. We help design the plan.</h2>
           </div>
           <p>
-            The visual language stays minimal, but underneath it is a practical deployment system meant to be fast, crawlable, editable, and ready for search and conversion work.
+            Clear guidance for retirement, tax-aware investing, insurance, long-term care, estate coordination, and asset protection.
           </p>
         </div>
-
-        <div class="stack">
-          <article class="stack__item">
-            <div class="stack-tag">01 / Framework</div>
-            <strong>Adaptive site architecture</strong>
-            <span>Responsive layouts shaped through the full Hawklab Discovery process.</span>
-          </article>
-          <article class="stack__item">
-            <div class="stack-tag">02 / Delivery</div>
-            <strong>Astro + Cloudflare CDN</strong>
-            <span>Lean pages delivered through the edge for global speed and high Core Web Vitals.</span>
-          </article>
-          <article class="stack__item">
-            <div class="stack-tag">03 / Search</div>
-            <strong>Structured SEO setup</strong>
-            <span>Schema, JSON-LD, sitemap, robots.txt, and technical metadata baked in from day one.</span>
-          </article>
-          <article class="stack__item">
-            <div class="stack-tag">04 / Brand</div>
-            <strong>AI-assisted identity pack</strong>
-            <span>Brand guide, logo variants, favicon, and a reusable style system for future content.</span>
-          </article>
-          <article class="stack__item">
-            <div class="stack-tag">05 / Content</div>
-            <strong>Publishing workflow</strong>
-            <span>Blog publishing connected to a webhook auto-rebuild pipeline with ongoing content edits.</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="services" aria-labelledby="services-title">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Core offerings</div>
-            <h2 id="services-title">Three systems. One brand surface.</h2>
-          </div>
-          <p>
-            Hawklab Studio is structured to cover the digital foundation, the visibility engine, and the physical brand layer so businesses look coordinated online and offline.
-          </p>
-        </div>
-
         <div class="services">
           <article class="service">
-            <div class="service__index">01 / Website Design</div>
-            <div>
-              <h3>Adaptive web build</h3>
-              <p>Clean marketing sites designed for speed, clarity, and a better handoff between brand storytelling and technical execution.</p>
+            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Financial planning documents on a desk" />
+            <div class="service__body">
+              <h3>Retirement Plans</h3>
+              <p>401(k), defined benefit, and TSP guidance shaped around retirement income, tax advantages, and long-term goals.</p>
             </div>
-            <ul>
-              <li>Mobile-first, accessibility-checked interfaces that stay sharp on every screen size.</li>
-              <li>Astro build architecture with Cloudflare edge delivery and a PageSpeed target of 95+.</li>
-              <li>Schema, structured data, JSON-LD, sitemap, and robots configuration included.</li>
-              <li>AI-generated brand guide, logo variants, favicon package, and style system.</li>
-              <li>Blog pipeline with webhook-driven rebuilds plus unlimited content edits within 3 business days.</li>
-            </ul>
           </article>
-
           <article class="service">
-            <div class="service__index">02 / SEO + Reputation</div>
-            <div>
-              <h3>Search and trust ops</h3>
-              <p>Ongoing visibility work that improves discoverability, strengthens local signals, and keeps the brand active where prospects validate businesses.</p>
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Tax and investment paperwork with calculator" />
+            <div class="service__body">
+              <h3>Tax-Smart Investing</h3>
+              <p>Asset location, tax-aware portfolio choices, and disciplined oversight that keeps more of your return working for you.</p>
             </div>
-            <ul>
-              <li>SEO strategy, backlink management, local search optimization, and technical cleanup.</li>
-              <li>Google Business Profile setup and stewardship for stronger map pack presence.</li>
-              <li>Social media management aligned to the website voice and campaign priorities.</li>
-              <li>Reputation management workflows that help reviews, mentions, and responses stay consistent.</li>
-            </ul>
           </article>
-
           <article class="service">
-            <div class="service__index">03 / Print & Signage</div>
-            <div>
-              <h3>Brand collateral</h3>
-              <p>Physical assets that extend the same visual system into the real world, from daily-use materials to location-based signage.</p>
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Professional building exterior" />
+            <div class="service__body">
+              <h3>Protect & Plan</h3>
+              <p>Insurance, long-term care, estate planning coordination, and asset protection strategies for what life can throw at you.</p>
             </div>
-            <ul>
-              <li>Business cards, leave-behinds, brochures, and print-ready collateral systems.</li>
-              <li>Exterior and interior signage concepts that match the digital identity.</li>
-              <li>Branded assets designed to create continuity across web, social, and in-person touchpoints.</li>
-            </ul>
+          </article>
+          <article class="service">
+            <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Modern conference room prepared for a planning meeting" />
+            <div class="service__body">
+              <h3>Portfolio Monitoring</h3>
+              <p>Ongoing review and rebalancing to keep your investments connected to your goals, risk tolerance, and timeline.</p>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="process" aria-labelledby="process-title">
-      <div class="shell">
-        <div class="section-head">
+    <section id="process" class="section section--forest">
+      <div class="section__inner">
+        <div class="section-heading">
           <div>
-            <div class="eyebrow">Workflow</div>
-            <h2 id="process-title">Structured discovery. Clean rollout.</h2>
+            <div class="eyebrow">Our Process</div>
+            <h2>Simple steps for complex financial decisions.</h2>
           </div>
           <p>
-            The process is intentionally simple: define the signal, build the system, and keep it tuned as the business evolves.
+            Until you know where you stand, you cannot confidently take the next step in financial planning or investing.
           </p>
         </div>
-
         <div class="process">
-          <div class="timeline">
-            <article class="timeline__step">
-              <div class="timeline__label">Phase 01</div>
-              <h3>Hawklab Discovery</h3>
-              <p>Clarify goals, audience, positioning, offerings, conversion paths, and the brand behaviors the site needs to support.</p>
-            </article>
-            <article class="timeline__step">
-              <div class="timeline__label">Phase 02</div>
-              <h3>Design + system setup</h3>
-              <p>Translate the brand into a minimal interface, define the style rules, and stand up the technical foundation for fast deployment.</p>
-            </article>
-            <article class="timeline__step">
-              <div class="timeline__label">Phase 03</div>
-              <h3>Visibility layer</h3>
-              <p>Connect SEO, Google Business Profile, content operations, backlink strategy, and review workflows to the new web foundation.</p>
-            </article>
-            <article class="timeline__step">
-              <div class="timeline__label">Phase 04</div>
-              <h3>Collateral expansion</h3>
-              <p>Roll the system into signage, print, and additional brand surfaces so the whole company presents as one coordinated studio-grade identity.</p>
-            </article>
-          </div>
-
-          <aside class="proof">
-            <img class="proof__logo" src="assets/hawklab-logo-white.png" alt="Hawklab Studio mark" />
-            <div class="kicker">Why this works</div>
-            <ul>
-              <li>Minimal layouts reduce friction and help the brand feel confident instead of busy.</li>
-              <li>Technical SEO foundations are handled during build, not added as cleanup later.</li>
-              <li>Brand systems stay reusable across digital content, local search, and physical materials.</li>
-            </ul>
-          </aside>
+          <article class="process-step">
+            <span>01</span>
+            <h3>Identify the Gaps</h3>
+            <p>Review goals, current accounts, family priorities, documents, coverage, and the risks that need attention.</p>
+          </article>
+          <article class="process-step">
+            <span>02</span>
+            <h3>Assess the Risks</h3>
+            <p>Translate uncertainty into practical planning pressure: income, taxes, care costs, liquidity, legacy, and market exposure.</p>
+          </article>
+          <article class="process-step">
+            <span>03</span>
+            <h3>Create an Action Plan</h3>
+            <p>Prioritize next steps that bring investments, protection, and estate decisions into one coordinated plan.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="cta" id="contact" aria-labelledby="contact-title">
-      <div class="shell">
-        <div class="cta__panel">
+    <section id="insights" class="section section--white">
+      <div class="section__inner">
+        <div class="section-heading">
           <div>
-            <div class="eyebrow">Launch</div>
-            <h2 id="contact-title">Build the clean version of your brand.</h2>
+            <div class="eyebrow">Preparedness Insights</div>
+            <h2>Clear thinking before life applies pressure.</h2>
+          </div>
+          <p>
+            Practical notes for families who want to make retirement, protection, tax, and estate decisions before urgency takes over.
+          </p>
+        </div>
+        <div class="insights">
+          <article class="insight-card">
+            <span class="insight-card__tag">Financial Fire Drill</span>
+            <h3>What Is a Financial Fire Drill?</h3>
+            <p>A simple way to stress-test your plan before market swings, health events, or family transitions force hard decisions.</p>
+            <a href="#fire-drill">Start here</a>
+          </article>
+          <article class="insight-card">
+            <span class="insight-card__tag">Retirement Readiness</span>
+            <h3>The Questions Families Wait Too Long to Ask</h3>
+            <p>Income, taxes, healthcare, long-term care, and legacy goals all deserve attention before retirement pressure builds.</p>
+            <a href="#contact">Talk through it</a>
+          </article>
+          <article class="insight-card">
+            <span class="insight-card__tag">Preparedness Mindset</span>
+            <h3>First-Responder Thinking for Financial Planning</h3>
+            <p>Identify gaps, assess risk, and create an action plan while there is still time to choose your next move calmly.</p>
+            <a href="#process">See the process</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section section--white">
+      <div class="section__inner">
+        <div class="advisor">
+          <img src="./assets/brooks-headshot.jpg" alt="Brooks Stahlnecker" />
+          <div>
+            <div class="eyebrow">Meet Brooks Stahlnecker</div>
+            <h2>Financial strategist, firefighter, and advocate for readiness.</h2>
             <p>
-              For businesses that need a modern site, stronger search presence, and collateral that all feels like one system, Hawklab Studio is built to do exactly that.
+              Brooks brings the mindset of a first responder into financial planning: anticipate risk, prepare before the alarm sounds, and help people make clear decisions under pressure.
+            </p>
+            <p>
+              As founder of Stahlnecker Group and a longtime Firefighter/EMT, he helps families simplify complex financial choices into a disciplined plan for retirement, investing, protection, and legacy.
+            </p>
+            <div class="quote">Peace of mind starts with a plan.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__inner">
+        <div class="readiness">
+          <div class="readiness__intro">
+            <div>
+              <div class="eyebrow">Readiness Check</div>
+              <h2>How prepared does your financial plan feel today?</h2>
+            </div>
+            <p>
+              A quick pulse check for the conversations that often uncover the next planning move.
             </p>
           </div>
-          <a class="btn btn--primary" href="mailto:hello@hawklab.studio?subject=Start%20a%20Hawklab%20Studio%20Project">hello@hawklab.studio</a>
+          <div class="quiz" aria-live="polite">
+            <div class="quiz__progress" aria-hidden="true"><div class="quiz__bar"></div></div>
+            <div class="eyebrow" style="margin-top: 22px;">Question <span id="questionNumber">1</span> of 3</div>
+            <h3 id="quizQuestion">If markets drop sharply, what happens next?</h3>
+            <p id="quizHint">Choose the answer that feels closest to your current plan.</p>
+            <div id="quizOptions" class="quiz__options"></div>
+            <div id="quizResult" class="quiz__result" hidden>
+              <strong id="resultTitle"></strong>
+              <p id="resultBody"></p>
+              <a class="btn btn--outline-dark" href="#contact">Talk Through the Next Step</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section--forest">
+      <div class="section__inner">
+        <div class="cta">
+          <div>
+            <div class="eyebrow">Start the Conversation</div>
+            <h2>Bring your questions. Leave with direction.</h2>
+            <p>
+              In a first conversation, Stahlnecker Group can get to know your situation, goals, and concerns, then help clarify the planning priorities that deserve attention.
+            </p>
+          </div>
+          <a class="btn btn--light" href="mailto:brooks@stahlneckergroup.com">Contact Brooks</a>
+        </div>
+        <div class="contact-grid">
+          <a class="contact-item" href="tel:15702796099">
+            <span>Phone</span>
+            <strong>(570) 279-6099</strong>
+          </a>
+          <a class="contact-item" href="mailto:brooks@stahlneckergroup.com">
+            <span>Email</span>
+            <strong>brooks@stahlneckergroup.com</strong>
+          </a>
+          <div class="contact-item">
+            <span>Office</span>
+            <strong>139 S Front Street, Milton PA 17847</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-cta" aria-labelledby="closing-cta-title">
+      <div class="section__inner">
+        <div class="closing-cta__panel">
+          <div>
+            <div class="eyebrow">Next Step</div>
+            <h2 id="closing-cta-title">Ready to see where your plan stands?</h2>
+            <p>
+              Start with a focused conversation about the gaps, risks, and planning decisions that deserve attention before life applies pressure.
+            </p>
+          </div>
+          <div class="closing-cta__actions">
+            <a class="btn btn--primary" href="mailto:brooks@stahlneckergroup.com?subject=Request%20a%20Financial%20Fire%20Drill">Request a Financial Fire Drill</a>
+            <a class="btn btn--outline-dark" href="mailto:brooks@stahlneckergroup.com?subject=Planning%20Question">Ask a Planning Question</a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="shell footer__inner">
-      <div>Hawklab Studio creates websites, search systems, and brand collateral for local businesses.</div>
-      <div class="footer__mark">Adaptive web / SEO ops / print systems</div>
+  <footer class="site-footer">
+    <div class="footer__inner">
+      <div>
+        <a class="brand footer-brand" href="#top" aria-label="Stahlnecker Group home">
+          <img class="brand__badge" src="./assets/stahlnecker-badge-only.jpg" alt="" />
+          <span class="brand__name" style="color: var(--white);">
+            <span class="brand__line">Stahlnecker</span>
+            <span class="brand__line brand__line--sub" style="color: rgba(255, 255, 255, 0.74);">Wealth Management Group</span>
+          </span>
+        </a>
+      </div>
+      <div class="footer-links">
+        <a href="#planning">Planning</a>
+        <a href="#process">Process</a>
+        <a href="#fire-drill">Fire Drill</a>
+        <a href="#insights">Insights</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="https://www.linkedin.com/" rel="noreferrer">LinkedIn</a>
+      </div>
+      <div class="disclosure">
+        © 2026 Stahlnecker Wealth Management Group. Investment Advisory Services offered through Discipline Wealth Solutions, Inc, a SEC registered Investment Adviser. The Stahlnecker Group and Discipline Wealth Solutions, Inc are separate and independent entities. Stahlnecker Group and DWS.
+        Discipline Wealth Solutions, Inc. is an investment advisor registered with the Securities and Exchange Commission. See full disclosure at disciplinewealth.com/disclosure.
+      </div>
+      <div class="powered-by">Powered by Sherpa Systems, LLC</div>
     </div>
   </footer>
+
+  <script>
+    const menuButton = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelector("#navLinks");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("is-open");
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinks.addEventListener("click", (event) => {
+      if (event.target.matches("a")) {
+        navLinks.classList.remove("is-open");
+        menuButton.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    const questions = [
+      {
+        text: "If markets drop sharply, what happens next?",
+        hint: "Choose the answer that feels closest to your current plan.",
+        options: [
+          { label: "We know what we own and why.", score: 3 },
+          { label: "We would wait and hope it settles.", score: 1 },
+          { label: "We are not sure what we would do.", score: 0 }
+        ]
+      },
+      {
+        text: "If long-term care became a family issue, how ready are you?",
+        hint: "Think about insurance, liquidity, care preferences, and family roles.",
+        options: [
+          { label: "We have a written plan.", score: 3 },
+          { label: "We have talked about it, but not enough.", score: 1 },
+          { label: "We have not addressed it yet.", score: 0 }
+        ]
+      },
+      {
+        text: "How connected are your investments, taxes, and estate plan?",
+        hint: "A strong plan should make these decisions work together.",
+        options: [
+          { label: "They are coordinated and reviewed.", score: 3 },
+          { label: "Some pieces are connected.", score: 1 },
+          { label: "They feel separate.", score: 0 }
+        ]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionNumber = document.querySelector("#questionNumber");
+    const quizQuestion = document.querySelector("#quizQuestion");
+    const quizHint = document.querySelector("#quizHint");
+    const quizOptions = document.querySelector("#quizOptions");
+    const quizResult = document.querySelector("#quizResult");
+    const resultTitle = document.querySelector("#resultTitle");
+    const resultBody = document.querySelector("#resultBody");
+    const quizBar = document.querySelector(".quiz__bar");
+
+    function renderQuestion() {
+      const question = questions[currentQuestion];
+      questionNumber.textContent = currentQuestion + 1;
+      quizQuestion.textContent = question.text;
+      quizHint.textContent = question.hint;
+      quizBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+      quizOptions.innerHTML = "";
+
+      question.options.forEach((option) => {
+        const button = document.createElement("button");
+        button.className = "quiz__option";
+        button.type = "button";
+        button.textContent = option.label;
+        button.addEventListener("click", () => chooseOption(option.score));
+        quizOptions.appendChild(button);
+      });
+    }
+
+    function chooseOption(value) {
+      score += value;
+      currentQuestion += 1;
+
+      if (currentQuestion < questions.length) {
+        renderQuestion();
+        return;
+      }
+
+      quizOptions.hidden = true;
+      quizHint.hidden = true;
+      quizResult.hidden = false;
+      quizBar.style.width = "100%";
+      questionNumber.textContent = "3";
+      quizQuestion.textContent = "Your readiness pulse is ready.";
+
+      if (score >= 7) {
+        resultTitle.textContent = "Your plan has strong footing.";
+        resultBody.textContent = "The next step is ongoing coordination: review assumptions, beneficiary goals, care risks, tax exposure, and investment discipline before life changes force the issue.";
+      } else if (score >= 3) {
+        resultTitle.textContent = "You have useful pieces to connect.";
+        resultBody.textContent = "A readiness conversation can turn loose planning ideas into a clearer action plan for income, protection, taxes, and legacy decisions.";
+      } else {
+        resultTitle.textContent = "You may be carrying avoidable uncertainty.";
+        resultBody.textContent = "Start by identifying the gaps. Once the risks are visible, the right next step becomes much easier to choose.";
+      }
+    }
+
+    renderQuestion();
+  </script>
 </body>
 </html>
